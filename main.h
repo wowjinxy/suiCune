@@ -156,7 +156,7 @@
 
 //#include "engine/pokedex/pokedex.h"
 //#include "data/moves/moves.h"
-//#include "engine/pokemon/evolve.h"
+#include "engine/pokemon/evolve.h"
 
 // SECTION "bank11", ROMX
 
@@ -431,7 +431,7 @@
 
 //#include "engine/menus/options_menu.h"
 //#include "engine/movie/splash.h"
-//#include "engine/movie/intro.h"
+#include "engine/movie/intro.h"
 
 // SECTION "Audio", ROMX
 
