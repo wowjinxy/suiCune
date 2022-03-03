@@ -1,4 +1,4 @@
-#include "../constants.h"
+#include "../../constants.h"
 #include "item_effects.h"
 
 void v_DoItemEffect(void){
