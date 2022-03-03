@@ -103,10 +103,10 @@ void IntroScenes(void){
 }
 
 void NextIntroScene(void){
-    LD_HL(wJumptableIndex);
-    INC_hl;
-    RET;
-
+    //LD_HL(wJumptableIndex);
+    //INC_hl;
+    //RET;
+    return IntroScene1();
 }
 
 void IntroScene1(void){
@@ -159,8 +159,7 @@ void IntroScene1(void){
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
     CALL(aNextIntroScene);
-    RET;
-
+    return IntroScene2();
 }
 
 void IntroScene2(void){
@@ -186,8 +185,7 @@ nosound:
     RET;
 
 endscene:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene3();
 
 }
 
@@ -236,8 +234,7 @@ void IntroScene3(void){
     CALL(aIntro_SetCGBPalUpdate);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene4();
 
 }
 
@@ -253,8 +250,7 @@ void IntroScene4(void){
 
 
 endscene:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene5();
 
 }
 
@@ -308,8 +304,7 @@ void IntroScene5(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene6();
 
 }
 
@@ -360,8 +355,7 @@ StopUnown:
 
 
 endscene:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene7();
 
 }
 
@@ -433,8 +427,7 @@ void IntroScene7(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene8();
 
 }
 
@@ -467,8 +460,7 @@ finish:
     LD_DE(SFX_INTRO_SUICUNE_2);
     CALL(aPlaySFX);
     FARCALL(aDeinitializeAllSprites);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene9();
 
 }
 
@@ -506,8 +498,7 @@ void IntroScene9(void){
     LD_addr_A(wGlobalAnimXOffset);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene10();
 
 }
 
@@ -544,8 +535,7 @@ wooper:
     RET;
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene11();
 
 }
 
@@ -596,8 +586,7 @@ void IntroScene11(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene12();
 
 }
 
@@ -640,8 +629,7 @@ second_half:
 
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene13();
 
 
 PlayUnownSound:
@@ -740,8 +728,7 @@ void IntroScene13(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene14();
 
 }
 
@@ -792,8 +779,7 @@ run:
 
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene15();
 
 }
 
@@ -858,8 +844,7 @@ void IntroScene15(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene16();
 
 }
 
@@ -879,8 +864,7 @@ void IntroScene16(void){
     RET;
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene17();
 
 }
 
@@ -930,8 +914,7 @@ void IntroScene17(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene18();
 
 }
 
@@ -950,8 +933,7 @@ void IntroScene18(void){
     RET;
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene19();
 
 }
 
@@ -1017,8 +999,7 @@ void IntroScene19(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene20();
 
 }
 
@@ -1070,8 +1051,7 @@ AppearUnownPal2:
 
 
 finished:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene21();
 
 }
 
@@ -1084,8 +1064,7 @@ void IntroScene21(void){
     LDH_addr_A(hBGMapMode);
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene22();
 
 }
 
@@ -1099,16 +1078,14 @@ void IntroScene22(void){
 
 done:
     FARCALL(aDeinitializeAllSprites);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene23();
 
 }
 
 void IntroScene23(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene24();
 
 }
 
@@ -1134,8 +1111,7 @@ void IntroScene24(void){
 done:
     LD_A(0x40);
     LD_addr_A(wIntroSceneFrameCounter);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene25();
 
 }
 
@@ -1149,8 +1125,7 @@ void IntroScene25(void){
 
 
 done:
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene26();
 
 }
 
@@ -1200,8 +1175,7 @@ void IntroScene26(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
-    RET;
+    return IntroScene27();
 
 }
 
@@ -1226,11 +1200,11 @@ void IntroScene27(void){
 
 
 done:
-    CALL(aNextIntroScene);
-    LD_A(0x80);
-    LD_addr_A(wIntroSceneFrameCounter);
-    RET;
-
+    //CALL(aNextIntroScene);
+    //LD_A(0x80);
+    //LD_addr_A(wIntroSceneFrameCounter);
+    //RET;
+    return IntroScene28();
 }
 
 void IntroScene28(void){
@@ -1258,8 +1232,8 @@ clear:
 done:
     LD_HL(wJumptableIndex);
     SET_hl(7);
-    RET;
-
+    //RET;
+    return;
 }
 
 void Intro_Scene24_ApplyPaletteFade(void){
@@ -1346,7 +1320,7 @@ void CrystalIntro_InitUnownAnim(void){
 
 }
 
-/*
+
 void CrystalIntro_UnownFade(void){
     ADD_A_A;
     ADD_A_A;
@@ -1432,22 +1406,22 @@ okay:
 
 BWFade:
 //  Fade between black and white.
-for hue, 32
+//for hue, 32
     //rgb ['hue', 'hue', 'hue']
-    }
+    //}
 
 BlackLBlueFade:
 //  Fade between black and light blue.
-for hue, 32
+//for hue, 32
     //rgb ['0', 'hue / 2', 'hue']
-    }
+    //}
 
 
 BlackBlueFade:
 //  Fade between black and blue.
-for hue, 32
+//for hue, 32
     //rgb ['0', '0', 'hue']
-    }
+    //}
 
     return Intro_Scene20_AppearUnown();
 }
@@ -1518,9 +1492,8 @@ pal2:
 
     return Intro_FadeUnownWordPals();
 }
-*/
 
-/*
+
 void Intro_FadeUnownWordPals(void){
     ADD_A_A;
     ADD_A_A;
@@ -1574,25 +1547,24 @@ void Intro_FadeUnownWordPals(void){
 
 
 FastFadePalettes:
-hue = 31
-    for(int rept = 0; rept < 8; rept++){
+//hue = 31
+    //for(int rept = 0; rept < 8; rept++){
     //rgb ['hue', 'hue', 'hue']
-hue -= 1
+//hue -= 1
     //rgb ['hue', 'hue', 'hue']
-hue -= 2
-    }
+//hue -= 2
+    //}
 
 
 SlowFadePalettes:
-hue = 31
-    for(int rept = 0; rept < 16; rept++){
+//hue = 31
+    //for(int rept = 0; rept < 16; rept++){
     //rgb ['hue', 'hue', 'hue']
-hue -= 1
-    }
+//hue -= 1
+    //}
 
     return Intro_LoadTilemap();
 }
-*/
 
 void Intro_LoadTilemap(void){
     LDH_A_addr(rSVBK);

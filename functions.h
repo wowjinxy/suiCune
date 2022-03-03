@@ -1183,7 +1183,7 @@ void init_function_pointers() {
     REDIRECTED(IntroScene10);
     REDIRECTED(IntroPichuWooperGFX);
     REDIRECTED(Intro_DecompressRequest2bpp_255Tiles);
-    //REDIRECTED(CrystalIntro_UnownFade);
+    REDIRECTED(CrystalIntro_UnownFade);
     REDIRECTED(Intro_LoadTilemap);
     REDIRECTED(Intro_SetCGBPalUpdate);
     REDIRECTED(IntroSuicuneClosePalette);
@@ -1203,7 +1203,7 @@ void init_function_pointers() {
     REDIRECTED(IntroScene2);
     REDIRECTED(IntroSuicuneJumpGFX);
     REDIRECTED(IntroGrass3GFX);
-    //REDIRECTED(Intro_Scene20_AppearUnown);
+    REDIRECTED(Intro_Scene20_AppearUnown);
     REDIRECTED(IntroSuicunePalette);
     REDIRECTED(IntroGrass1GFX);
     REDIRECTED(IntroBackgroundAttrmap);
@@ -1229,7 +1229,7 @@ void init_function_pointers() {
     REDIRECTED(IntroScene14);
     REDIRECTED(IntroScene24);
     REDIRECTED(IntroScene21);
-    //REDIRECTED(Intro_FadeUnownWordPals);
+    REDIRECTED(Intro_FadeUnownWordPals);
     REDIRECTED(IntroCrystalUnownsGFX);
 
     // engine/items/item_effects.c
