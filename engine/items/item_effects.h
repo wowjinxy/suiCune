@@ -7,7 +7,7 @@ void SafariBallMultiplier(void);
 void GreatBallMultiplier(void);
 void ParkBallMultiplier(void);
 void GetPokedexEntryBank(void);
-//void HeavyBallMultiplier(void);
+void HeavyBallMultiplier(void);
 void LureBallMultiplier(void);
 void MoonBallMultiplier(void);
 void LoveBallMultiplier(void);

@@ -348,17 +348,12 @@ okay_1:
     LD_A(1);
 
 statuscheck:
-//  This routine is buggy. It was intended that SLP and FRZ provide a higher
-//  catch rate than BRN/PSN/PAR, which in turn provide a higher catch rate than
-//  no status effect at all. But instead, it makes BRN/PSN/PAR provide no
-//  benefit.
-//  Uncomment the line below to fix this.
     LD_B_A;
     LD_A_addr(wEnemyMonStatus);
     AND_A(1 << FRZ | SLP);
     LD_C(10);
     IF_NZ goto addstatus;
-// ld a, [wEnemyMonStatus]
+    LD_A_addr(wEnemyMonStatus);
     AND_A_A;
     LD_C(5);
     IF_NZ goto addstatus;
@@ -371,14 +366,10 @@ addstatus:
     LD_A(0xff);
 
 max_1:
-
-// BUG: farcall overwrites a, and GetItemHeldEffect takes b anyway.
-// This is probably the reason the HELD_CATCH_CHANCE effect is never used.
-// Uncomment the line below to fix.
     LD_D_A;
     PUSH_DE;
     LD_A_addr(wBattleMonItem);
-// ld b, a
+    LD_B_A;
     FARCALL(aGetItemHeldEffect);
     LD_A_B;
     CP_A(HELD_CATCH_CHANCE);
@@ -976,55 +967,51 @@ done:
 
 }
 
-//void MoonBallMultiplier(void){
-//  This function is buggy.
-//  Intent:  multiply catch rate by 4 if mon evolves with moon stone
-//  Reality: no boost
-    //PUSH_BC;
-    //LD_A_addr(wTempEnemyMonSpecies);
-    //DEC_A;
-    //LD_C_A;
-    //LD_B(0);
-    //LD_HL(mEvosAttacksPointers);
-    //ADD_HL_BC;
-    //ADD_HL_BC;
-    //LD_A(BANK(aEvosAttacksPointers));
-    //CALL(aGetFarWord);
-    //POP_BC;
+void MoonBallMultiplier(void){
+    PUSH_BC;
+    LD_A_addr(wTempEnemyMonSpecies);
+    DEC_A;
+    LD_C_A;
+    LD_B(0);
+    LD_HL(mEvosAttacksPointers);
+    ADD_HL_BC;
+    ADD_HL_BC;
+    LD_A(BANK(aEvosAttacksPointers));
+    CALL(aGetFarWord);
+    POP_BC;
 
-    //PUSH_BC;
+    PUSH_BC;
     //LD_A(BANK("Evolutions and Attacks"));
-    //CALL(aGetFarByte);
-    //CP_A(EVOLVE_ITEM);
-    //POP_BC;
-    //RET_NZ ;
+    LD_A(BANK(0x10));
+    CALL(aGetFarByte);
+    CP_A(EVOLVE_ITEM);
+    POP_BC;
+    RET_NZ ;
 
-    //INC_HL;
-    //INC_HL;
-    //INC_HL;
+    INC_HL;
+    INC_HL;
+    INC_HL;
 
-//  Moon Stone's constant from Pokémon Red is used.
-//  No Pokémon evolve with Burn Heal,
-//  so Moon Balls always have a catch rate of 1×.
-    //PUSH_BC;
+    PUSH_BC;
     //LD_A(BANK("Evolutions and Attacks"));
-    //CALL(aGetFarByte);
-    //CP_A(MOON_STONE_RED);  // BURN_HEAL
-    //POP_BC;
-    //RET_NZ ;
+    LD_A(BANK(0x10));
+    CALL(aGetFarByte);
+    CP_A(MOON_STONE);
+    POP_BC;
+    RET_NZ ;
 
-    //SLA_B;
-    //IF_C goto max;
-    //SLA_B;
-    //IF_NC goto done;
+    SLA_B;
+    IF_C goto max;
+    SLA_B;
+    IF_NC goto done;
 
-//max:
-    //LD_B(0xff);
+max:
+    LD_B(0xff);
 
-//done:
-    //RET;
+done:
+    RET;
 
-//}
+}
 
 void LoveBallMultiplier(void){
 //  This function is buggy.
@@ -1074,7 +1061,7 @@ wildmale:
     POP_DE;
     CP_A_D;
     POP_BC;
-    RET_NZ ;  // for the intended effect, this should be "ret z"
+    RET_Z ;
 
     SLA_B;
     IF_C goto max;
@@ -1118,7 +1105,7 @@ loop:
     CP_A(-1);
     IF_Z goto next;
     CP_A_C;
-    IF_NZ goto next;  // for the intended effect, this should be "jr nz, .loop"
+    IF_NZ goto loop;  // for the intended effect, this should be "jr nz, .loop"
     SLA_B;
     IF_C goto max;
 

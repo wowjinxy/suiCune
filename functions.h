@@ -1313,7 +1313,7 @@ void init_function_pointers() {
     REDIRECTED(FullyHealStatus);
     REDIRECTED(ComputeMaxPP);
     REDIRECTED(Softboiled_MilkDrinkFunction);
-    //REDIRECTED(MoonBallMultiplier);
+    REDIRECTED(MoonBallMultiplier);
     REDIRECTED(IsItemUsedOnBattleMon);
     REDIRECTED(ItemLooksBitterText);
     REDIRECTED(UseRepel);
