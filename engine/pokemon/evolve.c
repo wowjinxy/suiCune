@@ -235,12 +235,12 @@ proceed:
 
     LD_A(0x1);
     LDH_addr_A(hBGMapMode);
-    CALL(aClearSprites);
+    ClearSprites();
 
     FARCALL(aEvolutionAnimation);
 
     PUSH_AF;
-    CALL(aClearSprites);
+    ClearSprites();
     POP_AF;
     JP_C (mCancelEvolution);
 
@@ -270,7 +270,7 @@ proceed:
     LD_C(40);
     CALL(aDelayFrames);
 
-    CALL(aClearTilemap);
+    ClearTilemap();
     CALL(aUpdateSpeciesNameIfNotNicknamed);
     CALL(aGetBaseData);
 
@@ -408,7 +408,7 @@ loop:
 void CancelEvolution(void){
     LD_HL(mStoppedEvolvingText);
     CALL(aPrintText);
-    CALL(aClearTilemap);
+    ClearTilemap();
     POP_HL;
     JP(mEvolveAfterBattle_MasterLoop);
 

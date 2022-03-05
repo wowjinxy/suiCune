@@ -532,7 +532,7 @@ Transformed:
     LD_HL(mText_GotchaMonWasCaught);
     CALL(aPrintText);
 
-    CALL(aClearSprites);
+    ClearSprites();
 
     LD_A_addr(wTempSpecies);
     DEC_A;
@@ -553,7 +553,7 @@ Transformed:
     LD_HL(mNewDexDataText);
     CALL(aPrintText);
 
-    CALL(aClearSprites);
+    ClearSprites();
 
     LD_A_addr(wEnemyMonSpecies);
     LD_addr_A(wTempSpecies);
@@ -577,7 +577,7 @@ not_celebi:
 
     XOR_A_A;  // PARTYMON
     LD_addr_A(wMonType);
-    CALL(aClearSprites);
+    ClearSprites();
 
     PREDEF(pTryAddMonToParty);
 
@@ -635,7 +635,7 @@ SkipPartyMonFriendBall:
 
 
 SendToPC:
-    CALL(aClearSprites);
+    ClearSprites();
 
     PREDEF(pSendMonIntoBox);
 
@@ -724,7 +724,7 @@ FinishTutorial:
 
 shake_and_break_free:
     CALL(aPrintText);
-    CALL(aClearSprites);
+    ClearSprites();
 
 
 return_from_capture:
@@ -741,7 +741,7 @@ return_from_capture:
     IF_Z goto toss;
 
     CALL(aClearBGPalettes);
-    CALL(aClearTilemap);
+    ClearTilemap();
 
 
 toss:

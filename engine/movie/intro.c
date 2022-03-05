@@ -33,8 +33,8 @@ ShutOffMusic:
 
 done:
     CALL(aClearBGPalettes);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hSCX);
     LDH_addr_A(hSCY);
@@ -111,9 +111,9 @@ void NextIntroScene(void){
 
 void IntroScene1(void){
 //  Setup the next scene.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -158,7 +158,7 @@ void IntroScene1(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    CALL(aNextIntroScene);
+    //CALL(aNextIntroScene);
     return IntroScene2();
 }
 
@@ -182,7 +182,7 @@ nosound:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aCrystalIntro_UnownFade);
-    RET;
+    //RET;
 
 endscene:
     return IntroScene3();
@@ -191,9 +191,9 @@ endscene:
 
 void IntroScene3(void){
 //  More setup. Transition to the outdoor scene.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -235,7 +235,6 @@ void IntroScene3(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     return IntroScene4();
-
 }
 
 void IntroScene4(void){
@@ -246,19 +245,16 @@ void IntroScene4(void){
     CP_A(0x80);
     IF_Z goto endscene;
     INC_hl;
-    RET;
-
-
+    //RET;
 endscene:
     return IntroScene5();
-
 }
 
 void IntroScene5(void){
 //  Go back to the Unown.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LDH_addr_A(hLCDCPointer);
@@ -305,7 +301,6 @@ void IntroScene5(void){
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
     return IntroScene6();
-
 }
 
 void IntroScene6(void){
@@ -336,7 +331,7 @@ NoUnown:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aCrystalIntro_UnownFade);
-    RET;
+    //RET;
 
 
 SecondUnown:
@@ -351,7 +346,7 @@ StopUnown:
     LD_addr_A(wIntroSceneTimer);
     LD_A(0x1);
     CALL(aCrystalIntro_UnownFade);
-    RET;
+    //RET;
 
 
 endscene:
@@ -361,9 +356,9 @@ endscene:
 
 void IntroScene7(void){
 //  Back to the outdoor scene.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
 
@@ -440,7 +435,7 @@ void IntroScene8(void){
     IF_Z goto suicune_sound;
     IF_NC goto animate_suicune;
     CALL(aIntro_PerspectiveScrollBG);
-    RET;
+    //RET;
 
 
 suicune_sound:
@@ -453,7 +448,7 @@ animate_suicune:
     IF_Z goto finish;
     SUB_A(0x8);
     LD_addr_A(wGlobalAnimXOffset);
-    RET;
+    //RET;
 
 
 finish:
@@ -468,7 +463,7 @@ void IntroScene9(void){
 //  Set up the next scene (same bg).
     XOR_A_A;
     LDH_addr_A(hLCDCPointer);
-    CALL(aClearSprites);
+    ClearSprites();
     hlcoord(0, 0, wAttrmap);
 // first 12 rows have palette 1
     LD_BC(12 * SCREEN_WIDTH);
@@ -514,7 +509,7 @@ void IntroScene10(void){
     IF_Z goto wooper;
     CP_A(0x40);
     IF_Z goto pichu;
-    RET;
+    //RET;
 
 
 pichu:
@@ -523,7 +518,7 @@ pichu:
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
-    RET;
+    //RET;
 
 
 wooper:
@@ -532,7 +527,7 @@ wooper:
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
-    RET;
+    //RET;
 
 done:
     return IntroScene11();
@@ -541,9 +536,9 @@ done:
 
 void IntroScene11(void){
 //  Back to Unown again.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LDH_addr_A(hLCDCPointer);
@@ -610,7 +605,7 @@ void IntroScene12(void){
     SRL_A;
     SWAP_A;
     CALL(aCrystalIntro_UnownFade);
-    RET;
+    //RET;
 
 
 second_half:
@@ -625,7 +620,7 @@ second_half:
     OR_A(0x40);
     SWAP_A;
     CALL(aCrystalIntro_UnownFade);
-    RET;
+    //RET;
 
 
 done:
@@ -655,7 +650,7 @@ playsound:
     CALL(aSFXChannelsOff);
     POP_DE;
     CALL(aPlaySFX);
-    RET;
+    //RET;
 
 
 UnownSounds:
@@ -674,9 +669,9 @@ UnownSounds:
 
 void IntroScene13(void){
 //  Switch scenes again.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -747,7 +742,7 @@ void IntroScene14(void){
     IF_NC goto run_after_jump;
     CP_A(0x40);
     IF_NC goto run;
-    RET;
+    //RET;
 
 
 jump:
@@ -763,19 +758,19 @@ run_after_jump:
     IF_C goto disappear;
     SUB_A(0x8);
     LD_addr_A(wGlobalAnimXOffset);
-    RET;
+    //RET;
 
 
 disappear:
     FARCALL(aDeinitializeAllSprites);
-    RET;
+    //RET;
 
 
 run:
     LD_A_addr(wGlobalAnimXOffset);
     SUB_A(0x2);
     LD_addr_A(wGlobalAnimXOffset);
-    RET;
+    //RET;
 
 
 done:
@@ -785,9 +780,9 @@ done:
 
 void IntroScene15(void){
 //  Transition to a new scene.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -861,7 +856,7 @@ void IntroScene16(void){
     RET_Z ;
     ADD_A(8);
     LDH_addr_A(hSCY);
-    RET;
+    //RET;
 
 done:
     return IntroScene17();
@@ -870,9 +865,9 @@ done:
 
 void IntroScene17(void){
 //  ...
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -930,7 +925,7 @@ void IntroScene18(void){
     RET_Z ;
     ADD_A(8);
     LDH_addr_A(hSCX);
-    RET;
+    //RET;
 
 done:
     return IntroScene19();
@@ -939,9 +934,9 @@ done:
 
 void IntroScene19(void){
 //  More setup.
-    CALL(aIntro_ClearBGPals);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    Intro_ClearBGPals();
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -1019,7 +1014,7 @@ void IntroScene20(void){
     LDH_A_addr(hSCY);
     INC_A;
     LDH_addr_A(hSCY);
-    RET;
+    //RET;
 
 
 AppearUnown:
@@ -1035,7 +1030,7 @@ AppearUnown:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aIntro_Scene20_AppearUnown);
-    RET;
+    //RET;
 
 
 AppearUnownPal2:
@@ -1047,7 +1042,7 @@ AppearUnownPal2:
     LD_addr_A(wIntroSceneTimer);
     LD_A(1);
     CALL(aIntro_Scene20_AppearUnown);
-    RET;
+    //RET;
 
 
 finished:
@@ -1074,7 +1069,7 @@ void IntroScene22(void){
     INC_hl;
     CP_A(0x8);
     IF_NC goto done;
-    RET;
+    //RET;
 
 done:
     FARCALL(aDeinitializeAllSprites);
@@ -1105,7 +1100,7 @@ void IntroScene24(void){
     AND_A(0x1c);
     SLA_A;
     CALL(aIntro_Scene24_ApplyPaletteFade);
-    RET;
+    //RET;
 
 
 done:
@@ -1121,7 +1116,7 @@ void IntroScene25(void){
     DEC_A;
     IF_Z goto done;
     LD_addr_A(wIntroSceneFrameCounter);
-    RET;
+    //RET;
 
 
 done:
@@ -1132,8 +1127,8 @@ done:
 void IntroScene26(void){
 //  Load the final scene.
     CALL(aClearBGPalettes);
-    CALL(aClearSprites);
-    CALL(aClearTilemap);
+    ClearSprites();
+    ClearTilemap();
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
     LD_A(0x1);
@@ -1196,7 +1191,7 @@ void IntroScene27(void){
     AND_A(0x70);
     SWAP_A;
     CALL(aIntro_FadeUnownWordPals);
-    RET;
+    //RET;
 
 
 done:
@@ -1221,12 +1216,12 @@ void IntroScene28(void){
 
     LD_DE(SFX_INTRO_WHOOSH);
     CALL(aPlaySFX);
-    RET;
+    //RET;
 
 
 clear:
     CALL(aClearBGPalettes);
-    RET;
+    //RET;
 
 
 done:
@@ -1269,7 +1264,7 @@ loop2:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    RET;
+    //RET;
 
 
 FadePals:
@@ -1316,7 +1311,7 @@ void CrystalIntro_InitUnownAnim(void){
     LD_hl(0x38);
     LD_A(SPRITE_ANIM_FRAMESET_INTRO_UNOWN_2);
     CALL(aReinitSpriteAnimFrame);
-    RET;
+    //RET;
 
 }
 
@@ -1401,7 +1396,7 @@ okay:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    RET;
+    //RET;
 
 
 BWFade:
@@ -1480,7 +1475,7 @@ got_pointer:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    RET;
+    //RET;
 
 
 pal1:
@@ -1543,7 +1538,7 @@ void Intro_FadeUnownWordPals(void){
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    RET;
+    //RET;
 
 
 FastFadePalettes:
@@ -1596,7 +1591,7 @@ col:
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    //RET;
 
 }
 
@@ -1606,13 +1601,13 @@ void Intro_Scene16_AnimateSuicune(void){
     JR_Z (mIntro_ColoredSuicuneFrameSwap);
     CP_A(0x3);
     IF_Z goto PrepareForSuicuneSwap;
-    RET;
+    //RET;
 
 
 PrepareForSuicuneSwap:
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
-    RET;
+    //RET;
 
 }
 
@@ -1637,7 +1632,7 @@ skip:
     IF_NZ goto loop;
     LD_A(0x1);
     LDH_addr_A(hBGMapMode);
-    RET;
+    //RET;
 
 }
 
@@ -1661,7 +1656,7 @@ void Intro_RustleGrass(void){
     LD_addr_A(wRequested2bppDest + 1);
     LD_A(4);
     LD_addr_A(wRequested2bppSize);
-    RET;
+    //RET;
 
 
 RustlingGrassPointers:
@@ -1676,7 +1671,7 @@ RustlingGrassPointers:
 void Intro_SetCGBPalUpdate(void){
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    RET;
+    //RET;
 
 }
 
@@ -1697,7 +1692,7 @@ void Intro_ClearBGPals(void){
     LDH_addr_A(hCGBPalUpdate);
     CALL(aDelayFrame);
     CALL(aDelayFrame);
-    RET;
+    //RET;
 
 }
 
@@ -1718,7 +1713,7 @@ void Intro_DecompressRequest2bpp_128Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    //RET;
 
 }
 
@@ -1739,7 +1734,7 @@ void Intro_DecompressRequest2bpp_255Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    //RET;
 
 }
 
@@ -1760,7 +1755,7 @@ void Intro_DecompressRequest2bpp_64Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    //RET;
 
 }
 
@@ -1779,7 +1774,7 @@ void Intro_ResetLYOverrides(void){
     LDH_addr_A(rSVBK);
     LD_A(LOW(rSCX));
     LDH_addr_A(hLCDCPointer);
-    RET;
+    //RET;
 
 }
 
@@ -1813,7 +1808,7 @@ skip:
     LDH_addr_A(hSCX);
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    //RET;
 
 }
 
