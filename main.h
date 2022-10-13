@@ -149,7 +149,7 @@
 
 // SECTION "Battle Core", ROMX
 
-#include "engine/battle/core.h"
+//#include "engine/battle/core.h"
 //#include "data/battle/effect_command_pointers.h"
 
 // SECTION "bank10", ROMX
