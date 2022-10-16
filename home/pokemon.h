@@ -12,7 +12,6 @@ void GetCryIndex(void);
 void PrintLevel(void);
 void PrintLevel_Force3Digits(void);
 void Print8BitNumLeftAlign(void);
-void GetNthMove(void);
 void GetBaseData(void);
 void GetCurNickname(void);
 void GetNickname(void);

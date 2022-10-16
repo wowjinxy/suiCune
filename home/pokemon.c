@@ -264,17 +264,6 @@ void Print8BitNumLeftAlign(void){
 
 }
 
-void GetNthMove(void){
-    //  //  unreferenced
-    LD_HL(wListMoves_MoveIndicesBuffer);
-    LD_C_A;
-    LD_B(0);
-    ADD_HL_BC;
-    LD_A_hl;
-    RET;
-
-}
-
 void GetBaseData(void){
         PUSH_BC;
     PUSH_DE;

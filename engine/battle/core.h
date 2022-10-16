@@ -45,7 +45,6 @@ void GetEighthMaxHP(void);
 void GetQuarterMaxHP(void);
 void GetHalfMaxHP(void);
 void GetMaxHP(void);
-void GetHalfHP(void);
 void CheckUserHasEnoughHP(void);
 void RestoreHP(void);
 void UpdateHPBarBattleHuds(void);
