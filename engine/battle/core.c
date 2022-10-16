@@ -1,4 +1,4 @@
-#include "../constants.h"
+#include "../../constants.h"
 #include "core.h"
 
 //  Core components of the battle engine.
@@ -2134,29 +2134,6 @@ ok:
     LD_A_hl;
     LD_addr_A(wHPBuffer1);
     LD_C_A;
-    RET;
-
-}
-
-void GetHalfHP(void){
-//  //  unreferenced
-    LD_HL(wBattleMonHP);
-    LDH_A_addr(hBattleTurn);
-    AND_A_A;
-    IF_Z goto ok;
-    LD_HL(wEnemyMonHP);
-
-ok:
-    LD_A_hli;
-    LD_B_A;
-    LD_A_hli;
-    LD_C_A;
-    SRL_B;
-    RR_C;
-    LD_A_hli;
-    LD_addr_A(wHPBuffer1 + 1);
-    LD_A_hl;
-    LD_addr_A(wHPBuffer1);
     RET;
 
 }

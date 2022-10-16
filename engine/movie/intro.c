@@ -1,7 +1,7 @@
 #include "../../constants.h"
 #include "intro.h"
 
-void CrystalIntro(void){
+void CrystalIntro(void) {
     LDH_A_addr(rSVBK);
     PUSH_AF;
     LD_A(BANK(wGBCPalettes));
@@ -49,9 +49,9 @@ done:
     POP_AF;
     LDH_addr_A(rSVBK);
     RET;
+}
 
-
-InitRAMAddrs:
+void CrystalIntro_InitRAMAddrs(void) {
     XOR_A_A;
     LDH_addr_A(hVBlank);
     LD_A(0x1);
@@ -60,46 +60,43 @@ InitRAMAddrs:
     LDH_addr_A(hMapAnims);
     LD_addr_A(wJumptableIndex);
     RET;
-
 }
 
-void IntroSceneJumper(void){
-    //jumptable ['IntroScenes', 'wJumptableIndex']
-
+void IntroSceneJumper(void) {
     return IntroScenes();
 }
 
-void IntroScenes(void){
-    //dw ['IntroScene1'];
-    //dw ['IntroScene2'];
-    //dw ['IntroScene3'];
-    //dw ['IntroScene4'];
-    //dw ['IntroScene5'];
-    //dw ['IntroScene6'];
-    //dw ['IntroScene7'];
-    //dw ['IntroScene8'];
-    //dw ['IntroScene9'];
-    //dw ['IntroScene10'];
-    //dw ['IntroScene11'];
-    //dw ['IntroScene12'];
-    //dw ['IntroScene13'];
-    //dw ['IntroScene14'];
-    //dw ['IntroScene15'];
-    //dw ['IntroScene16'];
-    //dw ['IntroScene17'];
-    //dw ['IntroScene18'];
-    //dw ['IntroScene19'];
-    //dw ['IntroScene20'];
-    //dw ['IntroScene21'];
-    //dw ['IntroScene22'];
-    //dw ['IntroScene23'];
-    //dw ['IntroScene24'];
-    //dw ['IntroScene25'];
-    //dw ['IntroScene26'];
-    //dw ['IntroScene27'];
-    //dw ['IntroScene28'];
+void IntroScenes(void) {
+    IntroScene1();
+    IntroScene2();
+    IntroScene3();
+    IntroScene4();
+    IntroScene5();
+    IntroScene6();
+    IntroScene7();
+    IntroScene8();
+    IntroScene9();
+    IntroScene10();
+    IntroScene11();
+    IntroScene12();
+    IntroScene13();
+    IntroScene14();
+    IntroScene15();
+    IntroScene16();
+    IntroScene17();
+    IntroScene18();
+    IntroScene19();
+    IntroScene20();
+    IntroScene21();
+    IntroScene22();
+    IntroScene23();
+    IntroScene24();
+    IntroScene25();
+    IntroScene26();
+    IntroScene27();
+    IntroScene28();
 
-    return NextIntroScene();
+    return;
 }
 
 void NextIntroScene(void){
@@ -159,7 +156,9 @@ void IntroScene1(void){
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
     //CALL(aNextIntroScene);
-    return IntroScene2();
+    //IntroScene2();
+    //return IntroScene2();
+    return;
 }
 
 void IntroScene2(void){
@@ -185,7 +184,8 @@ nosound:
     //RET;
 
 endscene:
-    return IntroScene3();
+    return;
+    //return IntroScene3();
 
 }
 
@@ -234,7 +234,8 @@ void IntroScene3(void){
     CALL(aIntro_SetCGBPalUpdate);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    return IntroScene4();
+    return;
+    //return IntroScene4();
 }
 
 void IntroScene4(void){
@@ -247,7 +248,8 @@ void IntroScene4(void){
     INC_hl;
     //RET;
 endscene:
-    return IntroScene5();
+    return;
+    //return IntroScene5();
 }
 
 void IntroScene5(void){
@@ -300,7 +302,8 @@ void IntroScene5(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene6();
+    return;
+    //return IntroScene6();
 }
 
 void IntroScene6(void){
@@ -350,7 +353,8 @@ StopUnown:
 
 
 endscene:
-    return IntroScene7();
+    return;
+    //return IntroScene7();
 
 }
 
@@ -422,8 +426,8 @@ void IntroScene7(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene8();
-
+    return;
+    //return IntroScene8();
 }
 
 void IntroScene8(void){
@@ -455,8 +459,8 @@ finish:
     LD_DE(SFX_INTRO_SUICUNE_2);
     CALL(aPlaySFX);
     FARCALL(aDeinitializeAllSprites);
-    return IntroScene9();
-
+    return;
+    //return IntroScene9();
 }
 
 void IntroScene9(void){
@@ -493,7 +497,8 @@ void IntroScene9(void){
     LD_addr_A(wGlobalAnimXOffset);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    return IntroScene10();
+    return;
+    //return IntroScene10();
 
 }
 
@@ -530,7 +535,7 @@ wooper:
     //RET;
 
 done:
-    return IntroScene11();
+    return;
 
 }
 
@@ -581,7 +586,7 @@ void IntroScene11(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene12();
+    return;
 
 }
 
@@ -624,7 +629,7 @@ second_half:
 
 
 done:
-    return IntroScene13();
+    return;
 
 
 PlayUnownSound:
@@ -664,7 +669,7 @@ UnownSounds:
     //dbw ['0xb0', 'SFX_INTRO_UNOWN_2']
     //db ['-1'];
 
-    return IntroScene13();
+    return;
 }
 
 void IntroScene13(void){
@@ -723,7 +728,7 @@ void IntroScene13(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene14();
+    return;
 
 }
 
@@ -774,7 +779,7 @@ run:
 
 
 done:
-    return IntroScene15();
+    return;
 
 }
 
@@ -839,7 +844,7 @@ void IntroScene15(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene16();
+    return;
 
 }
 
@@ -859,7 +864,7 @@ void IntroScene16(void){
     //RET;
 
 done:
-    return IntroScene17();
+    return;
 
 }
 
@@ -909,7 +914,7 @@ void IntroScene17(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene18();
+    return;
 
 }
 
@@ -994,7 +999,7 @@ void IntroScene19(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene20();
+    return;
 
 }
 
@@ -1046,7 +1051,7 @@ AppearUnownPal2:
 
 
 finished:
-    return IntroScene21();
+    return;
 
 }
 
@@ -1059,7 +1064,7 @@ void IntroScene21(void){
     LDH_addr_A(hBGMapMode);
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene22();
+    return;
 
 }
 
@@ -1073,14 +1078,14 @@ void IntroScene22(void){
 
 done:
     FARCALL(aDeinitializeAllSprites);
-    return IntroScene23();
+    return;
 
 }
 
 void IntroScene23(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    return IntroScene24();
+    return;
 
 }
 
@@ -1106,7 +1111,7 @@ void IntroScene24(void){
 done:
     LD_A(0x40);
     LD_addr_A(wIntroSceneFrameCounter);
-    return IntroScene25();
+    return;
 
 }
 
@@ -1120,7 +1125,7 @@ void IntroScene25(void){
 
 
 done:
-    return IntroScene26();
+    return;
 
 }
 
@@ -1170,7 +1175,7 @@ void IntroScene26(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    return IntroScene27();
+    return;
 
 }
 
@@ -1199,7 +1204,7 @@ done:
     //LD_A(0x80);
     //LD_addr_A(wIntroSceneFrameCounter);
     //RET;
-    return IntroScene28();
+    return;
 }
 
 void IntroScene28(void){
