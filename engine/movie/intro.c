@@ -96,7 +96,7 @@ void IntroScenes(void) {
     IntroScene27();
     IntroScene28();
 
-    return;
+    return CrystalIntro;
 }
 
 void NextIntroScene(void){
@@ -108,7 +108,7 @@ void NextIntroScene(void){
 
 void IntroScene1(void){
 //  Setup the next scene.
-    Intro_ClearBGPals();
+    //Intro_ClearBGPals();
     ClearSprites();
     ClearTilemap();
     XOR_A_A;
@@ -1217,7 +1217,7 @@ void IntroScene28(void){
     CP_A(0x18);
     IF_Z goto clear;
     CP_A(0x8);
-    RET_NZ ;
+    //RET_NZ ;
 
     LD_DE(SFX_INTRO_WHOOSH);
     CALL(aPlaySFX);
@@ -1233,7 +1233,7 @@ done:
     LD_HL(wJumptableIndex);
     SET_hl(7);
     //RET;
-    return;
+    return CrystalIntro;
 }
 
 void Intro_Scene24_ApplyPaletteFade(void){
