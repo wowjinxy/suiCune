@@ -14,6 +14,10 @@ workspace "suiCune"
 	architecture "x86"
 	warnings "extra"
 	
+	flags {
+		"multiprocessorcompile",
+	}
+
 	platforms {
 		"x86",
 	}
