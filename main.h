@@ -609,9 +609,9 @@
 
 // SECTION "Debug Room", ROMX
 
-// if DEF(_DEBUG)
+#if _DEBUG
 //#include "engine/debug/debug_room.h"
-// endc
+#endif
 
 // SECTION "Battle Tower Text", ROMX
 

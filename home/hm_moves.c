@@ -15,6 +15,10 @@ NotHM:
 
 }
 
+uint8_t IsHM_Conv(uint8_t a){
+    return (a >= HM01);
+}
+
 void IsHMMove(void){
         LD_HL(mIsHMMove_HMMoves);
     LD_DE(1);

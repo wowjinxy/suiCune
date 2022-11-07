@@ -11,17 +11,22 @@ void Bankswitch(void) {
 }
 
 void JumpTable(void) {
-    PUSH_DE;
-    LD_E_A;
-    LD_D(0);
-    ADD_HL_DE;
-    ADD_HL_DE;
-    LD_A_hli;
-    LD_H_hl;
-    LD_L_A;
-    POP_DE;
+    REG_HL = gb_read16(REG_HL + (REG_A * 2));
     JP_hl;
 }
+
+// void JumpTable(void) {
+//     PUSH_DE;
+//     LD_E_A;
+//     LD_D(0);
+//     ADD_HL_DE;
+//     ADD_HL_DE;
+//     LD_A_hli;
+//     LD_H_hl;
+//     LD_L_A;
+//     POP_DE;
+//     JP_hl;
+// }
 
 void Start(void) {
     NOP;

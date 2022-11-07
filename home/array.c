@@ -30,6 +30,28 @@ InArray:
 
 }
 
+void IsInArray_Conv(void)
+{
+    REG_B = 0;
+    REG_C = REG_A;
+    while(1)
+    {
+        REG_A = gb_read(REG_HL);
+        if(REG_A == 0xFF)
+        {
+            AND_A_A;
+            return;
+        }
+        if(REG_A == REG_C)
+        {
+            SCF;
+            return;
+        }
+        REG_B++;
+        REG_HL += REG_DE;
+    }
+}
+
 void SkipNames(void){
     //  Skip a names.
     LD_BC(NAME_LENGTH);
@@ -44,6 +66,17 @@ loop:
 
 }
 
+void SkipNames_Conv(void)
+{
+    REG_BC = NAME_LENGTH;
+    if(REG_A == 0) return;
+    do {
+        REG_HL += REG_BC;
+        REG_A--;
+    } while(REG_A != 0);
+    return;
+}
+
 void AddNTimes(void){
     //  Add bc * a to hl.
     AND_A_A;
@@ -55,4 +88,13 @@ loop:
     IF_NZ goto loop;
     RET;
 
+}
+
+void AddNTimes_Conv(void)
+{
+    if(REG_A == 0) return;
+    do {
+        REG_HL += REG_BC;
+        REG_A--;
+    } while(REG_A != 0);
 }

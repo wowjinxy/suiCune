@@ -352,3 +352,241 @@ next:
     JP(mDecompress_Main);
 
 }
+
+void Decompress_Conv(void){
+//  Pokemon GSC uses an lz variant (lz3) for compression.
+//  This is mainly (but not necessarily) used for graphics.
+
+//  This function decompresses lz-compressed data from hl to de.
+
+#define LZ_END (0xff)  //  Compressed data is terminated with $ff.
+
+//  A typical control command consists of:
+
+#define LZ_CMD (0b11100000)  //  command id (bits 5-7)
+#define LZ_LEN (0b00011111)  //  length n   (bits 0-4)
+
+//  Additional parameters are read during command execution.
+
+//  Commands:
+
+#define LZ_LITERAL (0 << 5)  //  Read literal data for n bytes.
+#define LZ_ITERATE (1 << 5)  //  Write the same byte for n bytes.
+#define LZ_ALTERNATE (2 << 5)  //  Alternate two bytes for n bytes.
+#define LZ_ZERO     (3 << 5)  //  Write 0 for n bytes.
+
+//  Another class of commands reuses data from the decompressed output.
+#define LZ_RW (2 + 5)  //  bit
+
+//  These commands take a signed offset to start copying from.
+//  Wraparound is simulated.
+//  Positive offsets (15-bit) are added to the start address.
+//  Negative offsets (7-bit) are subtracted from the current position.
+
+#define LZ_REPEAT (4 << 5)  //  Repeat n bytes from the offset.
+#define LZ_FLIP (5 << 5)  //  Repeat n bitflipped bytes.
+#define LZ_REVERSE (6 << 5)  //  Repeat n bytes in reverse.
+
+//  If the value in the count needs to be larger than 5 bits,
+//  LZ_LONG can be used to expand the count to 10 bits.
+#define LZ_LONG (7 << 5)
+
+//  A new control command is read in bits 2-4.
+//  The top two bits of the length are bits 0-1.
+//  Another byte is read containing the bottom 8 bits.
+#define LZ_LONG_HI (0b00000011)
+
+//  In other words, the structure of the command becomes
+//  111xxxyy yyyyyyyy
+//  x: the new control command
+//  y: the length
+
+//  For more information, refer to the code below and in extras/gfx.py.
+
+    // Save the output address
+    // for rewrite commands.
+    gb_write(wLZAddress, REG_E);
+    gb_write(wLZAddress + 1, REG_D);
+    // Maybe could be factored into 
+    // gb_write16(wLZAddress, REG_DE);
+
+    // Control code
+    uint8_t ctl;
+
+    for(REG_A = gb_read(REG_HL); REG_A != LZ_END; REG_A = gb_read(REG_HL))
+    {
+        if((REG_A & LZ_CMD) != LZ_LONG)
+        {
+            ctl = REG_A & LZ_CMD;
+
+            REG_C = gb_read(REG_HL++) & LZ_LEN;
+            REG_B = 0;
+
+            // read at least 1 byte
+            REG_C++;
+        }
+        else 
+        {
+
+            //  The count is now 10 bits.
+
+            // Read the next 3 bits.
+            // %00011100 -> %11100000
+            REG_A <<= 3;
+
+            // This is our new control code.
+            ctl = REG_A & LZ_CMD;
+
+            REG_B = gb_read(REG_HL++) & LZ_LONG_HI;
+            REG_C = gb_read(REG_HL++);
+
+            // read at least 1 byte
+            REG_BC++;
+        }
+
+        // Increment loop counts.
+        // We bail the moment they hit 0.
+        REG_B++;
+        REG_C++;
+
+        REG_A = ctl;
+
+        //if((REG_A >> (LZ_RW)) & 0x1) goto rewrite;
+        //BIT_A(LZ_RW);
+        //IF_NZ
+        if((REG_A >> (LZ_RW)) & 0x1)
+        {
+            //  Repeat decompressed data from output.
+            uint16_t hl = REG_HL;
+            uint16_t af = REG_AF;
+
+            REG_A = gb_read(REG_HL++);
+            if((REG_A & 0x80) == 0) // sign
+            {
+                //  Positive offsets are two bytes.
+                REG_L = gb_read(REG_HL);
+                REG_H = REG_A;
+                // add to starting output address
+                uint16_t a = (gb_read(wLZAddress) + REG_L);
+                REG_F_C = a > 0xFF;
+                REG_L += gb_read(wLZAddress);
+                REG_H += gb_read(wLZAddress + 1) + REG_F_C;
+            }
+            else 
+            {
+                //  negative
+                // hl = de + -a
+                REG_A = (REG_A & 0b01111111) ^ 0xFF;
+                ADD_A_E;
+                LD_L_A;
+                LD_A(-1);
+                ADC_A_D;
+                LD_H_A;
+            }
+            
+            REG_AF = af;
+
+            if(REG_A == LZ_FLIP)
+            {
+                //  Copy bitflipped decompressed data for bc bytes.
+                while(--REG_C != 0 && --REG_B != 0)
+                {
+                    REG_A = gb_read(REG_HL++);
+                    uint16_t temp = REG_BC;
+                    REG_BC = (0 << 8) | 8;
+                    do {
+                        RRA;
+                        RL_B;
+                    } while(--REG_C != 0);
+                    REG_A = REG_B;
+                    REG_BC = temp;
+                    gb_write(REG_DE++, REG_A);
+                }
+            }
+            else if(REG_A == LZ_REVERSE)
+            {
+                //  Copy reversed decompressed data for bc bytes.
+                while(--REG_C != 0 || --REG_B != 0)
+                {
+                    gb_write(REG_DE++, gb_read(REG_HL--));
+                }
+            }
+            else 
+            {
+                //  Since LZ_LONG is command 7,
+                //  only commands 0-6 are passed in.
+                //  This leaves room for an extra command 7.
+                //  However, lengths longer than 768
+                //  would be interpreted as LZ_END.
+
+                //  More practically, LZ_LONG is not recursive.
+                //  For now, it defaults to LZ_REPEAT.
+
+                //  Copy decompressed data for bc bytes.
+                while(--REG_C != 0 && --REG_B != 0)
+                {
+                    gb_write(REG_DE++, gb_read(REG_HL++));
+                }
+            }
+
+            REG_HL = hl;
+
+            if((gb_read(REG_HL) >> (7)) & 0x1)
+            {
+                REG_HL++;
+            }
+            else 
+            {
+                REG_HL+=2; // positive offset is two bytes
+            }
+        }
+        else if(REG_A == LZ_ITERATE)
+        {
+            //  Write the same byte for bc bytes.
+            REG_A = gb_read(REG_HL++);
+
+            while(--REG_C != 0 || --REG_B != 0)
+            {
+                gb_write(REG_DE++, REG_A);
+            }
+        }
+        else if(REG_A == LZ_ALTERNATE)
+        {
+            while(--REG_C != 0 || --REG_B != 0)
+            {
+                gb_write(REG_DE++, gb_read(REG_HL++));
+                while(--REG_C != 0 || --REG_B != 0)
+                {
+                    gb_write(REG_DE++, gb_read(REG_HL--));
+                }
+                // Maybe there's a way to get rid of this goto?
+                goto adone2;
+            }
+            // Skip past the bytes we were alternating.
+        adone1:
+            REG_HL++;
+
+        adone2:
+            REG_HL++;
+        }
+        else if(REG_A == LZ_ZERO)
+        {
+            //  Write 0 for bc bytes.
+            REG_A = 0;
+
+            while(--REG_C != 0 || --REG_B != 0)
+            {
+                gb_write(REG_DE++, REG_A);
+            }
+        }
+        else 
+        {
+            //  Literal
+            //  Read literal data for bc bytes.
+            while(--REG_C != 0 || --REG_B != 0)
+            {
+                gb_write(REG_DE++, gb_read(REG_HL++));
+            }
+        }
+    }
+}

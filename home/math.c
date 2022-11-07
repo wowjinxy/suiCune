@@ -19,6 +19,21 @@ loop:
 
 }
 
+void SimpleMultiply_Conv(void)
+{
+    uint16_t temp = REG_BC;
+    if(REG_A == 0) return;
+    REG_B = REG_A;
+    REG_A = 0;
+
+    do {
+        REG_A += REG_C;
+        REG_B--;
+    } while(REG_B != 0);
+
+    REG_BC = temp;
+}
+
 void SimpleDivide(void){
     //  Divide a by c. Return quotient b and remainder a.
     LD_B(0);
@@ -31,6 +46,22 @@ loop:
     ADD_A_C;
     RET;
 
+}
+
+void SimpleDivide_Conv(void)
+{
+    REG_B = 0;
+    uint8_t cont = 1;
+    do {
+        REG_B++;
+        if(REG_A < REG_C)
+        {
+            cont = 0;
+        }
+        REG_A -= REG_C;
+    } while(cont);
+    REG_B--;
+    REG_A += REG_C;
 }
 
 void Multiply(void){

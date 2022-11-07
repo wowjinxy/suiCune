@@ -27,6 +27,26 @@ loop:
     RET;
 }
 
+void Load2DMenuData_Conv(void) {
+    uint16_t hl = REG_HL;
+    uint16_t bc = REG_BC;
+    REG_HL = w2DMenuData;
+    REG_B = (w2DMenuDataEnd - w2DMenuData);
+
+    do {
+        gb_write(REG_HL++, gb_read(REG_DE++));
+    } while(--REG_B != 0);
+
+    // Reset menu state
+    gb_write(wMenuCursorY, 0x1);
+    gb_write(wMenuCursorX, 0x1);
+    gb_write(wCursorOffCharacter, 0);
+    gb_write(wCursorCurrentTile, 0);
+    gb_write(wCursorCurrentTile + 1, 0);
+    REG_BC = bc;
+    REG_HL = hl;
+}
+
 void StaticMenuJoypad(void) {
     CALLFAR(av_StaticMenuJoypad);
     CALL(aGetMenuJoypad);
@@ -55,6 +75,11 @@ void GetMenuJoypad(void) {
     RET;
 }
 
+void GetMenuJoypad_Conv(void)
+{
+    REG_A = ((gb_read(hJoyLast) & D_PAD) | (gb_read(hJoyPressed) & BUTTONS));
+}
+
 void PlaceHollowCursor(void) {
     LD_HL(wCursorCurrentTile);
     LD_A_hli;
@@ -71,6 +96,13 @@ void HideCursor(void) {
     LD_L_A;
     LD_hl(0x7f);
     RET;
+}
+
+void HideCursor_Conv(void)
+{
+    REG_L = gb_read(wCursorCurrentTile);
+    REG_H = gb_read(wCursorCurrentTile + 1);
+    gb_write(REG_HL, 0x7f);
 }
 
 void PushWindow(void) {

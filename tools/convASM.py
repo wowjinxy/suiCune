@@ -63,6 +63,8 @@ def check_if_label(string, prefix):
     parts = string.split(" ")
     ret = ""
     for part in parts:
+        if len(part) == 0:
+            continue
         if part[0] == "_":
             part = f"v{part}"
         elif part[0] == ".":
@@ -147,6 +149,8 @@ def parse_line_label(string):
         elif parts[0] in ("INCLUDE", "INCBIN"):
             asm = f"// {asm}{string[0]}"
             includes.append(" ".join(parts[1:]))
+        elif parts[0] == "for":
+            asm = f"\tfor(int {parts[1].rstrip(',')} = 0; {parts[1].rstrip(',')} < {' '.join(parts[2:])}; {parts[1].rstrip(',')}++){{"
         elif len(parts) > 1 and parts[1] == "EQU":
             asm = f"#define {parts[0]} ({' '.join(parts[2:]).replace('$', '0x').replace('%', '0b')})"
         else:

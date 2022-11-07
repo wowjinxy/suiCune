@@ -7,9 +7,9 @@ void init_function_pointers() {
     for (int i = 0; i < ROM_SIZE; i++) redirectFunc[i] = convertedFunc[i] = NULL;
 
     // home/array.c
-    // REDIRECTED(AddNTimes);
-    // REDIRECTED(IsInArray);
-    // REDIRECTED(SkipNames);
+    REDIRECTED(AddNTimes);
+    REDIRECTED(IsInArray);
+    REDIRECTED(SkipNames);
 
     // home/audio.c
     REDIRECTED(MaxVolume);
@@ -41,30 +41,30 @@ void init_function_pointers() {
     REDIRECTED(SFXChannelsOff);
 
     // home/battle.c
-    // REDIRECTED(UpdateBattleHuds);
-    // REDIRECTED(OpponentPartyAttr);
-    // REDIRECTED(UpdateOpponentInParty);
-    // REDIRECTED(GetPartyLocation);
-    // REDIRECTED(UserPartyAttr);
-    // REDIRECTED(SetPlayerTurn);
-    // REDIRECTED(PushLYOverrides);
-    // REDIRECTED(GetBattleAnimByte);
-    // REDIRECTED(RefreshBattleHuds);
-    // REDIRECTED(MobileTextBorder);
-    // REDIRECTED(OTPartyAttr);
-    // REDIRECTED(FarCopyRadioText);
-    // REDIRECTED(BattleTextbox);
-    // REDIRECTED(UpdateUserInParty);
-    // REDIRECTED(GetPartyParamLocation);
-    // REDIRECTED(BattlePartyAttr);
-    // REDIRECTED(UpdateBattleMonInParty);
-    // REDIRECTED(GetDexNumber);
-    // REDIRECTED(GetBattleAnimPointer);
-    // REDIRECTED(StdBattleTextbox);
-    // REDIRECTED(SetEnemyTurn);
-    // REDIRECTED(UpdateBattleMon);
-    // REDIRECTED(UpdateEnemyMonInParty);
-    // REDIRECTED(ResetDamage);
+    REDIRECTED(UpdateBattleHuds);
+    REDIRECTED(OpponentPartyAttr);
+    REDIRECTED(UpdateOpponentInParty);
+    REDIRECTED(GetPartyLocation);
+    REDIRECTED(UserPartyAttr);
+    REDIRECTED(SetPlayerTurn);
+    REDIRECTED(PushLYOverrides);
+    REDIRECTED(GetBattleAnimByte);
+    REDIRECTED(RefreshBattleHuds);
+    REDIRECTED(MobileTextBorder);
+    REDIRECTED(OTPartyAttr);
+    REDIRECTED(FarCopyRadioText);
+    REDIRECTED(BattleTextbox);
+    REDIRECTED(UpdateUserInParty);
+    REDIRECTED(GetPartyParamLocation);
+    REDIRECTED(BattlePartyAttr);
+    REDIRECTED(UpdateBattleMonInParty);
+    REDIRECTED(GetDexNumber);
+    REDIRECTED(GetBattleAnimPointer);
+    REDIRECTED(StdBattleTextbox);
+    REDIRECTED(SetEnemyTurn);
+    REDIRECTED(UpdateBattleMon);
+    REDIRECTED(UpdateEnemyMonInParty);
+    REDIRECTED(ResetDamage);
 
     // home/battle_vars.c
     // REDIRECTED(BattleVarLocations);
@@ -81,8 +81,8 @@ void init_function_pointers() {
     // REDIRECTED(ClearSprites);
 
     // home/compare.c
-    // REDIRECTED(CompareBytesLong);
-    // REDIRECTED(CompareBytes);
+    REDIRECTED(CompareBytesLong);
+    REDIRECTED(CompareBytes);
 
     // home/copy.c
     // REDIRECTED(GetFarWRAMWord);
@@ -99,13 +99,13 @@ void init_function_pointers() {
     // REDIRECTED(CopyName2);
 
     // home/copy_tilemap.c
-    // REDIRECTED(LoadTilemapToTempTilemap);
-    // REDIRECTED(LoadTempTilemapToTilemap);
-    // REDIRECTED(SafeLoadTempTilemapToTilemap);
+    REDIRECTED(LoadTilemapToTempTilemap);
+    REDIRECTED(LoadTempTilemapToTilemap);
+    REDIRECTED(SafeLoadTempTilemapToTilemap);
 
     // home/decompress.c
-    // REDIRECTED(Decompress);
-    // REDIRECTED(FarDecompress);
+    REDIRECTED(Decompress);
+    REDIRECTED(FarDecompress);
 
     // home/delay.c
     // REDIRECTED(DelayFrame);
@@ -188,19 +188,19 @@ void init_function_pointers() {
     CONVERTED(Bankswitch);
     // REDIRECTED(FarCall);
     // REDIRECTED(Start);
-    // REDIRECTED(JumpTable);
+    CONVERTED(JumpTable);
 
     // home/hm_moves.c
     // REDIRECTED(IsHM);
     // REDIRECTED(IsHMMove);
 
     // home/init.c
-    // REDIRECTED(ClearsScratch);
-    // REDIRECTED(ClearWRAM);
-    // REDIRECTED(Reset);
-    // REDIRECTED(ClearVRAM);
-    // REDIRECTED(Init);
-    // REDIRECTED(v_Start);
+    REDIRECTED(ClearsScratch);
+    REDIRECTED(ClearWRAM);
+    REDIRECTED(Reset);
+    REDIRECTED(ClearVRAM);
+    REDIRECTED(Init);
+    REDIRECTED(v_Start);
 
     // home/item.c
     // REDIRECTED(ReceiveItem);
@@ -487,6 +487,10 @@ void init_function_pointers() {
     // home/sprite_updates.c
     // REDIRECTED(DisableSpriteUpdates);
     // REDIRECTED(EnableSpriteUpdates);
+
+    // home/sram.c
+    REDIRECTED(CloseSRAM);
+    REDIRECTED(OpenSRAM);
 
     // home/stone_queue.c
     // REDIRECTED(HandleStoneQueue);
@@ -1129,4 +1133,115 @@ void init_function_pointers() {
     CONVERTED(ClearChannels);
     // CONVERTED(ClearChannel);
     REDIRECTED(PlayTrainerEncounterMusic);
+
+    // home/map.c
+    REDIRECTED(ClearBGMapBuffer);
+    REDIRECTED(UpdateBGMapColumn);
+    // REDIRECTED(ReadMapScripts);
+    // REDIRECTED(GetAnyMapAttributesBank);
+    // REDIRECTED(GetMapScriptsBank);
+    // REDIRECTED(ObjectEvent);
+    // REDIRECTED(GetFishingGroup);
+    // REDIRECTED(ReloadTilesetAndPalettes);
+    // REDIRECTED(FillNorthConnectionStrip);
+    // REDIRECTED(CopyMapPartial);
+    // REDIRECTED(GetMapAttributesPointer);
+    // REDIRECTED(BackupBGMapColumn);
+    // REDIRECTED(SaveScreen);
+    // REDIRECTED(BGEvent);
+    // REDIRECTED(Call_a_de);
+    // REDIRECTED(GetBlockLocation);
+    // REDIRECTED(GetWarpDestCoords);
+    // REDIRECTED(GetMapPointer);
+    // REDIRECTED(CopyMapPartialAndAttributes);
+    REDIRECTED(GetWorldMapLocation);
+    REDIRECTED(GetMapMusic);
+    // REDIRECTED(UpdateBGMapRow);
+    // REDIRECTED(CheckFacingBGEvent);
+    // REDIRECTED(LoadMapTileset);
+    // REDIRECTED(CoordinatesEventText);
+    // REDIRECTED(LoadMapAttributes_SkipObjects);
+    // REDIRECTED(FillWestConnectionStrip);
+    // REDIRECTED(ScrollMapRight);
+    // REDIRECTED(GetAnyMapTileset);
+    // REDIRECTED(ScrollMapLeft);
+    // REDIRECTED(SaveScreen_LoadConnection);
+    // REDIRECTED(GetDestinationWarpNumber);
+    // REDIRECTED(GetMapSceneID);
+    // REDIRECTED(ReadCoordEvents);
+    // REDIRECTED(GetFacingTileCoord);
+    // REDIRECTED(ReadObjectEvents);
+    // REDIRECTED(GetAnyMapPointer);
+    // REDIRECTED(LoadMapAttributes);
+    // REDIRECTED(FinishExitMenu);
+    // REDIRECTED(ExecuteCallbackScript);
+    // REDIRECTED(FillMapConnections);
+    // REDIRECTED(SwitchToMapScriptsBank);
+    // REDIRECTED(ReturnToMapFromSubmenu);
+    // REDIRECTED(ReadMapEvents);
+    // REDIRECTED(ReadBGEvents);
+    // REDIRECTED(BGEventText);
+    // REDIRECTED(BufferScreen);
+    // REDIRECTED(CheckScenes);
+    // REDIRECTED(ReadMapSceneScripts);
+    REDIRECTED(MapTextbox);
+    // REDIRECTED(Map_DummyFunction);
+    // REDIRECTED(CopyMapAttributes);
+    // REDIRECTED(SwitchToMapAttributesBank);
+    // REDIRECTED(ChangeMap);
+    // REDIRECTED(LoadMetatiles);
+    // REDIRECTED(CheckIndoorMap);
+    // REDIRECTED(GetScriptByte);
+    // REDIRECTED(BackupBGMapRow);
+    // REDIRECTED(ReadWarps);
+    // REDIRECTED(OverworldTextModeSwitch);
+    // REDIRECTED(GetMapField);
+    // REDIRECTED(CheckObjectMask);
+    // REDIRECTED(GetCoordTile);
+    // REDIRECTED(GetMovementPermissions);
+    // REDIRECTED(GetMapConnections);
+    // REDIRECTED(GetMapAttributesBank);
+    // REDIRECTED(SwitchToAnyMapAttributesBank);
+    // REDIRECTED(GetMapTimeOfDay);
+    // REDIRECTED(CheckWarpTile);
+    // REDIRECTED(GetMovementData);
+    // REDIRECTED(GetPhoneServiceTimeOfDayByte);
+    // REDIRECTED(GetCurrentMapSceneID);
+    // REDIRECTED(ExitAllMenus);
+    // REDIRECTED(CheckIfFacingTileCoordIsBGEvent);
+    // REDIRECTED(ClearObjectStructs);
+    // REDIRECTED(RunMapCallback);
+    // REDIRECTED(GetAnyMapEnvironment);
+    // REDIRECTED(LoadConnectionBlockData);
+    // REDIRECTED(GetAnyMapField);
+    // REDIRECTED(ClearUnusedMapBuffer);
+    // REDIRECTED(CheckOutdoorMap);
+    // REDIRECTED(LoadMapStatus);
+    // REDIRECTED(CopyMapObjectEvents);
+    // REDIRECTED(GetMapEnvironment);
+    // REDIRECTED(MaskObject);
+    // REDIRECTED(CopyWarpData);
+    // REDIRECTED(LoadTilesetGFX);
+    // REDIRECTED(CloseSubmenu);
+    // REDIRECTED(CheckUnknownMap);
+    // REDIRECTED(CallMapScript);
+    // REDIRECTED(UnmaskObject);
+    // REDIRECTED(ScrollMapUp);
+    // REDIRECTED(LoadMapPart);
+    // REDIRECTED(GetMapPhoneService);
+    // REDIRECTED(FillSouthConnectionStrip);
+    // REDIRECTED(ScrollMapDown);
+    // REDIRECTED(GetMapConnection);
+    // REDIRECTED(GetAnyMapBlocksBank);
+    // REDIRECTED(ReadMapCallbacks);
+    // REDIRECTED(CallScript);
+    // REDIRECTED(CoordinatesEvent);
+    // REDIRECTED(ReturnToMapWithSpeechTextbox);
+    // REDIRECTED(FadeToMenu);
+    // REDIRECTED(LoadBlockData);
+    // REDIRECTED(DummyEndPredef);
+    // REDIRECTED(CheckCurrentMapCoordEvents);
+    // REDIRECTED(FillEastConnectionStrip);
+    // REDIRECTED(WarpCheck);
+    // REDIRECTED(ObjectEventText);
 }

@@ -21,6 +21,19 @@ HandleLoop:
 
 }
 
+void CopyBytes_Conv(void){
+    //  copy bc bytes from hl to de
+    REG_B++;  // we bail the moment b hits 0, so include the last run
+    REG_C++;  // same thing// include last byte
+
+    while(--REG_C != 0 || --REG_B != 0)
+    {
+        REG_A = gb_read(REG_HL++);
+        gb_write(REG_DE++, REG_A);
+    }
+    return;
+}
+
 void SwapBytes(void){
     //  swap bc bytes between hl and de
 
@@ -47,6 +60,27 @@ Loop:
 
 }
 
+void SwapBytes_Conv(void){
+    //  swap bc bytes between hl and de
+    // Input
+    //   hl: buffer a
+    //   de: buffer b
+    //   bc: byte count
+
+    do {
+        // stash [hl] away on the stack
+        uint8_t temp = gb_read(REG_HL);
+
+        // copy a byte from [de] to [hl]
+        gb_write(REG_HL++, gb_read(REG_DE));
+
+        // retrieve the previous value of [hl]// put it in [de]
+        gb_write(REG_DE++, temp);
+
+        // handle loop stuff
+    } while(--REG_BC != 0);
+}
+
 void ByteFill(void){
     //  fill bc bytes with the value of a, starting at hl
     INC_B;  // we bail the moment b hits 0, so include the last run
@@ -63,6 +97,18 @@ HandleLoop:
     IF_NZ goto PutByte;
     RET;
 
+}
+
+void ByteFill_Conv(void){
+    //  fill bc bytes with the value of a, starting at hl
+    REG_B++;  // we bail the moment b hits 0, so include the last run
+    REG_C++;  // same thing// include last byte
+
+    while(--REG_C != 0 || --REG_B != 0)
+    {
+        gb_write(REG_HL++, REG_A);
+    }
+    return;
 }
 
 void GetFarByte(void){
@@ -86,6 +132,23 @@ void GetFarByte(void){
     LDH_A_addr(hFarByte);
     RET;
 
+}
+
+void GetFarByte_Conv(void){
+    //  retrieve a single byte from a:hl, and return it in a.
+    // bankswitch to new bank
+    uint8_t temp = gb_read(hROMBank);
+    RST(aBankswitch);
+
+    // get byte from new bank
+    uint8_t farbyte = gb_read(REG_HL);
+
+    // bankswitch to previous bank
+    REG_A = temp;
+    RST(aBankswitch);
+
+    // return retrieved value in a
+    REG_A = farbyte;
 }
 
 void GetFarWord(void){

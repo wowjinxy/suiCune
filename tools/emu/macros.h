@@ -76,6 +76,8 @@
 #define REG_HL gb.cpu_reg.hl
 #define REG_PC gb.cpu_reg.pc
 #define REG_SP gb.cpu_reg.sp
+#define REG_F_Z gb.cpu_reg.f_bits.z
+#define REG_F_C gb.cpu_reg.f_bits.c
 
 #define WRITE(dest, value) (gb_write(dest, value))
 #define NOP       \
@@ -2756,6 +2758,48 @@
         AND_(x << (shift));                      \
     } while (0)
 
+#define jumptable(dest, value) \
+    do {                       \
+        LD_A_addr(value);      \
+        LD_E_A;                \
+	    LD_D(0);               \
+	    LD_HL((uint16_t)(dest));\
+	    ADD_HL_DE;             \
+	    ADD_HL_DE;             \
+	    LD_A_hli;              \
+	    LD_H_hl;               \
+	    LD_L_A;                \
+	    JP_hl;                 \
+    } while(0)
+
+#define fast_jumptable(dest, value) \
+    do {\
+        uint16_t index = (uint16_t)gb_read(value);\
+        REG_HL = gb_read16((uint16_t)dest + (2 * index));\
+        JP_hl;\
+    } while(0)
+
+#define calc_sin_wave \
+    do {\
+        AND_A(0b111111); \
+	    CP_A(0b100000); \
+	    IF_NC goto negative; \
+	    CALL(apply); \
+	    LD_A_H; \
+        RET; \
+    negative: \
+        AND_A(0b011111); \
+        CALL(apply); \
+        LD_A_H; \
+        XOR_A(0xff); \
+        INC_A; \
+        RET; \
+    apply: \
+	    LD_E_A; \
+	    LD_A_D; \
+	    LD_D(0); \
+        LD_HL(Jumptable); \
+    } while(0)
 //#include "macros/coords.h"
 //#include "macros/scripts/audio.h"
 //#include "macros/scripts/text.h"

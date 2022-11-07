@@ -39,6 +39,12 @@ else
     lb \1, \2 * TILE_WIDTH, \3 * TILE_WIDTH
 endc
 ENDM
+*/
+
+#define depixel2(x, y) do { LD_DE(((x * TILE_WIDTH) << 8) | (y * TILE_WIDTH)); } while(0)
+#define depixel4(x, y, x2, y2) do { LD_DE((((x * TILE_WIDTH) + x2) << 8) | ((y * TILE_WIDTH) + y2)); } while(0)
+
+/*
 
 #define depixel ldpixel de,
 #define bcpixel ldpixel bc,

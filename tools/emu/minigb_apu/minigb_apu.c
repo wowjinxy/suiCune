@@ -13,7 +13,7 @@
 
 #include "minigb_apu.h"
 
-#define ENABLE_HIPASS 1
+#define ENABLE_HIPASS 0
 
 #define AUDIO_NSAMPLES ((unsigned)(AUDIO_SAMPLE_RATE / VERTICAL_SYNC) * 2)
 

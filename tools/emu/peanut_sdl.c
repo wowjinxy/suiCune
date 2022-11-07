@@ -3635,7 +3635,8 @@ int main(int argc, char* argv[]) {
         want.callback = audio_callback;
         want.userdata = NULL;
 
-        printf("Audio driver: %s\n", SDL_GetAudioDeviceName(0, 0));
+        printf("Audio device: %s\n", SDL_GetAudioDeviceName(0, 0));
+        printf("Audio driver: %s\n", SDL_GetCurrentAudioDriver());
 
         if ((dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0)) == 0) {
             printf("SDL could not open audio device: %s\n", SDL_GetError());

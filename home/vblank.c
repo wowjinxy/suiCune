@@ -30,6 +30,7 @@ void VBlank(void) {
     LDH_A_addr(hVBlank);
     AND_A(7);
 
+    /*
     LD_E_A;
     LD_D(0);
     LD_HL(mVBlank_VBlanks);
@@ -40,6 +41,18 @@ void VBlank(void) {
     LD_L_A;
 
     CALL(av_hl_);
+    */
+    switch(REG_A)
+    {
+        case 7:
+        case 0: CALL(aVBlank0); break;
+        case 1: CALL(aVBlank1); break;
+        case 2: CALL(aVBlank2); break;
+        case 3: CALL(aVBlank3); break;
+        case 4: CALL(aVBlank4); break;
+        case 5: CALL(aVBlank5); break;
+        case 6: CALL(aVBlank6); break;
+    }
 
     CALL(aGameTimer);
 
