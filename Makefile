@@ -23,6 +23,7 @@ SRCS   := tools/emu/peanut_sdl.c tools/emu/minigb_apu/minigb_apu.c \
 	$(wildcard engine/battle/*.c) \
 	$(wildcard engine/battle_anims/*.c) \
 	$(wildcard engine/gfx/*.c) \
+	$(wildcard engine/items/*.c) \
 	$(wildcard engine/menus/*.c) \
 	$(wildcard engine/movie/*.c) \
 	$(wildcard engine/overworld/*.c) \
@@ -65,6 +66,7 @@ clean:
 	$(wildcard engine/battle/*.o) \
 	$(wildcard engine/battle_anims/*.o) \
 	$(wildcard engine/gfx/*.o) \
+	$(wildcard engine/items/*.o) \
 	$(wildcard engine/menus/*.o) \
 	$(wildcard engine/movie/*.o) \
 	$(wildcard engine/overworld/*.o) \

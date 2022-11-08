@@ -120,7 +120,7 @@
 // SECTION "bankA", ROMX
 
 //#include "engine/link/link.h"
-//#include "engine/overworld/wildmons.h"
+#include "engine/overworld/wildmons.h"
 //#include "engine/battle/link_result.h"
 
 // SECTION "bankB", ROMX
@@ -133,7 +133,7 @@
 //#include "engine/items/tmhm.h"
 //#include "engine/pokemon/print_move_description.h"
 //#include "engine/events/pokerus/pokerus.h"
-//#include "engine/battle/start_battle.h"
+#include "engine/battle/start_battle.h"
 //#include "engine/gfx/place_graphic.h"
 
 // SECTION "Effect Commands", ROMX
@@ -149,7 +149,7 @@
 
 // SECTION "Battle Core", ROMX
 
-//#include "engine/battle/core.h"
+#include "engine/battle/core.h"
 //#include "data/battle/effect_command_pointers.h"
 
 // SECTION "bank10", ROMX
@@ -172,7 +172,7 @@
 //#include "engine/events/move_tutor.h"
 //#include "engine/gfx/crystal_layouts.h"
 //#include "engine/events/celebi.h"
-//#include "engine/menus/main_menu.h"
+#include "engine/menus/main_menu.h"
 //#include "mobile/mobile_menu.h"
 //#include "engine/pokemon/search.h"
 //#include "mobile/mobile_12_2.h"
@@ -207,7 +207,7 @@
 //#include "engine/movie/evolution_animation.h"
 //#include "engine/movie/init_hof_credits.h"
 //#include "engine/events/battle_tower/get_trainer_class.h"
-//#include "engine/battle/sliding_intro.h"
+#include "engine/battle/sliding_intro.h"
 //#include "mobile/print_opp_message.h"
 //#include "engine/battle/check_battle_scene.h"
 //#include "engine/movie/gbc_only.h"
@@ -270,7 +270,7 @@
 // SECTION "Crystal Features 2", ROMX
 
 //#include "engine/events/kurt.h"
-//#include "engine/gfx/player_gfx.h"
+#include "engine/gfx/player_gfx.h"
 //#include "mobile/mobile_22.h"
 //#include "engine/events/unown_walls.h"
 //#include "engine/events/buena.h"
@@ -281,18 +281,18 @@
 // SECTION "bank23", ROMX
 
 //#include "engine/tilesets/timeofday_pals.h"
-//#include "engine/battle/battle_transition.h"
+#include "engine/battle/battle_transition.h"
 //#include "engine/events/field_moves.h"
 //#include "engine/events/magnet_train.h"
 //#include "engine/battle/battlestart_copytilemapatonce.h"
-//#include "engine/gfx/sprites.h"
+#include "engine/gfx/sprites.h"
 //#include "engine/gfx/mon_icons.h"
 
 // SECTION "bank24", ROMX
 
-//#include "engine/phone/phone.h"
+#include "engine/phone/phone.h"
 //#include "engine/rtc/timeset.h"
-//#include "engine/pokegear/pokegear.h"
+#include "engine/pokegear/pokegear.h"
 //#include "engine/events/fish.h"
 //#include "engine/games/slot_machine.h"
 
@@ -337,7 +337,7 @@
 //#include "engine/events/checkforhiddenitems.h"
 //#include "engine/events/treemons.h"
 //#include "engine/events/fishing_gfx.h"
-//#include "engine/pokegear/radio.h"
+#include "engine/pokegear/radio.h"
 //#include "engine/pokemon/mail_2.h"
 
 // SECTION "Phone Scripts 2", ROMX
@@ -388,7 +388,7 @@
 
 //#include "engine/events/bug_contest/display_stats.h"
 //#include "engine/battle_anims/anim_commands.h"
-//#include "engine/battle_anims/core.h"
+#include "engine/battle_anims/core.h"
 #include "engine/battle_anims/functions.h"
 //#include "engine/battle_anims/helpers.h"
 
@@ -431,7 +431,7 @@
 
 //#include "engine/menus/options_menu.h"
 //#include "engine/movie/splash.h"
-//#include "engine/movie/intro.h"
+#include "engine/movie/intro.h"
 
 // SECTION "Audio", ROMX
 
