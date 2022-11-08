@@ -1,25 +1,13 @@
 #include "../constants.h"
 #include "pokemon.h"
 
-void IsAPokemon(void){
-    //  Return carry if species a is not a Pokemon.
-    AND_A_A;
-    IF_Z goto NotAPokemon;
-    CP_A(EGG);
-    IF_Z goto Pokemon;
-    CP_A(NUM_POKEMON + 1);
-    IF_C goto Pokemon;
+char IsAPokemon(char wCurPartySpecies)
 
-
-NotAPokemon:
-        SCF;
-    RET;
-
-
-Pokemon:
-        AND_A_A;
-    RET;
-
+{
+    if ((wCurPartySpecies != 0) && ((wCurPartySpecies == EGG || (wCurPartySpecies < NUM_POKEMON)))) {
+        return wCurPartySpecies;
+    }
+    return wCurPartySpecies;
 }
 
 void DrawBattleHPBar(void){
@@ -273,17 +261,6 @@ void Print8BitNumLeftAlign(void){
     LD_DE(wTextDecimalByte);
     LD_B(PRINTNUM_LEFTALIGN | 1);
     JP(mPrintNum);
-
-}
-
-void GetNthMove(void){
-    //  //  unreferenced
-    LD_HL(wListMoves_MoveIndicesBuffer);
-    LD_C_A;
-    LD_B(0);
-    ADD_HL_BC;
-    LD_A_hl;
-    RET;
 
 }
 

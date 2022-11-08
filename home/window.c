@@ -105,10 +105,3 @@ void SafeUpdateSprites(void){
     RET;
 
 }
-
-void SetCarryFlag(void){
-    //  //  unreferenced
-    SCF;
-    RET;
-
-}

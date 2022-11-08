@@ -13,14 +13,9 @@ workspace "suiCune"
 	characterset "unicode"
 	architecture "x86"
 	warnings "extra"
-
-	syslibdirs {
-        ".\\deps\\SDL2\\lib\\x86\\"
-	}
-
-	includedirs {
-		".\\src\\",
-        ".\\deps\\SDL2\\include\\"
+	
+	flags {
+		"multiprocessorcompile",
 	}
 
 	platforms {
@@ -50,10 +45,8 @@ workspace "suiCune"
 		kind "windowedapp"
 		warnings "off"
 
-		links {
-            "SDL2",
-            "SDL2main",
-		}
+		-- Not sure if this will work on other platforms other than visual studio
+		nuget { "sdl2.nuget:2.0.20", "sdl2.nuget.redist:2.0.20" }
 		
 		files {
 			".\\**.c",
