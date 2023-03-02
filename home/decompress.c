@@ -18,6 +18,16 @@ void FarDecompress(void){
 
 }
 
+void FarDecompress_Conv(uint8_t bank, uint16_t src, uint16_t dest){
+    //  Decompress graphics data from a:hl to de.
+    gb_write(wLZBank, bank);
+    bank_push(bank);
+
+    Decompress_Conv(src, dest);
+
+    bank_pop;
+}
+
 void Decompress(void){
     //  Pokemon GSC uses an lz variant (lz3) for compression.
 //  This is mainly (but not necessarily) used for graphics.
@@ -353,7 +363,7 @@ next:
 
 }
 
-void Decompress_Conv(void){
+void Decompress_Conv(uint16_t de, uint16_t hl){
 //  Pokemon GSC uses an lz variant (lz3) for compression.
 //  This is mainly (but not necessarily) used for graphics.
 
@@ -405,25 +415,26 @@ void Decompress_Conv(void){
 
     // Save the output address
     // for rewrite commands.
-    gb_write(wLZAddress, REG_E);
-    gb_write(wLZAddress + 1, REG_D);
+    //gb_write(wLZAddress, REG_E);
+    //gb_write(wLZAddress + 1, REG_D);
     // Maybe could be factored into 
-    // gb_write16(wLZAddress, REG_DE);
+    gb_write16(wLZAddress, de);
 
     // Control code
     uint8_t ctl;
 
-    for(REG_A = gb_read(REG_HL); REG_A != LZ_END; REG_A = gb_read(REG_HL))
+    for(uint8_t a = gb_read(hl); a != LZ_END; a = gb_read(hl))
     {
-        if((REG_A & LZ_CMD) != LZ_LONG)
+        uint16_t bc;
+        if((a & LZ_CMD) != LZ_LONG)
         {
-            ctl = REG_A & LZ_CMD;
+            ctl = a & LZ_CMD;
 
-            REG_C = gb_read(REG_HL++) & LZ_LEN;
-            REG_B = 0;
+            bc = gb_read(hl++) & LZ_LEN;
 
             // read at least 1 byte
-            REG_C++;
+            bc++;
+            REG_BC = bc;
         }
         else 
         {
@@ -432,15 +443,18 @@ void Decompress_Conv(void){
 
             // Read the next 3 bits.
             // %00011100 -> %11100000
-            REG_A <<= 3;
+            a <<= 3;
 
             // This is our new control code.
-            ctl = REG_A & LZ_CMD;
+            ctl = a & LZ_CMD;
 
-            REG_B = gb_read(REG_HL++) & LZ_LONG_HI;
-            REG_C = gb_read(REG_HL++);
+            REG_B = gb_read(hl++) & LZ_LONG_HI;
+            REG_C = gb_read(hl++);
+            //bc = (gb_read(hl++) & LZ_LONG_HI) << 8;
+            //bc |= gb_read(hl++);
 
             // read at least 1 byte
+            //bc++;
             REG_BC++;
         }
 
@@ -449,23 +463,23 @@ void Decompress_Conv(void){
         REG_B++;
         REG_C++;
 
-        REG_A = ctl;
+        a = ctl;
 
         //if((REG_A >> (LZ_RW)) & 0x1) goto rewrite;
         //BIT_A(LZ_RW);
         //IF_NZ
-        if((REG_A >> (LZ_RW)) & 0x1)
+        if((a >> (LZ_RW)) & 0x1)
         {
             //  Repeat decompressed data from output.
-            uint16_t hl = REG_HL;
-            uint16_t af = REG_AF;
+            uint16_t hl2 = hl;
+            uint16_t a2 = a;
 
-            REG_A = gb_read(REG_HL++);
-            if((REG_A & 0x80) == 0) // sign
+            a = gb_read(hl++);
+            if((a & 0x80) == 0) // sign
             {
                 //  Positive offsets are two bytes.
-                REG_L = gb_read(REG_HL);
-                REG_H = REG_A;
+                REG_L = gb_read(hl);
+                REG_H = a;
                 // add to starting output address
                 uint16_t a = (gb_read(wLZAddress) + REG_L);
                 REG_F_C = a > 0xFF;
@@ -476,39 +490,40 @@ void Decompress_Conv(void){
             {
                 //  negative
                 // hl = de + -a
-                REG_A = (REG_A & 0b01111111) ^ 0xFF;
-                ADD_A_E;
-                LD_L_A;
-                LD_A(-1);
-                ADC_A_D;
-                LD_H_A;
+                // a = (a & 0b01111111) ^ 0xFF;
+                hl = de + -a;
+                //ADD_A_E;
+                //LD_L_A;
+                //LD_A(-1);
+                //ADC_A_D;
+                //LD_H_A;
             }
             
-            REG_AF = af;
+            a = a2;
 
-            if(REG_A == LZ_FLIP)
+            if(a == LZ_FLIP)
             {
                 //  Copy bitflipped decompressed data for bc bytes.
                 while(--REG_C != 0 && --REG_B != 0)
                 {
-                    REG_A = gb_read(REG_HL++);
+                    a = gb_read(hl++);
                     uint16_t temp = REG_BC;
                     REG_BC = (0 << 8) | 8;
                     do {
                         RRA;
                         RL_B;
                     } while(--REG_C != 0);
-                    REG_A = REG_B;
+                    a = REG_B;
                     REG_BC = temp;
-                    gb_write(REG_DE++, REG_A);
+                    gb_write(de++, a);
                 }
             }
-            else if(REG_A == LZ_REVERSE)
+            else if(a == LZ_REVERSE)
             {
                 //  Copy reversed decompressed data for bc bytes.
                 while(--REG_C != 0 || --REG_B != 0)
                 {
-                    gb_write(REG_DE++, gb_read(REG_HL--));
+                    gb_write(de++, gb_read(hl--));
                 }
             }
             else 
@@ -525,58 +540,56 @@ void Decompress_Conv(void){
                 //  Copy decompressed data for bc bytes.
                 while(--REG_C != 0 && --REG_B != 0)
                 {
-                    gb_write(REG_DE++, gb_read(REG_HL++));
+                    gb_write(de++, gb_read(hl++));
                 }
             }
 
-            REG_HL = hl;
+            hl = hl2;
 
-            if((gb_read(REG_HL) >> (7)) & 0x1)
+            if((gb_read(hl) >> (7)) & 0x1)
             {
-                REG_HL++;
+                hl++;
             }
             else 
             {
-                REG_HL+=2; // positive offset is two bytes
+                hl+=2; // positive offset is two bytes
             }
         }
         else if(REG_A == LZ_ITERATE)
         {
             //  Write the same byte for bc bytes.
-            REG_A = gb_read(REG_HL++);
+            a = gb_read(hl++);
 
             while(--REG_C != 0 || --REG_B != 0)
             {
-                gb_write(REG_DE++, REG_A);
+                gb_write(REG_DE++, a);
             }
         }
-        else if(REG_A == LZ_ALTERNATE)
+        else if(a == LZ_ALTERNATE)
         {
             while(--REG_C != 0 || --REG_B != 0)
             {
-                gb_write(REG_DE++, gb_read(REG_HL++));
+                gb_write(de++, gb_read(hl++));
                 while(--REG_C != 0 || --REG_B != 0)
                 {
-                    gb_write(REG_DE++, gb_read(REG_HL--));
+                    gb_write(de++, gb_read(hl--));
                 }
                 // Maybe there's a way to get rid of this goto?
                 goto adone2;
             }
             // Skip past the bytes we were alternating.
         adone1:
-            REG_HL++;
+            hl++;
 
         adone2:
-            REG_HL++;
+            hl++;
         }
-        else if(REG_A == LZ_ZERO)
+        else if(a == LZ_ZERO)
         {
             //  Write 0 for bc bytes.
-            REG_A = 0;
-
             while(--REG_C != 0 || --REG_B != 0)
             {
-                gb_write(REG_DE++, REG_A);
+                gb_write(de++, 0);
             }
         }
         else 
@@ -585,7 +598,7 @@ void Decompress_Conv(void){
             //  Read literal data for bc bytes.
             while(--REG_C != 0 || --REG_B != 0)
             {
-                gb_write(REG_DE++, gb_read(REG_HL++));
+                gb_write(de++, gb_read(hl++));
             }
         }
     }

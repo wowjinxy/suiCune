@@ -5,6 +5,7 @@ void MovePlayerPic(void);
 void ShowPlayerNamingChoices(void);
 void GetPlayerNameArray(void);
 void GetPlayerIcon(void);
+void GetPlayerIcon_Conv(uint16_t* ptr, uint8_t* bank);
 void GetCardPic(void);
 void ChrisCardPic(void);
 void KrisCardPic(void);

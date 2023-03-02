@@ -120,6 +120,18 @@ got_gfx:
 
 }
 
+void GetPlayerIcon_Conv(uint16_t* ptr, uint8_t* bank){
+    *ptr = mChrisSpriteGFX;
+    *bank = BANK(aChrisSpriteGFX);
+    uint8_t a = gb_read(wPlayerGender);
+    if((a & (1 << 0)) != 0)
+    {
+        // Load Kris graphics
+        *ptr = mKrisSpriteGFX;
+        *bank = BANK(aKrisSpriteGFX);
+    }
+}
+
 void GetCardPic(void){
     LD_HL(mChrisCardPic);
     LD_A_addr(wPlayerGender);

@@ -10,7 +10,8 @@ void CrystalIntro(void){
     PUSH_AF;
     LDH_A_addr(hVBlank);
     PUSH_AF;
-    CALL(aCrystalIntro_InitRAMAddrs);
+    //CALL(aCrystalIntro_InitRAMAddrs);
+    CrystalIntro_InitRAMAddrs();
 
 loop:
     CALL(aJoyTextDelay);
@@ -63,8 +64,20 @@ InitRAMAddrs:
 
 }
 
+void CrystalIntro_InitRAMAddrs(void){
+    XOR_A_A;
+    LDH_addr_A(hVBlank);
+    LD_A(0x1);
+    LDH_addr_A(hInMenu);
+    XOR_A_A;
+    LDH_addr_A(hMapAnims);
+    LD_addr_A(wJumptableIndex);
+    // RET;
+}
+
 void IntroSceneJumper(void){
     //jumptable ['IntroScenes', 'wJumptableIndex']
+    //fast_jumptable(mIntroScenes, wJumptableIndex);
 
     return IntroScenes();
 }
@@ -127,7 +140,7 @@ void IntroScenes(void){
     IntroScene27();
     IntroScene28();
 
-    return CrystalIntro;
+    RET;
 }
 
 void NextIntroScene(void){
@@ -281,7 +294,7 @@ void IntroScene4(void){
     CP_A(0x80);
     IF_Z goto endscene;
     INC_hl;
-    RET;
+    //RET;
 
 
 endscene:
@@ -485,6 +498,7 @@ void IntroScene8(void){
     IF_Z goto suicune_sound;
     IF_NC goto animate_suicune;
     CALL(aIntro_PerspectiveScrollBG);
+    return;
     //RET;
 
 
@@ -498,6 +512,7 @@ animate_suicune:
     IF_Z goto finish;
     SUB_A(0x8);
     LD_addr_A(wGlobalAnimXOffset);
+    return;
     //RET;
 
 
@@ -563,6 +578,7 @@ void IntroScene10(void){
     IF_Z goto wooper;
     CP_A(0x40);
     IF_Z goto pichu;
+    return;
     //RET;
 
 
@@ -572,6 +588,7 @@ pichu:
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
+    return;
     //RET;
 
 
@@ -581,6 +598,7 @@ wooper:
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
+    return;
     //RET;
 
 done:
@@ -695,7 +713,7 @@ PlayUnownSound:
 loop:
     LD_A_hli;
     CP_A(-1);
-    RET_Z ;
+    // RET_Z ;
     CP_A_C;
     IF_Z goto playsound;
     INC_HL;
@@ -922,7 +940,7 @@ void IntroScene16(void){
     CALL(aIntro_Scene16_AnimateSuicune);
     LDH_A_addr(hSCY);
     AND_A_A;
-    RET_Z ;
+    // RET_Z ;
     ADD_A(8);
     LDH_addr_A(hSCY);
     //RET;
@@ -1084,11 +1102,11 @@ void IntroScene20(void){
     CP_A(0x98);
     IF_NC goto finished;
     CP_A(0x58);
-    RET_NC ;
+    // RET_NC ;
     CP_A(0x40);
     IF_NC goto AppearUnown;
     CP_A(0x28);
-    RET_NC ;
+    // RET_NC ;
     LDH_A_addr(hSCY);
     INC_A;
     LDH_addr_A(hSCY);
@@ -1100,7 +1118,7 @@ AppearUnown:
     LD_C_A;
     AND_A(0x3);
     CP_A(0x3);
-    RET_NZ ;
+    // RET_NZ ;
     LD_A_C;
     AND_A(0x1c);
     SRL_A;
@@ -1180,7 +1198,7 @@ void IntroScene24(void){
 
     LD_C_A;
     AND_A(0x3);
-    RET_NZ ;
+    // RET_NZ ;
 
     LD_A_C;
     AND_A(0x1c);
@@ -1321,7 +1339,7 @@ done:
     LD_HL(wJumptableIndex);
     SET_hl(7);
     //RET;
-    return CrystalIntro;
+    return;
 
 }
 
@@ -1358,7 +1376,7 @@ loop2:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    //RET;
+    RET;
 
 
 FadePals:

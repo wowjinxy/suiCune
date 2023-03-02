@@ -97,6 +97,7 @@ static float hipass(struct chan *c, float sample)
 	c->capacitor = sample - out * 0.996f;
 	return out;
 #else
+	(void)c;
 	return sample;
 #endif
 }

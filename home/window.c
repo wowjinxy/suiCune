@@ -1,7 +1,9 @@
 #include "../constants.h"
 #include "window.h"
+#include "menu.h"
 
 void RefreshScreen(void){
+    PEEK("");
         CALL(aClearWindowData);
     LDH_A_addr(hROMBank);
     PUSH_AF;
@@ -19,7 +21,8 @@ void RefreshScreen(void){
 }
 
 void CloseText(void){
-        LDH_A_addr(hOAMUpdate);
+    PEEK("");
+    LDH_A_addr(hOAMUpdate);
     PUSH_AF;
     LD_A(0x1);
     LDH_addr_A(hOAMUpdate);
@@ -52,7 +55,8 @@ CloseText:
 }
 
 void OpenText(void){
-        CALL(aClearWindowData);
+    PEEK("");
+    CALL(aClearWindowData);
     LDH_A_addr(hROMBank);
     PUSH_AF;
     LD_A(BANK(aReanchorBGMap_NoOAMUpdate));  // aka BANK(LoadFonts_NoOAMUpdate)
@@ -70,7 +74,7 @@ void OpenText(void){
 }
 
 void v_OpenAndCloseMenu_HDMATransferTilemapAndAttrmap(void){
-        LDH_A_addr(hOAMUpdate);
+    LDH_A_addr(hOAMUpdate);
     PUSH_AF;
     LD_A(0x1);
     LDH_addr_A(hOAMUpdate);
@@ -84,7 +88,7 @@ void v_OpenAndCloseMenu_HDMATransferTilemapAndAttrmap(void){
 }
 
 void SafeUpdateSprites(void){
-        LDH_A_addr(hOAMUpdate);
+    LDH_A_addr(hOAMUpdate);
     PUSH_AF;
     LDH_A_addr(hBGMapMode);
     PUSH_AF;

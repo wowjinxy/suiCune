@@ -1,9 +1,14 @@
 void AddPhoneNumber(void);
+bool AddPhoneNumber_Conv(uint8_t c);
 void DelCellNum(void);
+bool DelCellNum_Conv(uint8_t c);
 void CheckCellNum(void);
 void v_CheckCellNum(void);
+uint16_t v_CheckCellNum_Conv(uint8_t c);
 void Phone_FindOpenSlot(void);
+uint16_t Phone_FindOpenSlot_Conv(uint8_t c);
 void GetRemainingSpaceInPhoneList(void);
+uint8_t GetRemainingSpaceInPhoneList_Conv(uint8_t c);
 void BrokenPlaceFarString(void);
 void CheckPhoneCall(void);
 void CheckPhoneContactTimeOfDay(void);

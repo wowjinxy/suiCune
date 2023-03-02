@@ -10,6 +10,11 @@ void Bankswitch(void) {
     LD_addr_A(MBC3RomBank);
 }
 
+void Bankswitch_Conv(uint8_t new_bank) {
+    gb_write(hROMBank, new_bank);
+    gb_write(MBC3RomBank, new_bank);
+}
+
 void JumpTable(void) {
     REG_HL = gb_read16(REG_HL + (REG_A * 2));
     JP_hl;

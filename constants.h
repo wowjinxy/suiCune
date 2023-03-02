@@ -61,5 +61,7 @@ extern void (*convertedFunc[])(void);
 #include "constants/type_constants.h"
 #include "constants/battle_tower_constants.h"
 
+#include "constants/types.h"
+
 extern struct gb_s gb;
 #endif

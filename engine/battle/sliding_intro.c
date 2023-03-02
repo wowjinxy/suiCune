@@ -40,7 +40,7 @@ loop1:
 loop2:
     LDH_A_addr(rLY);
     CP_A(0x60);
-    IF_C goto loop2;
+    //IF_C goto loop2;
     LD_A_D;
     LDH_addr_A(hSCX);
     CALL(aBattleIntroSlidingPics_subfunction5);

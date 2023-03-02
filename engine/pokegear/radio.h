@@ -1,8 +1,11 @@
 void PlayRadioShow(void);
+void PlayRadioShow_Conv(void);
 void RadioJumptable(void);
 void PrintRadioLine(void);
+void PrintRadioLine_Conv(uint8_t a);
 void ReplacePeriodsWithSpaces(void);
 void RadioScroll(void);
+void RadioScroll_Conv(void);
 void OaksPKMNTalk1(void);
 void OaksPKMNTalk2(void);
 void OaksPKMNTalk3(void);
@@ -186,7 +189,9 @@ void BuenaRadioMidnightText10(void);
 void BuenaOffTheAirText(void);
 void CopyRadioTextToRAM(void);
 void StartRadioStation(void);
+void StartRadioStation_Conv(void);
 void NextRadioLine(void);
+void NextRadioLine_Conv(void);
 //#include "data/radio/oaks_pkmn_talk_routes.h"
 //#include "data/radio/pnp_hidden_people.h"
 //#include "data/radio/pnp_places.h"

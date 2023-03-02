@@ -1,4 +1,5 @@
 void CrystalIntro(void);
+void CrystalIntro_InitRAMAddrs(void);
 void IntroSceneJumper(void);
 void IntroScenes(void);
 void NextIntroScene(void);

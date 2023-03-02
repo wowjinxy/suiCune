@@ -6,7 +6,7 @@ CC	:= cc
 OBJEXT	:= o
 RM	:= rm -f
 EXEOUT	:= -o
-EXTRA_CFLAGS := -std=c99 -Wall -Wextra -Wno-unused-label -Og -g3
+EXTRA_CFLAGS := -std=c99 -Wall -Wextra -Werror -Wno-unused-label -Og -g3
 EXE	:= $(NAME)
 
 # File extension ".exe" is automatically appended on MinGW and MSVC builds, even
@@ -24,11 +24,14 @@ SRCS   := tools/emu/peanut_sdl.c tools/emu/minigb_apu/minigb_apu.c \
 	$(wildcard engine/battle_anims/*.c) \
 	$(wildcard engine/gfx/*.c) \
 	$(wildcard engine/items/*.c) \
+	$(wildcard engine/math/*.c) \
 	$(wildcard engine/menus/*.c) \
 	$(wildcard engine/movie/*.c) \
 	$(wildcard engine/overworld/*.c) \
 	$(wildcard engine/phone/*.c) \
-	$(wildcard engine/pokegear/*.c)
+	$(wildcard engine/pokegear/*.c) \
+	$(wildcard engine/rtc/*.c) \
+	functions.c
 #	$(wildcard ../*/*/*/*.c)
 CFLAGS += $(shell sdl2-config --cflags)
 
@@ -71,5 +74,6 @@ clean:
 	$(wildcard engine/movie/*.o) \
 	$(wildcard engine/overworld/*.o) \
 	$(wildcard engine/phone/*.o) \
-	$(wildcard engine/pokegear/*.o)
+	$(wildcard engine/pokegear/*.o) \
+	$(wildcard engine/rtc/*.o)
 #	$(wildcard ../*/*/*/*.o)

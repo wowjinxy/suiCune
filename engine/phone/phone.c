@@ -17,6 +17,32 @@ cant_add:
 
 }
 
+bool AddPhoneNumber_Conv(uint8_t c){
+    // CALL(av_CheckCellNum);
+    uint16_t hl = v_CheckCellNum_Conv(c);
+
+    // IF_C goto cant_add;
+    if(hl != 0)
+    {
+        return false;
+    }
+
+    // CALL(aPhone_FindOpenSlot);
+    // IF_NC goto cant_add;
+    hl = Phone_FindOpenSlot_Conv(c);
+    if(hl == 0)
+    {
+        return false;
+    }
+
+    // LD_hl_C;
+    gb_write(hl, c);
+    
+    // XOR_A_A;
+    // RET;
+    return true;
+}
+
 void DelCellNum(void){
     CALL(av_CheckCellNum);
     IF_NC goto not_in_list;
@@ -29,6 +55,23 @@ not_in_list:
     SCF;
     RET;
 
+}
+
+bool DelCellNum_Conv(uint8_t c){
+    // CALL(av_CheckCellNum);
+    // IF_NC goto not_in_list;
+    uint16_t hl = v_CheckCellNum_Conv(c);
+    if(hl == 0)
+    {
+        return false;
+    }
+
+    // XOR_A_A;
+    // LD_hl_A;
+    gb_write(hl, 0);
+
+    // RET;
+    return true;
 }
 
 void CheckCellNum(void){
@@ -57,6 +100,28 @@ got_it:
 
 }
 
+uint16_t v_CheckCellNum_Conv(uint8_t c){
+    // LD_HL(wPhoneList);
+    // LD_B(CONTACT_LIST_SIZE);
+    uint16_t hl = wPhoneList;
+    uint8_t b = CONTACT_LIST_SIZE;
+
+    do {
+        // LD_A_hli;
+        uint8_t a = gb_read(hl++);
+
+        // CP_A_C;
+        // IF_Z goto got_it;
+        if(a == c)
+        {
+            return hl - 1;
+        }
+        // DEC_B;
+        // IF_NZ goto loop;
+    } while(--b != 0);
+    return 0;
+}
+
 void Phone_FindOpenSlot(void){
     CALL(aGetRemainingSpaceInPhoneList);
     LD_B_A;
@@ -77,6 +142,30 @@ FoundOpenSpace:
     SCF;
     RET;
 
+}
+
+uint16_t Phone_FindOpenSlot_Conv(uint8_t c){
+    // CALL(aGetRemainingSpaceInPhoneList);
+    // LD_B_A;
+    uint8_t b = GetRemainingSpaceInPhoneList_Conv(c);
+    
+    // LD_HL(wPhoneList);
+    uint16_t hl = wPhoneList;
+
+    do {
+        // LD_A_hli;
+        uint8_t a = gb_read(hl++);
+        // AND_A_A;
+        // IF_Z goto FoundOpenSpace;
+        if(a == 0)
+        {
+            hl--;
+            return hl;
+        }
+        // DEC_B;
+        // IF_NZ goto loop;
+    } while(--b != 0);
+    return 0;
 }
 
 void GetRemainingSpaceInPhoneList(void){
@@ -117,6 +206,51 @@ done:
 // INCLUDE "data/phone/permanent_numbers.asm"
 
     return BrokenPlaceFarString();
+}
+
+uint8_t GetRemainingSpaceInPhoneList_Conv(uint8_t c){
+    // XOR_A_A;
+    // LD_addr_A(wRegisteredPhoneNumbers);
+    gb_write(wRegisteredPhoneNumbers, 0);
+
+    // LD_HL(mPermanentNumbers);
+    uint16_t hl = mPermanentNumbers;
+
+    while(1)
+    {
+        // LD_A_hli;
+        uint8_t a = gb_read(hl++);
+
+        // CP_A(-1);
+        // IF_Z goto done;
+        if(a == 0xff) 
+            break;
+
+        // CP_A_C;
+        // IF_Z goto continue_;
+        if(a == c)
+            continue;
+
+        // PUSH_BC;
+        // PUSH_HL;
+        // LD_C_A;
+        // CALL(av_CheckCellNum);
+        // IF_C goto permanent;
+        if(v_CheckCellNum_Conv(c) == 0)
+        {
+            // LD_HL(wRegisteredPhoneNumbers);
+            // INC_hl;
+            gb_write(wRegisteredPhoneNumbers, gb_read(wRegisteredPhoneNumbers) + 1);
+        }
+    }
+
+    // LD_A(CONTACT_LIST_SIZE);
+    // LD_HL(wRegisteredPhoneNumbers);
+    uint8_t t = gb_read(wRegisteredPhoneNumbers);
+
+    // SUB_A_hl;
+    uint8_t ret = (CONTACT_LIST_SIZE - t);
+    return ret;
 }
 
 void BrokenPlaceFarString(void){

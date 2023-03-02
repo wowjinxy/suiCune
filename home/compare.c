@@ -17,17 +17,13 @@ loop:
 
 }
 
-bool CompareBytes_Conv(uint16_t de, uint16_t hl, uint8_t c){
-    //  Compare c bytes at de and hl.
+//  Compare c bytes at de and hl.
 //  Return z if they all match.
-
+bool CompareBytes_Conv(uint16_t de, uint16_t hl, uint8_t c){
     do {
-        if(gb_read(de) != gb_read(hl))
-        {
+        if(gb_read(de) != gb_read(hl)) 
             return false;
-        }
-        de++;
-        hl++;
+        de++, hl++;
     } while(--c != 0);
     return true;
 }
@@ -59,18 +55,13 @@ diff:
 
 }
 
-void CompareBytesLong_Conv(void){
-    //  Compare bc bytes at de and hl.
-//  Return carry if they all match.
-
+//  Compare bc bytes at de and hl.
+//  Return true if they all match.
+bool CompareBytesLong_Conv(uint16_t de, uint16_t hl, uint16_t bc){
     do {
-        if(gb_read(REG_DE) != gb_read(REG_HL)) { 
-            REG_F_C = 0;
-            return;
-        }
-
-        REG_DE++;
-        REG_HL++;
-    } while(--REG_BC != 0);
-    REG_F_C = 1;
+        if(gb_read(de) != gb_read(hl)) 
+            return false;
+        de++, hl++;
+    } while(--bc != 0);
+    return true;
 }

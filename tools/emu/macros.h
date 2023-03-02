@@ -2779,6 +2779,12 @@
         JP_hl;\
     } while(0)
 
+#define bank_push(bank) \
+    uint8_t oldBank = gb_read(hROMBank);\
+    Bankswitch_Conv(bank);
+
+#define bank_pop Bankswitch_Conv(oldBank);
+
 #define calc_sin_wave \
     do {\
         AND_A(0b111111); \

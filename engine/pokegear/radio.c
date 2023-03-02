@@ -1,5 +1,7 @@
 #include "../../constants.h"
 #include "radio.h"
+#include "pokegear.h"
+#include "../../home/region.h"
 
 void PlayRadioShow(void){
 //  If we're already in the radio program proper, we don't need to be here.
@@ -22,6 +24,21 @@ ok:
 //  Jump to the currently loaded station.  The index to which we need to jump is in wCurRadioLine.
     //jumptable ['RadioJumptable', 'wCurRadioLine']
 
+    CALL(aRadioJumptable);
+}
+
+//  If we're not already in the radio program proper
+//  and Team Rocket is occupying the radio tower
+//  and we're in Johto.
+void PlayRadioShow_Conv(void){
+    if((gb_read(wCurRadioLine) < POKE_FLUTE_RADIO)
+    && ((gb_read(wStatusFlags2) & (1 << STATUSFLAGS2_ROCKETS_IN_RADIO_TOWER_F)) != 0)
+    && (IsInJohto_Conv() == JOHTO_REGION))
+    {
+        //  Team Rocket broadcasts on all stations.
+        gb_write(wCurRadioLine, ROCKET_RADIO);
+    }
+    //  Jump to the currently loaded station.  The index to which we need to jump is in wCurRadioLine.
     CALL(aRadioJumptable);
 }
 
@@ -258,6 +275,34 @@ skip:
 
 }
 
+void PrintRadioLine_Conv(uint8_t a){
+    gb_write(wNextRadioLine, a);
+    REG_HL = wRadioText;
+    uint8_t lines_printed = gb_read(wNumRadioLinesPrinted);
+    if(lines_printed >= 2)
+    {
+        REG_A = lines_printed;
+        CALL(aPrintTextboxText);
+    }
+    else 
+    {
+        gb_write(++REG_HL, TX_START);
+        gb_write(wNumRadioLinesPrinted, ++lines_printed);
+        if(lines_printed != 2)
+        {
+            REG_A = lines_printed;
+            CALL(aPrintTextboxText);
+        }
+        else 
+        {
+            bccoord(1, 16, wTilemap);
+            CALL(aPlaceHLTextAtBC);
+        }
+    }
+    gb_write(wCurRadioLine, RADIO_SCROLL);
+    gb_write(wRadioTextDelay, 100);
+}
+
 void ReplacePeriodsWithSpaces(void){
 //  //  unreferenced
     PUSH_HL;
@@ -294,6 +339,20 @@ proceed:
     CALL_NZ (aCopyBottomLineToTopLine);
     JP(mClearBottomLine);
 
+}
+
+void RadioScroll_Conv(void){
+    if(gb_read(wRadioTextDelay) == 0)
+    {
+        gb_write(wCurRadioLine, gb_read(wNextRadioLine));
+
+        if(gb_read(wNumRadioLinesPrinted) != 1)
+        {
+            CALL(aCopyBottomLineToTopLine);
+        }
+        JP(mClearBottomLine);
+    }
+    gb_write(wRadioTextDelay, gb_read(wRadioTextDelay) - 1);
 }
 
 void OaksPKMNTalk1(void){
@@ -2482,4 +2541,26 @@ void NextRadioLine(void){
     POP_AF;
     JP(mPrintRadioLine);
 
+}
+
+void StartRadioStation_Conv(void){
+    if(gb_read(wNumRadioLinesPrinted) != 0)
+        return;
+
+    CALL(aRadioTerminator);
+    CALL(aPrintText);
+
+    uint16_t hl = mRadioChannelSongs + (gb_read(wCurRadioLine) * 2);
+    RadioMusicRestartDE_Conv(gb_read16(hl));
+
+// INCLUDE "data/radio/channel_music.asm"
+
+    return NextRadioLine_Conv();
+}
+
+void NextRadioLine_Conv(void){
+    PUSH_AF;
+    CALL(aCopyRadioTextToRAM);
+    POP_AF;
+    PrintRadioLine_Conv(gb_read(wCurRadioLine));
 }

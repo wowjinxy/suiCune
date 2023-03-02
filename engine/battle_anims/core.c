@@ -88,8 +88,8 @@ void InitBattleAnimation(void){
 
 }
 
-#define delanim_command 0xFC
-#define dowait_command 0xFD
+// #define delanim_command 0xFC
+// #define dowait_command 0xFD
 
 void BattleAnimOAMUpdate(void){
     CALL(aInitBattleAnimBuffer);

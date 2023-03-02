@@ -11,7 +11,7 @@
 //#include "engine/overworld/init_map.h"
 //#include "engine/pokemon/learn.h"
 //#include "engine/pokemon/correct_nick_errors.h"
-//#include "engine/math/math.h"
+#include "engine/math/math.h"
 //#include "data/items/attributes.h"
 //#include "engine/overworld/npc_movement.h"
 //#include "engine/events/happiness_egg.h"
@@ -29,7 +29,7 @@
 
 //#include "engine/events/checktime.h"
 //#include "engine/events/specials.h"
-//#include "engine/math/print_num.h"
+#include "engine/math/print_num.h"
 //#include "engine/pokemon/health.h"
 //#include "engine/events/overworld.h"
 //#include "engine/items/items.h"
@@ -70,7 +70,7 @@
 
 // SECTION "bank5", ROMX
 
-//#include "engine/rtc/rtc.h"
+#include "engine/rtc/rtc.h"
 //#include "engine/overworld/overworld.h"
 //#include "engine/overworld/tile_events.h"
 //#include "engine/menus/save.h"
@@ -447,7 +447,7 @@
 //#include "engine/link/time_capsule_2.h"
 //#include "engine/pokedex/unown_dex.h"
 //#include "engine/events/magikarp.h"
-//#include "engine/battle/hidden_power.h"
+#include "engine/battle/hidden_power.h"
 //#include "engine/battle/misc.h"
 
 // SECTION "bank3F", ROMX

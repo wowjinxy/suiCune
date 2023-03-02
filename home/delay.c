@@ -1,7 +1,8 @@
 #include "../constants.h"
 #include "delay.h"
+#include "vblank.h"
 
-void DelayFrame(void){
+void DelayFrame_Old(void){
     //  Wait for one frame
     LD_A(1);
     LD_addr_A(wVBlankOccurred);
@@ -17,6 +18,16 @@ halt:
 
 }
 
+void DelayFrame(void){
+    //  Wait for one frame
+    gb_write(wVBlankOccurred, 1);
+    do {
+        gb_finish_frame();
+        CALL(aVBlank);
+    } while(gb_read(wVBlankOccurred) != 0);
+    RET;
+}
+
 void DelayFrames(void){
     //  Wait c frames
     CALL(aDelayFrame);
@@ -24,4 +35,17 @@ void DelayFrames(void){
     JR_NZ (mDelayFrames);
     RET;
 
+}
+
+
+void DelayFrames_Conv(uint8_t count) {
+    for(uint8_t x = count; x > 0; --x)
+    {
+        //  Wait for one frame
+        gb_write(wVBlankOccurred, 1);
+        do {
+            gb_finish_frame();
+            VBlank();
+        } while(gb_read(wVBlankOccurred) != 0);
+    }
 }
