@@ -5,7 +5,7 @@ void OpenSRAM(void){
 //  if invalid bank, sram is disabled
     CP_A(NUM_SRAM_BANKS);
     IF_C goto valid;
-#if _DEBUG
+#if defined(_DEBUG) && !defined(_MSC_VER)
     PUSH_AF;
     PUSH_BC;
     LD_B(1);
@@ -47,7 +47,7 @@ void OpenSRAM_Conv(uint8_t a){
     // IF_C goto valid;
     if(a >= NUM_SRAM_BANKS)
     {
-    #if _DEBUG
+    #if defined(_DEBUG) && !defined(_MSC_VER)
         PUSH_AF;
         PUSH_BC;
         LD_B(1);

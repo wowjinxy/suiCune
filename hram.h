@@ -1,8 +1,16 @@
 #pragma once
 #include "constants.h"
 
+#if defined(__cplusplus) || defined(_MSC_VER)
+#pragma pack(push, 1)
+#endif
+
+#if defined(__cplusplus) || defined(_MSC_VER)
+struct hram_s
+#else
 // A struct representing HRAM.
 struct __attribute__((packed)) hram_s
+#endif
 {
     uint8_t padding[hROMBankBackup - 0xff80];
     // 0
@@ -80,6 +88,23 @@ struct __attribute__((packed)) hram_s
     uint8_t hGraphicStartTile;
     // 36
     uint8_t hMoveMon;
+#if defined(__cplusplus) || defined(_MSC_VER)
+    // 37
+    union {
+        struct {
+            // 37
+            uint8_t hMapObjectIndex;
+            // 38
+            uint8_t hObjectStructIndex;
+        };
+        struct  {
+            // 37
+            uint8_t hConnectionStripLength;
+            // 38
+            uint8_t hConnectedMapWidth;
+        };
+    };
+#else
     // 37
     union {
         struct __attribute__((packed)) {
@@ -95,8 +120,105 @@ struct __attribute__((packed)) hram_s
             uint8_t hConnectedMapWidth;
         };
     };
+#endif
     // 39
     uint16_t hEnemyMonSpeed;
+#if defined(__cplusplus) || defined(_MSC_VER)
+    // 41
+    union {
+        struct {
+            // 41
+            union {
+                struct {
+                    // 41
+                    uint8_t unused_41;
+                    // 42
+                    uint8_t hMultiplicand[3];
+                    // 45
+                    uint8_t hMultiplier;
+                };
+                struct {
+                    // 41
+                    uint32_t hProduct;
+                };
+                struct {
+                    // 41
+                    uint32_t hDividend;
+                    // 45
+                    uint8_t hDivisor;
+                };
+                struct {
+                    // 41
+                    uint32_t hQuotient;
+                    // 45
+                    uint8_t hRemainder;
+                };
+            };
+            // 46
+            uint8_t hMathBuffer[5];
+        };
+        struct {
+            // 41
+            uint8_t hPrintNumBuffer[10];
+        };
+        struct {
+            // 41
+            uint8_t hMGExchangedByte;
+            // 42
+            uint16_t hMGExchangedWord;
+            // 44
+            uint8_t hMGNumBits;
+            // 45
+            uint16_t hMGChecksum;
+            // 47
+            uint8_t unused_47;
+            // 48
+            uint8_t hMGUnusedMsgLength;
+            // 49
+            uint8_t hMGRole;
+            // 50
+            uint8_t hMGStatusFlags;
+        };
+    };
+    // 51
+    union {
+        struct {
+            // 51
+            uint8_t hUsedSpriteIndex;
+            // 52
+            uint8_t hUsedSpriteTile;
+        };
+        struct {
+            // 51
+            uint8_t hCurSpriteXCoord;
+            // 52
+            uint8_t hCurSpriteYCoord;
+            // 53
+            uint8_t hCurSpriteXPixel;
+            // 54
+            uint8_t hCurSpriteYPixel;
+            // 55
+            uint8_t hCurSpriteTile;
+            // 56
+            uint8_t hCurSpriteOAMFlags;
+        };
+    };
+    // 57
+    union {
+        struct {
+            // 57
+            uint8_t hMoneyTemp[3];
+        };
+        struct {
+            // 57
+            uint8_t hMGJoypadPressed;
+            // 58
+            uint8_t hMGJoypadReleased;
+            // 59
+            uint8_t hMGPrevTIMA;
+        };
+    };
+#else
     // 41
     union {
         struct __attribute__((packed)) {
@@ -191,6 +313,7 @@ struct __attribute__((packed)) hram_s
             uint8_t hMGPrevTIMA;
         };
     };
+#endif
     // 60
     uint8_t hLCDCPointer;
     // 61
@@ -266,6 +389,10 @@ struct __attribute__((packed)) hram_s
     // 98
     uint8_t unused_98[19];
 };
+
+#if defined(__cplusplus) || defined(_MSC_VER)
+#pragma pack(pop)
+#endif
 
 extern struct hram_s* hram;
 
