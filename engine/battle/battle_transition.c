@@ -39,7 +39,7 @@ loop:
 done:
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
 
     LD_HL(wBGPals1);
@@ -136,7 +136,7 @@ void LoadTrainerBattlePokeballTiles(void){
 void ConvertTrainerBattlePokeballTilesTo2bpp(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
     PUSH_HL;
     LD_HL(wDecompressScratch);
@@ -353,7 +353,7 @@ pals:
 
 void StartTrainerBattle_SetUpForWavyOutro(void){
     FARCALL(aRespawnPlayerAndOpponent);
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
     CALL(aStartTrainerBattle_NextScene);
 
@@ -417,7 +417,7 @@ loop:
 
 void StartTrainerBattle_SetUpForSpinOutro(void){
     FARCALL(aRespawnPlayerAndOpponent);
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
     CALL(aStartTrainerBattle_NextScene);
     XOR_A_A;
@@ -585,7 +585,7 @@ wedge5:
 
 void StartTrainerBattle_SetUpForRandomScatterOutro(void){
     FARCALL(aRespawnPlayerAndOpponent);
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
     CALL(aStartTrainerBattle_NextScene);
     LD_A(0x10);
@@ -754,7 +754,7 @@ cgb:
 not_dark:
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     CALL(aStartTrainerBattle_LoadPokeBallGraphics_copypals);
     PUSH_HL;
@@ -843,7 +843,7 @@ void PokeBallTransition(void){
 void WipeLYOverrides(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
 
     LD_HL(wLYOverrides);

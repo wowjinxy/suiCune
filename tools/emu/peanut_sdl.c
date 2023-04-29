@@ -2882,6 +2882,8 @@ uint8_t gb_colour_hash(void) {
  */
 void gb_reset(void) {
     init_function_pointers();
+    hram = (struct hram_s*)gb.hram;
+
     gb.gb_halt = 0;
     gb.gb_ime = 1;
     gb.gb_bios_enable = 0;

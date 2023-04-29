@@ -9055,7 +9055,7 @@ void InitEnemy(void){
 void BackUpBGMap2(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
     LD_HL(wDecompressScratch);
     LD_BC(0x40 * LEN_2BPP_TILE);  // vBGMap3 - vBGMap2
@@ -9393,7 +9393,7 @@ store_result:
     LD_C(200);
     CALL(aDelayFrames);
 
-    LD_A(BANK(sLinkBattleStats));
+    LD_A(MBANK(asLinkBattleStats));
     CALL(aOpenSRAM);
 
     CALL(aAddLastLinkBattleToLinkRecord);
@@ -9449,7 +9449,7 @@ void IsMobileBattle2(void){
 }
 
 void v_DisplayLinkRecord(void){
-    LD_A(BANK(sLinkBattleStats));
+    LD_A(MBANK(asLinkBattleStats));
     CALL(aOpenSRAM);
 
     CALL(aReadAndPrintLinkBattleRecord);
@@ -10000,7 +10000,7 @@ void InitBattleDisplay(void){
 BlankBGMap:
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     LD_HL(wDecompressScratch);
@@ -10065,7 +10065,7 @@ Decompress:
 void CopyBackpic(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
     LD_HL(vTiles0);
     LD_DE(vTiles2 + LEN_2BPP_TILE * 0x31);

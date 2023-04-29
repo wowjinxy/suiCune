@@ -227,7 +227,7 @@ void CallInSafeGFXMode(void) {
     LDH_addr_A(hMapAnims);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wScratchTilemap));
+    LD_A(MBANK(awScratchTilemap));
     LDH_addr_A(rSVBK);
     LDH_A_addr(rVBK);
     PUSH_AF;

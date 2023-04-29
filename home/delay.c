@@ -20,32 +20,36 @@ halt:
 
 void DelayFrame(void){
     //  Wait for one frame
-    gb_write(wVBlankOccurred, 1);
-    do {
-        gb_finish_frame();
-        CALL(aVBlank);
-    } while(gb_read(wVBlankOccurred) != 0);
-    RET;
+    gb_finish_frame();
+    VBlank_Conv();
+    // do {
+    //     gb_finish_frame();
+    //     CALL(aVBlank);
+    //     // VBlank();
+    // } while(gb_read(wVBlankOccurred) != 0);
+    // gb_finish_frame();
+    // CALL(aVBlank);
+    // CALL(aVBlank);
+    // gb_finish_frame();
+    // gb.gb_reg.LY = 0;
 }
 
 void DelayFrames(void){
     //  Wait c frames
-    CALL(aDelayFrame);
-    DEC_C;
-    JR_NZ (mDelayFrames);
-    RET;
+    do {
+        CALL(aDelayFrame);
+    } while(--REG_C != 0);
+    // RET;
 
 }
 
 
 void DelayFrames_Conv(uint8_t count) {
-    for(uint8_t x = count; x > 0; --x)
+    do
     {
         //  Wait for one frame
         gb_write(wVBlankOccurred, 1);
-        do {
-            gb_finish_frame();
-            VBlank();
-        } while(gb_read(wVBlankOccurred) != 0);
-    }
+        CALL(aVBlank);
+        gb_finish_frame();
+    } while(--count > 0);
 }

@@ -1565,7 +1565,7 @@ void LoadTilesetGFX(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     LD_A_E;
@@ -1579,7 +1579,7 @@ void LoadTilesetGFX(void){
 
     LDH_A_addr(rVBK);
     PUSH_AF;
-    LD_A(BANK(vTiles5));
+    LD_A(MBANK(avTiles5));
     LDH_addr_A(rVBK);
 
     LD_HL(wDecompressScratch + 0x60 * LEN_2BPP_TILE);

@@ -198,9 +198,9 @@ checkjoypad:
             return;
         }
     // delay:
-        // CALL(aDelayFrame);
+        CALL(aDelayFrame);
         // goto end;
-        DelayFrame();
+        // DelayFrame();
     // end:
         // POP_AF;
         // LDH_addr_A(hOAMUpdate);
@@ -215,9 +215,9 @@ checkjoypad:
 
     // goto delay;
 // delay:
-    // CALL(aDelayFrame);
+    CALL(aDelayFrame);
     // goto end;
-    DelayFrame();
+    // DelayFrame();
 // end:
     // POP_AF;
     // LDH_addr_A(hOAMUpdate);

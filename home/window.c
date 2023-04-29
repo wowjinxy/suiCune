@@ -3,7 +3,6 @@
 #include "menu.h"
 
 void RefreshScreen(void){
-    PEEK("");
         CALL(aClearWindowData);
     LDH_A_addr(hROMBank);
     PUSH_AF;
@@ -21,7 +20,6 @@ void RefreshScreen(void){
 }
 
 void CloseText(void){
-    PEEK("");
     LDH_A_addr(hOAMUpdate);
     PUSH_AF;
     LD_A(0x1);
@@ -55,7 +53,6 @@ CloseText:
 }
 
 void OpenText(void){
-    PEEK("");
     CALL(aClearWindowData);
     LDH_A_addr(hROMBank);
     PUSH_AF;

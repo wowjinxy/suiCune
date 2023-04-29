@@ -314,6 +314,10 @@ def parse_asm(asm):
         if len(asm) == 2:
             asm.append("vBGMap0")
         return f"{opcode}({(asm[0])}, {(asm[1])}, {asm[2]});"
+    elif opcode in ("depixel", "bcpixel"):
+        if len(asm) == 4:
+            return f"{opcode}4({(asm[0])}, {(asm[1])}, {asm[2]}, {asm[3]})"
+        return f"{opcode}2({(asm[0])}, {(asm[1])})"
     elif opcode in ("lb"):
         return f"LD{register[asm[0]]}(({(asm[1])} << 8) | {(asm[2])});"
     elif opcode in ("ln"):

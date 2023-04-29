@@ -1,10 +1,11 @@
 #include "../../constants.h"
 #include "sliding_intro.h"
+#include "../../home/vblank.h"
 
 void BattleIntroSlidingPics(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
     CALL(aBattleIntroSlidingPics_subfunction1);
     LD_A(LOW(rSCX));
@@ -41,6 +42,7 @@ loop2:
     LDH_A_addr(rLY);
     CP_A(0x60);
     //IF_C goto loop2;
+    NOP;
     LD_A_D;
     LDH_addr_A(hSCX);
     CALL(aBattleIntroSlidingPics_subfunction5);

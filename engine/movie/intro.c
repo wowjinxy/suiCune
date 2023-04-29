@@ -1,30 +1,41 @@
 #include "../../constants.h"
 #include "intro.h"
+#include "../../home/palettes.h"
+#include "../../home/joypad.h"
+#include "../../home/delay.h"
 
 void CrystalIntro(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wGBCPalettes));
+    LD_A(MBANK(awGBCPalettes));
     LDH_addr_A(rSVBK);
-    LDH_A_addr(hInMenu);
+    // LDH_A_addr(hInMenu);
+    REG_A = hram->hInMenu;
     PUSH_AF;
-    LDH_A_addr(hVBlank);
+    // LDH_A_addr(hVBlank);
+    REG_A = hram->hVBlank;
     PUSH_AF;
-    //CALL(aCrystalIntro_InitRAMAddrs);
+    // CALL(aCrystalIntro_InitRAMAddrs);
     CrystalIntro_InitRAMAddrs();
+    PEEK("");
 
-loop:
-    CALL(aJoyTextDelay);
-    LDH_A_addr(hJoyLast);
-    AND_A(BUTTONS);
-    IF_NZ goto ShutOffMusic;
-    LD_A_addr(wJumptableIndex);
-    BIT_A(7);
-    IF_NZ goto done;
-    CALL(aIntroSceneJumper);
-    FARCALL(aPlaySpriteAnimations);
-    CALL(aDelayFrame);
-    JP(mCrystalIntro_loop);
+// loop:
+    while(1)
+    {
+        CALL(aJoyTextDelay);
+        // JoyTextDelay_Conv();
+        LDH_A_addr(hJoyLast);
+        AND_A(BUTTONS);
+        IF_NZ goto ShutOffMusic;
+        LD_A_addr(wJumptableIndex);
+        BIT_A(7);
+        IF_NZ goto done;
+        CALL(aIntroSceneJumper);
+        FARCALL(aPlaySpriteAnimations);
+        CALL(aDelayFrame);
+        // DelayFrame();
+        // JP(mCrystalIntro_loop);
+    }
 
 
 ShutOffMusic:
@@ -33,23 +44,36 @@ ShutOffMusic:
 
 
 done:
+    PEEK("");
     CALL(aClearBGPalettes);
     CALL(aClearSprites);
     CALL(aClearTilemap);
-    XOR_A_A;
-    LDH_addr_A(hSCX);
-    LDH_addr_A(hSCY);
-    LD_A(0x7);
-    LDH_addr_A(hWX);
-    LD_A(0x90);
-    LDH_addr_A(hWY);
+    // XOR_A_A;
+    // LDH_addr_A(hSCX);
+    // LDH_addr_A(hSCY);
+    CHECK_HRAM_FLD(hSCX);
+    hram->hSCX = 0;
+    CHECK_HRAM_FLD(hSCY);
+    hram->hSCY = 0;
+    // LD_A(0x7);
+    // LDH_addr_A(hWX);
+    CHECK_HRAM_FLD(hWX);
+    hram->hWX = 0x7;
+    // LD_A(0x90);
+    // LDH_addr_A(hWY);
+    CHECK_HRAM_FLD(hWY);
+    hram->hWY = 0x90;
     POP_AF;
-    LDH_addr_A(hVBlank);
+    // LDH_addr_A(hVBlank);
+    CHECK_HRAM_FLD(hVBlank);
+    hram->hVBlank = REG_A;
     POP_AF;
-    LDH_addr_A(hInMenu);
+    // LDH_addr_A(hInMenu);
+    CHECK_HRAM_FLD(hInMenu);
+    hram->hInMenu = REG_A;
     POP_AF;
     LDH_addr_A(rSVBK);
-    RET;
+    // RET;
 
 
 InitRAMAddrs:
@@ -67,10 +91,14 @@ InitRAMAddrs:
 void CrystalIntro_InitRAMAddrs(void){
     XOR_A_A;
     LDH_addr_A(hVBlank);
+    // hram->hVBlank = 0;
     LD_A(0x1);
     LDH_addr_A(hInMenu);
+    // hram->hInMenu = 0x1;
     XOR_A_A;
     LDH_addr_A(hMapAnims);
+    // hram->hMapAnims = 0;
+    REG_A = 0;
     LD_addr_A(wJumptableIndex);
     // RET;
 }
@@ -78,8 +106,38 @@ void CrystalIntro_InitRAMAddrs(void){
 void IntroSceneJumper(void){
     //jumptable ['IntroScenes', 'wJumptableIndex']
     //fast_jumptable(mIntroScenes, wJumptableIndex);
+    switch(gb_read(wJumptableIndex)) {
+        case 0:  CALL(aIntroScene1);  break;
+        case 1:  CALL(aIntroScene2);  break;
+        case 2:  CALL(aIntroScene3);  break;
+        case 3:  CALL(aIntroScene4);  break;
+        case 4:  CALL(aIntroScene5);  break;
+        case 5:  CALL(aIntroScene6);  break;
+        case 6:  CALL(aIntroScene7);  break;
+        case 7:  CALL(aIntroScene8);  break;
+        case 8:  CALL(aIntroScene9);  break;
+        case 9:  CALL(aIntroScene10); break;
+        case 10: CALL(aIntroScene11); break;
+        case 11: CALL(aIntroScene12); break;
+        case 12: CALL(aIntroScene13); break;
+        case 13: CALL(aIntroScene14); break;
+        case 14: CALL(aIntroScene15); break;
+        case 15: CALL(aIntroScene16); break;
+        case 16: CALL(aIntroScene17); break;
+        case 17: CALL(aIntroScene18); break;
+        case 18: CALL(aIntroScene19); break;
+        case 19: CALL(aIntroScene20); break;
+        case 20: CALL(aIntroScene21); break;
+        case 21: CALL(aIntroScene22); break;
+        case 22: CALL(aIntroScene23); break;
+        case 23: CALL(aIntroScene24); break;
+        case 24: CALL(aIntroScene25); break;
+        case 25: CALL(aIntroScene26); break;
+        case 26: CALL(aIntroScene27); break;
+        case 27: CALL(aIntroScene28); break;
+    }
 
-    return IntroScenes();
+    RET;
 }
 
 void IntroScenes(void){
@@ -144,9 +202,10 @@ void IntroScenes(void){
 }
 
 void NextIntroScene(void){
-    //LD_HL(wJumptableIndex);
-    //INC_hl;
-    //RET;
+    LD_HL(wJumptableIndex);
+    INC_hl;
+    // gb_write(wJumptableIndex, gb_read(wJumptableIndex) + 1);
+    RET;
 
 }
 
@@ -175,7 +234,7 @@ void IntroScene1(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroUnownsPalette);
     LD_DE(wBGPals1);
@@ -199,9 +258,8 @@ void IntroScene1(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
 
 }
 
@@ -226,12 +284,12 @@ nosound:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aCrystalIntro_UnownFade);
-    //RET;
+    RET;
 
 endscene:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -257,7 +315,7 @@ void IntroScene3(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroBackgroundPalette);
     LD_DE(wBGPals1);
@@ -280,9 +338,9 @@ void IntroScene3(void){
     CALL(aIntro_SetCGBPalUpdate);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -294,13 +352,13 @@ void IntroScene4(void){
     CP_A(0x80);
     IF_Z goto endscene;
     INC_hl;
-    //RET;
+    RET;
 
 
 endscene:
-    return;
-    //CALL(aNextIntroScene);
-    //RET;
+    // return;
+    CALL(aNextIntroScene);
+    RET;
 
 }
 
@@ -330,7 +388,7 @@ void IntroScene5(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroUnownsPalette);
     LD_DE(wBGPals1);
@@ -354,9 +412,9 @@ void IntroScene5(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -379,6 +437,7 @@ void IntroScene6(void){
 FirstUnown:
     PUSH_AF;
     //depixel ['7', '15']
+    depixel2(7, 15);
     CALL(aCrystalIntro_InitUnownAnim);
     LD_DE(SFX_INTRO_UNOWN_2);
     CALL(aPlaySFX);
@@ -388,7 +447,7 @@ NoUnown:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aCrystalIntro_UnownFade);
-    //RET;
+    RET;
 
 
 SecondUnown:
@@ -404,13 +463,13 @@ StopUnown:
     LD_addr_A(wIntroSceneTimer);
     LD_A(0x1);
     CALL(aCrystalIntro_UnownFade);
-    //RET;
+    RET;
 
 
 endscene:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -448,7 +507,7 @@ void IntroScene7(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
 
     LD_HL(mIntroBackgroundPalette);
@@ -483,9 +542,9 @@ void IntroScene7(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -498,8 +557,8 @@ void IntroScene8(void){
     IF_Z goto suicune_sound;
     IF_NC goto animate_suicune;
     CALL(aIntro_PerspectiveScrollBG);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 suicune_sound:
@@ -512,17 +571,17 @@ animate_suicune:
     IF_Z goto finish;
     SUB_A(0x8);
     LD_addr_A(wGlobalAnimXOffset);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 finish:
     LD_DE(SFX_INTRO_SUICUNE_2);
     CALL(aPlaySFX);
     FARCALL(aDeinitializeAllSprites);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -560,9 +619,9 @@ void IntroScene9(void){
     LD_addr_A(wGlobalAnimXOffset);
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -578,33 +637,35 @@ void IntroScene10(void){
     IF_Z goto wooper;
     CP_A(0x40);
     IF_Z goto pichu;
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 pichu:
     //depixel ['21', '16', '1', '0']
+    depixel4(21, 16, 1, 0);
     LD_A(SPRITE_ANIM_INDEX_INTRO_PICHU);
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 wooper:
     //depixel ['22', '6']
+    depixel2(22, 6);
     LD_A(SPRITE_ANIM_INDEX_INTRO_WOOPER);
     CALL(aInitSpriteAnimStruct);
     LD_DE(SFX_INTRO_PICHU);
     CALL(aPlaySFX);
-    return;
-    //RET;
+    // return;
+    RET;
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -631,7 +692,7 @@ void IntroScene11(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroUnownsPalette);
     LD_DE(wBGPals1);
@@ -655,9 +716,9 @@ void IntroScene11(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -681,7 +742,7 @@ void IntroScene12(void){
     SRL_A;
     SWAP_A;
     CALL(aCrystalIntro_UnownFade);
-    //RET;
+    RET;
 
 
 second_half:
@@ -696,13 +757,13 @@ second_half:
     OR_A(0x40);
     SWAP_A;
     CALL(aCrystalIntro_UnownFade);
-    //RET;
+    RET;
 
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 
 PlayUnownSound:
@@ -713,7 +774,7 @@ PlayUnownSound:
 loop:
     LD_A_hli;
     CP_A(-1);
-    // RET_Z ;
+    RET_Z ;
     CP_A_C;
     IF_Z goto playsound;
     INC_HL;
@@ -728,7 +789,7 @@ playsound:
     CALL(aSFXChannelsOff);
     POP_DE;
     CALL(aPlaySFX);
-    //RET;
+    RET;
 
 
 UnownSounds:
@@ -770,7 +831,7 @@ void IntroScene13(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroBackgroundPalette);
     LD_DE(wBGPals1);
@@ -802,9 +863,9 @@ void IntroScene13(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -823,7 +884,7 @@ void IntroScene14(void){
     IF_NC goto run_after_jump;
     CP_A(0x40);
     IF_NC goto run;
-    //RET;
+    RET;
 
 
 jump:
@@ -839,25 +900,25 @@ run_after_jump:
     IF_C goto disappear;
     SUB_A(0x8);
     LD_addr_A(wGlobalAnimXOffset);
-    //RET;
+    RET;
 
 
 disappear:
     FARCALL(aDeinitializeAllSprites);
-    //RET;
+    RET;
 
 
 run:
     LD_A_addr(wGlobalAnimXOffset);
     SUB_A(0x2);
     LD_addr_A(wGlobalAnimXOffset);
-    //RET;
+    RET;
 
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -891,7 +952,7 @@ void IntroScene15(void){
     CALL(aIntro_LoadTilemap);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroSuicunePalette);
     LD_DE(wBGPals1);
@@ -924,9 +985,9 @@ void IntroScene15(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -940,15 +1001,15 @@ void IntroScene16(void){
     CALL(aIntro_Scene16_AnimateSuicune);
     LDH_A_addr(hSCY);
     AND_A_A;
-    // RET_Z ;
+    RET_Z ;
     ADD_A(8);
     LDH_addr_A(hSCY);
-    //RET;
+    RET;
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -974,7 +1035,7 @@ void IntroScene17(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroSuicuneClosePalette);
     LD_DE(wBGPals1);
@@ -998,9 +1059,9 @@ void IntroScene17(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1016,12 +1077,12 @@ void IntroScene18(void){
     RET_Z ;
     ADD_A(8);
     LDH_addr_A(hSCX);
-    //RET;
+    RET;
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1055,7 +1116,7 @@ void IntroScene19(void){
     CALL(aIntro_LoadTilemap);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroSuicunePalette);
     LD_DE(wBGPals1);
@@ -1088,9 +1149,9 @@ void IntroScene19(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1106,11 +1167,11 @@ void IntroScene20(void){
     CP_A(0x40);
     IF_NC goto AppearUnown;
     CP_A(0x28);
-    // RET_NC ;
+    RET_NC ;
     LDH_A_addr(hSCY);
     INC_A;
     LDH_addr_A(hSCY);
-    //RET;
+    RET;
 
 
 AppearUnown:
@@ -1118,7 +1179,7 @@ AppearUnown:
     LD_C_A;
     AND_A(0x3);
     CP_A(0x3);
-    // RET_NZ ;
+    RET_NZ ;
     LD_A_C;
     AND_A(0x1c);
     SRL_A;
@@ -1126,7 +1187,7 @@ AppearUnown:
     LD_addr_A(wIntroSceneTimer);
     XOR_A_A;
     CALL(aIntro_Scene20_AppearUnown);
-    //RET;
+    RET;
 
 
 AppearUnownPal2:
@@ -1138,13 +1199,13 @@ AppearUnownPal2:
     LD_addr_A(wIntroSceneTimer);
     LD_A(1);
     CALL(aIntro_Scene20_AppearUnown);
-    //RET;
+    RET;
 
 
 finished:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1157,9 +1218,9 @@ void IntroScene21(void){
     LDH_addr_A(hBGMapMode);
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1169,22 +1230,22 @@ void IntroScene22(void){
     INC_hl;
     CP_A(0x8);
     IF_NC goto done;
-    //RET;
+    RET;
 
 done:
     FARCALL(aDeinitializeAllSprites);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
 void IntroScene23(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1198,21 +1259,21 @@ void IntroScene24(void){
 
     LD_C_A;
     AND_A(0x3);
-    // RET_NZ ;
+    RET_NZ ;
 
     LD_A_C;
     AND_A(0x1c);
     SLA_A;
     CALL(aIntro_Scene24_ApplyPaletteFade);
-    //RET;
+    RET;
 
 
 done:
     LD_A(0x40);
     LD_addr_A(wIntroSceneFrameCounter);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1222,13 +1283,13 @@ void IntroScene25(void){
     DEC_A;
     IF_Z goto done;
     LD_addr_A(wIntroSceneFrameCounter);
-    //RET;
+    RET;
 
 
 done:
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1254,7 +1315,7 @@ void IntroScene26(void){
     CALL(aIntro_DecompressRequest2bpp_64Tiles);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_HL(mIntroCrystalUnownsPalette);
     LD_DE(wBGPals1);
@@ -1278,9 +1339,9 @@ void IntroScene26(void){
     XOR_A_A;
     LD_addr_A(wIntroSceneFrameCounter);
     LD_addr_A(wIntroSceneTimer);
-    //CALL(aNextIntroScene);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    RET;
+    // return;
 
 }
 
@@ -1301,15 +1362,15 @@ void IntroScene27(void){
     AND_A(0x70);
     SWAP_A;
     CALL(aIntro_FadeUnownWordPals);
-    //RET;
+    RET;
 
 
 done:
-    //CALL(aNextIntroScene);
-    //LD_A(0x80);
-    //LD_addr_A(wIntroSceneFrameCounter);
-    //RET;
-    return;
+    CALL(aNextIntroScene);
+    LD_A(0x80);
+    LD_addr_A(wIntroSceneFrameCounter);
+    RET;
+    // return;
 
 }
 
@@ -1323,23 +1384,23 @@ void IntroScene28(void){
     CP_A(0x18);
     IF_Z goto clear;
     CP_A(0x8);
-    //RET_NZ ;
+    RET_NZ ;
 
     LD_DE(SFX_INTRO_WHOOSH);
     CALL(aPlaySFX);
-    //RET;
+    RET;
 
 
 clear:
     CALL(aClearBGPalettes);
-    //RET;
+    RET;
 
 
 done:
     LD_HL(wJumptableIndex);
     SET_hl(7);
-    //RET;
-    return;
+    RET;
+    // return;
 
 }
 
@@ -1354,7 +1415,7 @@ void Intro_Scene24_ApplyPaletteFade(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
     LD_DE(wBGPals2);
     LD_B(8);  // number of BG pals
@@ -1423,7 +1484,7 @@ void CrystalIntro_InitUnownAnim(void){
     LD_hl(0x38);
     LD_A(SPRITE_ANIM_FRAMESET_INTRO_UNOWN_2);
     CALL(aReinitSpriteAnimFrame);
-    //RET;
+    RET;
 
 }
 
@@ -1452,7 +1513,7 @@ okay:
     LD_B(0);
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     PUSH_HL;
@@ -1507,7 +1568,7 @@ okay:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    //RET;
+    RET;
 
 
 BWFade:
@@ -1555,7 +1616,7 @@ got_pointer:
     LD_C_A;
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     PUSH_BC;
@@ -1587,7 +1648,7 @@ got_pointer:
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    //RET;
+    RET;
 
 
 pal1:
@@ -1618,7 +1679,7 @@ void Intro_FadeUnownWordPals(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     PUSH_HL;
@@ -1649,7 +1710,7 @@ void Intro_FadeUnownWordPals(void){
     LDH_addr_A(rSVBK);
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    //RET;
+    RET;
 
 
 FastFadePalettes:
@@ -1675,7 +1736,7 @@ SlowFadePalettes:
 void Intro_LoadTilemap(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     LD_HL(wDecompressScratch);
@@ -1702,7 +1763,7 @@ col:
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    //RET;
+    RET;
 
 }
 
@@ -1712,13 +1773,13 @@ void Intro_Scene16_AnimateSuicune(void){
     JR_Z (mIntro_ColoredSuicuneFrameSwap);
     CP_A(0x3);
     IF_Z goto PrepareForSuicuneSwap;
-    //RET;
+    RET;
 
 
 PrepareForSuicuneSwap:
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
-    //RET;
+    RET;
 
 }
 
@@ -1743,7 +1804,7 @@ skip:
     IF_NZ goto loop;
     LD_A(0x1);
     LDH_addr_A(hBGMapMode);
-    //RET;
+    RET;
 
 }
 
@@ -1767,7 +1828,7 @@ void Intro_RustleGrass(void){
     LD_addr_A(wRequested2bppDest + 1);
     LD_A(4);
     LD_addr_A(wRequested2bppSize);
-    //RET;
+    RET;
 
 
 RustlingGrassPointers:
@@ -1782,14 +1843,14 @@ RustlingGrassPointers:
 void Intro_SetCGBPalUpdate(void){
     LD_A(TRUE);
     LDH_addr_A(hCGBPalUpdate);
-    //RET;
+    RET;
 
 }
 
 void Intro_ClearBGPals(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     LD_HL(wBGPals2);
@@ -1803,14 +1864,14 @@ void Intro_ClearBGPals(void){
     LDH_addr_A(hCGBPalUpdate);
     CALL(aDelayFrame);
     CALL(aDelayFrame);
-    //RET;
+    RET;
 
 }
 
 void Intro_DecompressRequest2bpp_128Tiles(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     PUSH_DE;
@@ -1824,14 +1885,14 @@ void Intro_DecompressRequest2bpp_128Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    //RET;
+    RET;
 
 }
 
 void Intro_DecompressRequest2bpp_255Tiles(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     PUSH_DE;
@@ -1845,14 +1906,14 @@ void Intro_DecompressRequest2bpp_255Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    //RET;
+    RET;
 
 }
 
 void Intro_DecompressRequest2bpp_64Tiles(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wDecompressScratch));
+    LD_A(MBANK(awDecompressScratch));
     LDH_addr_A(rSVBK);
 
     PUSH_DE;
@@ -1866,14 +1927,14 @@ void Intro_DecompressRequest2bpp_64Tiles(void){
 
     POP_AF;
     LDH_addr_A(rSVBK);
-    //RET;
+    RET;
 
 }
 
 void Intro_ResetLYOverrides(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
 
     LD_HL(wLYOverrides);
@@ -1885,14 +1946,14 @@ void Intro_ResetLYOverrides(void){
     LDH_addr_A(rSVBK);
     LD_A(LOW(rSCX));
     LDH_addr_A(hLCDCPointer);
-    //RET;
+    RET;
 
 }
 
 void Intro_PerspectiveScrollBG(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wLYOverrides));
+    LD_A(MBANK(awLYOverrides));
     LDH_addr_A(rSVBK);
 // Scroll the grass every frame.
 // Scroll the trees every other frame and at half speed.
@@ -1919,7 +1980,7 @@ skip:
     LDH_addr_A(hSCX);
     POP_AF;
     LDH_addr_A(rSVBK);
-    //RET;
+    RET;
 
 }
 

@@ -1,12 +1,13 @@
 #include "../constants.h"
 #include "compare.h"
 
-void CompareBytes(void){
-    //  Compare c bytes at de and hl.
-//  Return z if they all match.
+bool Test_CompareBytes(void);
 
+void CompareBytes(void){
+//  Compare c bytes at de and hl.
+//  Return z if they all match.
 loop:
-        LD_A_de;
+    LD_A_de;
     CP_A_hl;
     RET_NZ ;
     INC_DE;
@@ -14,7 +15,6 @@ loop:
     DEC_C;
     IF_NZ goto loop;
     RET;
-
 }
 
 //  Compare c bytes at de and hl.
@@ -28,10 +28,19 @@ bool CompareBytes_Conv(uint16_t de, uint16_t hl, uint8_t c){
     return true;
 }
 
-void CompareBytesLong(void){
-    //  Compare bc bytes at de and hl.
-//  Return carry if they all match.
+bool Test_CompareBytes(void)
+{
+    uint16_t de = REG_DE;
+    uint16_t hl = REG_HL;
+    uint8_t c = REG_C;
+    CompareBytes();
+    bool res = CompareBytes_Conv(de, hl, c);
+    return res == (REG_C == 0);
+}
 
+void CompareBytesLong(void){
+//  Compare bc bytes at de and hl.
+//  Return carry if they all match.
 loop:
         LD_A_de;
     CP_A_hl;
@@ -64,4 +73,13 @@ bool CompareBytesLong_Conv(uint16_t de, uint16_t hl, uint16_t bc){
         de++, hl++;
     } while(--bc != 0);
     return true;
+}
+
+bool Test_CompareBytesLong(void) {
+    uint16_t de = REG_DE;
+    uint16_t hl = REG_HL;
+    uint16_t bc = REG_BC;
+    CompareBytesLong();
+    bool res = CompareBytesLong_Conv(de, hl, bc);
+    return res == (REG_F_C == 1);
 }

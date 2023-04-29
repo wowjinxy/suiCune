@@ -1005,7 +1005,7 @@ void ClearWindowData(void) {
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wWindowStack));
+    LD_A(MBANK(awWindowStack));
     LDH_addr_A(rSVBK);
 
     XOR_A_A;
@@ -1043,7 +1043,7 @@ void ClearWindowData_Conv(void) {
 
     // LD_A(BANK(wWindowStack));
     // LDH_addr_A(rSVBK);
-    gb_write(rSVBK, BANK(wWindowStack));
+    gb_write(rSVBK, MBANK(awWindowStack));
 
     // XOR_A_A;
     // LD_HL(wWindowStackBottom);

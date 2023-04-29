@@ -154,11 +154,11 @@ wait:
     // IF_C goto wait;
 
     NOP;
-    LD_A(BANK(vBGMap2));
+    LD_A(MBANK(avBGMap2));
     LDH_addr_A(rVBK);
     hlcoord(0, 0, wAttrmap);
     CALL(av_CopyTilemapAtOnce_CopyBGMapViaStack);
-    LD_A(BANK(vBGMap0));
+    LD_A(MBANK(avBGMap0));
     LDH_addr_A(rVBK);
     hlcoord(0, 0, wTilemap);
     CALL(av_CopyTilemapAtOnce_CopyBGMapViaStack);
@@ -190,10 +190,10 @@ void v_CopyTilemapAtOnce_Conv(void) {
     // CP_A(0x80 - 1);
     // IF_C goto wait;
 
-    gb_write(rVBK, BANK(vBGMap2));
+    gb_write(rVBK, MBANK(avBGMap2));
     v_CopyTilemapAtOnce_CopyBGMapViaStack_Conv(coord(0, 0, wAttrmap));
 
-    gb_write(rVBK, BANK(vBGMap0));
+    gb_write(rVBK, MBANK(avBGMap0));
     v_CopyTilemapAtOnce_CopyBGMapViaStack_Conv(coord(0, 0, wTilemap));
 
     // In C we don't wait.
@@ -352,7 +352,7 @@ cgb:
     LDH_A_addr(rSVBK);
     PUSH_AF;
 
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     //  Fill wBGPals2 and wOBPals2 with $ffff (white)
@@ -382,9 +382,9 @@ void ClearPalettes_Conv(void) {
         // PUSH_AF;
         uint8_t vbk_temp = gb_read(rSVBK);
 
-        // LD_A(BANK(wBGPals2));
+        // LD_A(MBANK(awBGPals2));
         // LDH_addr_A(rSVBK);
-        gb_write(rSVBK, BANK(wBGPals2));
+        gb_write(rSVBK, MBANK(awBGPals2));
 
         //  Fill wBGPals2 and wOBPals2 with $ffff (white)
         // LD_HL(wBGPals2);

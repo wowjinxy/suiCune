@@ -10,6 +10,7 @@ void UpdatePalsIfCGB(void){
 //  return carry if successful
 
 //  check cgb
+    SET_PC(aUpdatePalsIfCGB);
     LDH_A_addr(hCGB);
     AND_A_A;
     RET_Z ;
@@ -34,6 +35,7 @@ bool UpdatePalsIfCGB_Conv(void){
 void UpdateCGBPals(void){
     //  return carry if successful
 //  any pals to update?
+    SET_PC(aUpdateCGBPals);
     LDH_A_addr(hCGBPalUpdate);
     AND_A_A;
     RET_Z ;
@@ -42,7 +44,7 @@ void UpdateCGBPals(void){
     return ForceUpdateCGBPals();
 }
 
-//  return carry if successful
+//  return true if successful
 bool UpdateCGBPals_Conv(void){
 //  any pals to update?
     // LDH_A_addr(hCGBPalUpdate);
@@ -56,9 +58,10 @@ bool UpdateCGBPals_Conv(void){
 }
 
 void ForceUpdateCGBPals(void){
+    SET_PC(aForceUpdateCGBPals);
         LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
     LD_HL(wBGPals2);
@@ -112,9 +115,9 @@ bool ForceUpdateCGBPals_Conv(void){
     // PUSH_AF;
     uint8_t svbk = gb_read(rSVBK);
 
-    // LD_A(BANK(wBGPals2));
+    // LD_A(MBANK(awBGPals2));
     // LDH_addr_A(rSVBK);
-    gb_write(rSVBK, BANK(wBGPals2));
+    gb_write(rSVBK, MBANK(awBGPals2));
 
     // LD_HL(wBGPals2);
     uint16_t hl = wBGPals2;
@@ -140,6 +143,7 @@ bool ForceUpdateCGBPals_Conv(void){
     } while(--b != 0);
 
 //  hl is now wOBPals2
+    hl = wOBPals2;
 
 //  copy 8 pals to obpd
     // LD_A(1 << rOBPI_AUTO_INCREMENT);
@@ -191,7 +195,7 @@ void DmgToCgbBGPals(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
 
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
 
 //  copy & reorder bg pal buffer
@@ -238,9 +242,9 @@ void DmgToCgbBGPals_Conv(uint8_t a){
     // PUSH_AF;
     uint8_t svbk = gb_read(rSVBK);
 
-    // LD_A(BANK(wBGPals2));
+    // LD_A(MBANK(awBGPals2));
     // LDH_addr_A(rSVBK);
-    gb_write(rSVBK, BANK(wBGPals2));
+    gb_write(rSVBK, MBANK(awBGPals2));
 
 //  copy & reorder bg pal buffer
     // LD_HL(wBGPals2);  // to
@@ -286,7 +290,7 @@ void DmgToCgbObjPals(void){
     LDH_A_addr(rSVBK);
     PUSH_AF;
 
-    LD_A(BANK(wOBPals2));
+    LD_A(MBANK(awOBPals2));
     LDH_addr_A(rSVBK);
 
 //  copy & reorder obj pal buffer
@@ -334,9 +338,9 @@ void DmgToCgbObjPals_Conv(uint8_t d, uint8_t e){
     // PUSH_AF;
     uint8_t svbk = gb_read(rSVBK);
 
-    // LD_A(BANK(wOBPals2));
+    // LD_A(MBANK(awOBPals2));
     // LDH_addr_A(rSVBK);
-    gb_write(rSVBK, BANK(wOBPals2));
+    gb_write(rSVBK, MBANK(awOBPals2));
 
 //  copy & reorder obj pal buffer
     // LD_HL(wOBPals2);  // to
@@ -373,7 +377,7 @@ void DmgToCgbObjPal0(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wOBPals2));
+    LD_A(MBANK(awOBPals2));
     LDH_addr_A(rSVBK);
 
     LD_HL(wOBPals2 + PALETTE_SIZE * 0);
@@ -413,7 +417,7 @@ void DmgToCgbObjPal1(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wOBPals2));
+    LD_A(MBANK(awOBPals2));
     LDH_addr_A(rSVBK);
 
     LD_HL(wOBPals2 + PALETTE_SIZE * 1);
@@ -606,7 +610,7 @@ void ReloadSpritesNoPalettes(void){
     RET_Z ;
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals2));
+    LD_A(MBANK(awBGPals2));
     LDH_addr_A(rSVBK);
     LD_HL(wBGPals2);
     LD_BC((8 * PALETTE_SIZE) + (2 * PALETTE_SIZE));

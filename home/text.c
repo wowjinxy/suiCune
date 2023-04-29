@@ -1943,9 +1943,11 @@ void (*const TextCommands[])(struct TextCmdState*) = {
     [TX_SOUND_FANFARE] = TextCommand_SOUND_Conv,
     [TX_SOUND_SLOT_MACHINE_START] = TextCommand_SOUND_Conv,
     [TX_STRINGBUFFER] = TextCommand_STRINGBUFFER_Conv,
-    [TX_DAY] = TextCommand_FAR_Conv,
+    [TX_DAY] = TextCommand_DAY_Conv,
     [TX_FAR] = TextCommand_FAR_Conv
 };
+
+_Static_assert(sizeof(TextCommands) / sizeof(void(*)(void)) == NUM_TEXT_CMDS, "");
 
 void DoTextUntilTerminator_TextCommand_Conv(struct TextCmdState* state, uint8_t cmd) {
     TextCommands[cmd](state);
@@ -2002,12 +2004,14 @@ void TextCommand_START_Conv(struct TextCmdState* state) {
     // LD_H_B;
     // LD_L_C;
     // CALL(aPlaceString);
-    struct TextCmdState tempstate = {.hl = state->bc, .de = state->hl};
-    PlaceString_Conv(&tempstate, state->hl);
+    // struct TextCmdState tempstate = {.hl = state->bc, .de = state->hl};
+    state->de = state->hl;
+    state->hl = state->bc;
+    PlaceString_Conv(state, state->hl);
 
     // LD_H_D;
     // LD_L_E;
-    state->hl = tempstate.de;
+    state->hl = state->de;
     // INC_HL;
     state->hl++;
     // RET;

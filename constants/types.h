@@ -1,3 +1,15 @@
+// Utility types
+
+union Register
+{
+    uint16_t reg;
+    struct
+    {
+        uint8_t lo;
+        uint8_t hi;
+    };
+};
+
 
 // ROM structs
 

@@ -3107,7 +3107,7 @@ void BGEffects_LoadBGPal0_OBPal1(void) {
     LD_H_A;
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_A_H;
     PUSH_BC;
@@ -3136,7 +3136,7 @@ void BGEffects_LoadBGPal1_OBPal0(void) {
     LD_H_A;
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wBGPals1));
+    LD_A(MBANK(awBGPals1));
     LDH_addr_A(rSVBK);
     LD_A_H;
     PUSH_BC;

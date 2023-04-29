@@ -47,6 +47,7 @@ enum {
 };
 
 void PokeGear(void){
+    PEEK("");
     LD_HL(wOptions);
     LD_A_hl;
     PUSH_AF;
@@ -59,7 +60,8 @@ void PokeGear(void){
     PUSH_AF;
     XOR_A_A;
     LD_addr_A(wVramState);
-    PokeGear_InitTilemap();
+    CALL(aPokeGear_InitTilemap);
+    // PokeGear_InitTilemap_Conv();
     CALL(aDelayFrame);
 
 loop:
@@ -68,7 +70,7 @@ loop:
     LD_A_addr(wJumptableIndex);
     BIT_A(7);
     IF_NZ goto done;
-    PokegearJumptable();
+    CALL(aPokegearJumptable);
     FARCALL(aPlaySpriteAnimations);
     CALL(aDelayFrame);
     goto loop;
@@ -177,7 +179,7 @@ void PokeGear_InitTilemap(void) {
     IF_Z return;
     LD_A(0b11100100);
     CALL(aDmgToCgbObjPal0);
-    //RET;
+    RET;
 }
 
 void PokeGear_InitTilemap_Conv(void) {
@@ -199,19 +201,20 @@ void PokeGear_InitTilemap_Conv(void) {
     gb_write(hSCY, 0);
     gb_write(hSCX, 0);
 
-    //LD_A(0x7);
-    //LDH_addr_A(hWX);
+    // LD_A(0x7);
+    // LDH_addr_A(hWX);
     gb_write(hWX, 0x7);
 
     Pokegear_LoadGFX_Conv();
+    // CALL(aPokegear_LoadGFX);
     FARCALL(aClearSpriteAnims);
     // CALL(aInitPokegearModeIndicatorArrow);
     InitPokegearModeIndicatorArrow_Conv();
     LD_A(8);
     CALL(aSkipMusic);
 
-    //LD_A(LCDC_DEFAULT);
-    //LDH_addr_A(rLCDC);
+    // LD_A(LCDC_DEFAULT);
+    // LDH_addr_A(rLCDC);
     gb_write(rLCDC, LCDC_DEFAULT);
 
     //CALL(aTownMap_InitCursorAndPlayerIconPositions);
@@ -246,15 +249,17 @@ void PokeGear_InitTilemap_Conv(void) {
     // CALL(aInitPokegearTilemap);
     InitPokegearTilemap_Conv();
 
-    // LD_B(SCGB_POKEGEAR_PALS);
-    // CALL(aGetSGBLayout);
+    LD_B(SCGB_POKEGEAR_PALS);
+    CALL(aGetSGBLayout);
     // GetSGBLayout_Conv();
 
     // CALL(aSetPalettes);
     SetPalettes_Conv();
-    LDH_A_addr(hCGB);
-    AND_A_A;
-    IF_Z return;
+    // LDH_A_addr(hCGB);
+    // AND_A_A;
+    // IF_Z return;
+    if(gb_read(hCGB) == 0)
+        return;
     LD_A(0b11100100);
     CALL(aDmgToCgbObjPal0);
     //RET;
@@ -315,10 +320,10 @@ void Pokegear_LoadGFX_Conv(void){
     ClearVBank1_Conv();
     FarDecompress_Conv(BANK(aTownMapGFX), mTownMapGFX, vTiles2);
     FarDecompress_Conv(BANK(aPokegearGFX), mPokegearGFX, (vTiles2 + LEN_2BPP_TILE * 0x30));
-    //LD_HL(mPokegearSpritesGFX);
-    //LD_DE(vTiles0);
-    //LD_A(BANK(aPokegearSpritesGFX));
-    //CALL(aDecompress);
+    // LD_HL(mPokegearSpritesGFX);
+    // LD_DE(vTiles0);
+    // LD_A(BANK(aPokegearSpritesGFX));
+    // CALL(aDecompress);
     FarDecompress_Conv(BANK(aPokegearSpritesGFX), mPokegearSpritesGFX, vTiles0);
     uint8_t landmark = GetWorldMapLocation_Conv(gb_read(wMapGroup), gb_read(wMapNumber));
     if(landmark == LANDMARK_FAST_SHIP)
@@ -504,18 +509,18 @@ void InitPokegearTilemap(void){
     CALL(aByteFill);
     LD_A_addr(wPokegearCard);
     maskbits(NUM_POKEGEAR_CARDS, 0);
-    //ADD_A_A;
-    //LD_E_A;
-    //LD_D(0);
-    //LD_HL(mInitPokegearTilemap_Jumptable);
-    //ADD_HL_DE;
-    //LD_A_hli;
-    //LD_H_hl;
-    //LD_L_A;
-    //LD_DE(mInitPokegearTilemap_return_from_jumptable);
-    //PUSH_DE;
+    // ADD_A_A;
+    // LD_E_A;
+    // LD_D(0);
+    // LD_HL(mInitPokegearTilemap_Jumptable);
+    // ADD_HL_DE;
+    // LD_A_hli;
+    // LD_H_hl;
+    // LD_L_A;
+    // LD_DE(mInitPokegearTilemap_return_from_jumptable);
+    // PUSH_DE;
     goto Jumptable;
-    //JP_hl;
+    // JP_hl;
 
 
 return_from_jumptable:
@@ -567,7 +572,8 @@ dmg:
 
 Jumptable:
 //  entries correspond to POKEGEARCARD_* constants
-    switch(gb_read(wPokegearCard))
+    // SET_PC(aInitPokegearTilemap_Jumptable);
+    switch(REG_A)
     {
         case POKEGEARCARD_CLOCK: goto Clock;
         case POKEGEARCARD_MAP:   goto Map;
@@ -589,9 +595,9 @@ Clock:
     hlcoord(0, 12, wTilemap);
     LD_BC((4 << 8) | 18);
     CALL(aTextbox);
-    //CALL(aPokegear_UpdateClock);
-    Pokegear_UpdateClock();
-    //RET;
+    CALL(aPokegear_UpdateClock);
+    // Pokegear_UpdateClock();
+    // RET;
     goto return_from_jumptable;
 
     //_switch:
@@ -624,7 +630,7 @@ ok:
     LD_hl(0x17);
     LD_A_addr(wPokegearMapCursorLandmark);
     CALL(aPokegearMap_UpdateLandmarkName);
-    //RET;
+    // RET;
     goto return_from_jumptable;
 
 
@@ -634,7 +640,7 @@ Radio:
     hlcoord(0, 12, wTilemap);
     LD_BC((4 << 8) | 18);
     CALL(aTextbox);
-    //RET;
+    // RET;
     goto return_from_jumptable;
 
 
@@ -646,7 +652,7 @@ Phone:
     CALL(aTextbox);
     CALL(aInitPokegearTilemap_PlacePhoneBars);
     CALL(aPokegearPhone_UpdateDisplayList);
-    //RET;
+    // RET;
     goto return_from_jumptable;
 
 
@@ -700,8 +706,9 @@ void InitPokegearTilemap_Conv(void){
             ByteFill_Conv(coord(1, 2, wTilemap), (SCREEN_WIDTH - 2), 0x07);
             gb_write(coord(0, 2, wTilemap), 0x06);
             gb_write(coord(19, 2, wTilemap), 0x17);
-            REG_A = gb_read(wPokegearMapCursorLandmark);
-            CALL(aPokegearMap_UpdateLandmarkName);
+            // REG_A = gb_read(wPokegearMapCursorLandmark);
+            // CALL(aPokegearMap_UpdateLandmarkName);
+            PokegearMap_UpdateLandmarkName_Conv(gb_read(wPokegearMapCursorLandmark));
         }
         break;
         case POKEGEARCARD_PHONE:
@@ -954,8 +961,8 @@ void Pokegear_FinishTilemap_Conv(void){
 
 void PokegearJumptable(void) {
     //jumptable ['.Jumptable', 'wJumptableIndex']
-    //jumptable(aPokegearJumptable_Jumptable, wJumptableIndex);
-    //return;
+    // jumptable(mPokegearJumptable_Jumptable, wJumptableIndex);
+    // return;
 
 
 Jumptable:
@@ -975,7 +982,7 @@ Jumptable:
         case POKEGEARSTATE_FINISHPHONECALL:return PokegearPhone_FinishPhoneCall();
         case POKEGEARSTATE_RADIOINIT:      return PokegearRadio_Init();
         case POKEGEARSTATE_RADIOJOYPAD:    return PokegearRadio_Joypad();
-        default: return;
+        default: RET;
     }
     //dw ['PokegearClock_Init'];
     //dw ['PokegearClock_Joypad'];
@@ -999,7 +1006,7 @@ void PokegearClock_Init(void) {
     LD_HL(wJumptableIndex);
     INC_hl;
     CALL(aExitPokegearRadio_HandleMusic);
-    //RET;
+    RET;
 
 }
 
@@ -1014,11 +1021,12 @@ void PokegearClock_Init_Conv(void) {
 
     REG_HL = wJumptableIndex;
     CALL(aExitPokegearRadio_HandleMusic);
-    //RET;
+    RET;
 
 }
 
 void PokegearClock_Joypad(void){
+    SET_PC(aPokegearClock_Joypad);
     CALL(aPokegearClock_Joypad_UpdateClock);
     LD_HL(hJoyLast);
     LD_A_hl;
@@ -1026,8 +1034,8 @@ void PokegearClock_Joypad(void){
     IF_NZ goto quit;
     LD_A_hl;
     AND_A(D_RIGHT);
-    IF_Z return;
-    // RET_Z ;
+    // IF_Z return;
+    RET_Z ;
     LD_A_addr(wPokegearFlags);
     BIT_A(POKEGEAR_MAP_CARD_F);
     IF_Z goto no_map_card;
@@ -1054,26 +1062,40 @@ no_phone_card:
 
 done:
     CALL(aPokegear_SwitchPage);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 quit:
     LD_HL(wJumptableIndex);
     SET_hl(7);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 UpdateClock:
+    PEEK("UpdateClock");
+    SET_PC(aPokegearClock_Joypad_UpdateClock);
     XOR_A_A;
     LDH_addr_A(hBGMapMode);
-    //CALL(aPokegear_UpdateClock);
-    Pokegear_UpdateClock();
+    CALL(aPokegear_UpdateClock);
+    // Pokegear_UpdateClock();
     LD_A(0x1);
     LDH_addr_A(hBGMapMode);
     RET;
 
+}
+
+void PokegearClock_Joypad_UpdateClock(void) {
+    SET_PC(aPokegearClock_Joypad_UpdateClock);
+    PEEK("UpdateClock");
+    XOR_A_A;
+    LDH_addr_A(hBGMapMode);
+    CALL(aPokegear_UpdateClock);
+    // Pokegear_UpdateClock();
+    LD_A(0x1);
+    LDH_addr_A(hBGMapMode);
+    RET;
 }
 
 void Pokegear_UpdateClock(void){
@@ -1089,8 +1111,8 @@ void Pokegear_UpdateClock(void){
     LD_HL(mPokegear_UpdateClock_GearTodayText);
     bccoord(6, 6, wTilemap);
     CALL(aPlaceHLTextAtBC);
-    return;
-    //RET;
+    // return;
+    RET;
 
     //db ['"ごぜん@"'];
     //db ['"ごご@"'];
@@ -1129,8 +1151,8 @@ void PokegearMap_CheckRegion(void){
 johto:
     LD_A(POKEGEARSTATE_JOHTOMAPINIT);
     goto done;
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 kanto:
@@ -1139,8 +1161,8 @@ kanto:
 done:
     LD_addr_A(wJumptableIndex);
     CALL(aExitPokegearRadio_HandleMusic);
-    return;
-    //RET;
+    // return;
+    RET;
 
 }
 
@@ -1156,8 +1178,8 @@ void PokegearMap_Init(void){
     LD_addr_A(wPokegearMapCursorObjectPointer + 1);
     LD_HL(wJumptableIndex);
     INC_hl;
-    return;
-    //RET;
+    // return;
+    RET;
 
 }
 
@@ -1213,15 +1235,15 @@ left:
 
 done:
     CALL(aPokegear_SwitchPage);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 cancel:
     LD_HL(wJumptableIndex);
     SET_hl(7);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 DPad:
@@ -1232,8 +1254,8 @@ DPad:
     LD_A_hl;
     AND_A(D_DOWN);
     IF_NZ goto down;
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 up:
@@ -1271,8 +1293,8 @@ done_dpad:
     LD_B_A;
     LD_A_addr(wPokegearMapCursorLandmark);
     CALL(aPokegearMap_UpdateCursorPosition);
-    //RET;
-    return;
+    RET;
+    // return;
 
 }
 
@@ -1474,7 +1496,26 @@ void PokegearPhone_Init(void){
     CALL(aExitPokegearRadio_HandleMusic);
     LD_HL(mPokegearAskWhoCallText);
     CALL(aPrintText);
-    //RET;
+    RET;
+
+}
+
+void PokegearPhone_Init_Conv(void){
+    // LD_HL(wJumptableIndex);
+    // INC_hl;
+    gb_write(wJumptableIndex, gb_read(wJumptableIndex) + 1);
+    // XOR_A_A;
+    // LD_addr_A(wPokegearPhoneScrollPosition);
+    // LD_addr_A(wPokegearPhoneCursorPosition);
+    // LD_addr_A(wPokegearPhoneSelectedPerson);
+    gb_write(wPokegearPhoneScrollPosition, 0);
+    gb_write(wPokegearPhoneCursorPosition, 0);
+    gb_write(wPokegearPhoneSelectedPerson, 0);
+    CALL(aInitPokegearTilemap);
+    CALL(aExitPokegearRadio_HandleMusic);
+    LD_HL(mPokegearAskWhoCallText);
+    CALL(aPrintText);
+    // RET;
 
 }
 
@@ -1494,8 +1535,8 @@ void PokegearPhone_Joypad(void){
     AND_A(D_RIGHT);
     IF_NZ goto right;
     CALL(aPokegearPhone_GetDPad);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 left:
@@ -1522,15 +1563,15 @@ right:
 
 switch_page:
     CALL(aPokegear_SwitchPage);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 b:
     LD_HL(wJumptableIndex);
     SET_hl(7);
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 a:
@@ -1556,15 +1597,15 @@ a:
     IF_C goto quit_submenu;
     LD_HL(wJumptableIndex);
     INC_hl;
-    return;
-    //RET;
+    // return;
+    RET;
 
 
 quit_submenu:
     LD_A(POKEGEARSTATE_PHONEJOYPAD);
     LD_addr_A(wJumptableIndex);
-    return;
-    //RET;
+    // return;
+    RET;
 
 }
 
@@ -2092,8 +2133,8 @@ void Pokegear_LoadTilemapRLE_Conv(uint16_t de){
 
     while(1)
     {
-        int8_t id = gb_read(de++);
-        if(id == -1) 
+        uint8_t id = gb_read(de++);
+        if(id == 0xff) 
             return;
         
         uint8_t repeat = gb_read(de++);

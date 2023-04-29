@@ -11,6 +11,7 @@ extern void (*convertedFunc[])(void);
 #include "tools/emu/macros.h"
 #include "global.h"
 #include "home/header.h"
+#include "hram.h"
 
 #include "constants/hardware_constants.h"
 #include "constants/deco_constants.h"
@@ -64,4 +65,5 @@ extern void (*convertedFunc[])(void);
 #include "constants/types.h"
 
 extern struct gb_s gb;
+extern struct hram_s *hram;
 #endif

@@ -2699,6 +2699,7 @@
 // Pokegold macros
 
 #define BANK(x) ((x) >> 14)
+#define MBANK(x) ((x) >> 16)
 #define HIGH(x) (((x) >> 8) & 0xFF)
 #define LOW(x) ((x)&0xFF)
 

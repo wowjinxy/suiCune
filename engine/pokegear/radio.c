@@ -141,6 +141,8 @@ void (*const Radio_Stations[])(void) = {
     [POKEDEX_SHOW_8] = PokedexShow8,
 };
 
+// _Static_assert(sizeof(Radio_Stations) / sizeof(void(*)(void)) == NUM_RADIO_SEGMENTS, "");
+
 void RadioJumptable(void){
 //  entries correspond to constants/radio_constants.asm
     return Radio_Stations[gb_read(wCurRadioLine)]();

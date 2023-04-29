@@ -24,6 +24,7 @@ void PokegearJumptable(void);
 void PokegearClock_Init(void);
 void PokegearClock_Init_Conv(void);
 void PokegearClock_Joypad(void);
+void PokegearClock_Joypad_UpdateClock(void);
 void Pokegear_UpdateClock(void);
 void Pokegear_UpdateClock_Conv(void);
 void PokegearMap_CheckRegion(void);

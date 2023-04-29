@@ -27,7 +27,7 @@ void GameTimer(void){
 
     LDH_A_addr(rSVBK);
     PUSH_AF;
-    LD_A(BANK(wGameTime));
+    LD_A(MBANK(awGameTime));
     LDH_addr_A(rSVBK);
 
     CALL(aGameTimer_Function);
@@ -270,7 +270,7 @@ void GameTimer_Conv(void){
 
     // LD_A(BANK(wGameTime));
     // LDH_addr_A(rSVBK);
-    gb_write(rSVBK, BANK(wGameTime));
+    gb_write(rSVBK, MBANK(awGameTime));
 
     // CALL(aGameTimer_Function);
     GameTimer_Function_Conv();

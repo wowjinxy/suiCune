@@ -11,6 +11,7 @@ void JoyTitleScreenInput(void);
 void JoyWaitAorB(void);
 void WaitButton(void);
 void JoyTextDelay(void);
+void JoyTextDelay_Conv(void);
 void WaitPressAorB_BlinkCursor(void);
 void SimpleWaitPressAorB(void);
 void PromptButton(void);
