@@ -1947,7 +1947,11 @@ void (*const TextCommands[])(struct TextCmdState*) = {
     [TX_FAR] = TextCommand_FAR_Conv
 };
 
+#if defined(__cplusplus) || defined(_MSC_VER)
+static_assert(sizeof(TextCommands) / sizeof(void(*)(void)) == NUM_TEXT_CMDS, "");
+#else
 _Static_assert(sizeof(TextCommands) / sizeof(void(*)(void)) == NUM_TEXT_CMDS, "");
+#endif
 
 void DoTextUntilTerminator_TextCommand_Conv(struct TextCmdState* state, uint8_t cmd) {
     TextCommands[cmd](state);

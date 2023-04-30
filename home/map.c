@@ -205,9 +205,8 @@ ok:
     LD_E_A;
     IF_NC goto next;
     INC_D;
-
-next:
     }
+next:
     for(int rept = 0; rept < METATILE_WIDTH; rept++){
     LD_A_hli;
     LD_de_A;
@@ -1335,7 +1334,7 @@ void UnmaskObject(void){
 }
 //  if DEF(_DEBUG)
 void ComputeROMXChecksum(void) {
-#if _DEBUG
+#if defined(_DEBUG) && !defined(_MSC_VER)
     LDH_A_addr(hROMBank);
     PUSH_AF;
     LD_A_C;
