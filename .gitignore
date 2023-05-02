@@ -63,3 +63,5 @@ deps/
 
 # macos files
 .DS_STORE
+tools/polished-map-master/
+tools/blk_to_tmx.py

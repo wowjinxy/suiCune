@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include "minigb_apu/minigb_apu.h"
 #include "peanut_gb.h"
