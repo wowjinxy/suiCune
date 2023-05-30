@@ -649,3 +649,9 @@ struct BattleBGEffect
     uint8_t battleTurn;
     uint8_t param;
 };
+
+struct CustomMartItem
+{
+    uint8_t id;
+    uint16_t price;
+};

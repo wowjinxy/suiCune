@@ -344,7 +344,7 @@ void init_function_pointers(void) {
     // REDIRECTED(GetMenuIndexSet);
     // REDIRECTED(PlaceNthMenuStrings);
     // REDIRECTED(StoreMenuCursorPosition);
-    // REDIRECTED(ClearWindowData);
+    REDIRECTED(ClearWindowData);
 
     // home/mobile.c
     // REDIRECTED(Function3f9f);
@@ -544,7 +544,7 @@ void init_function_pointers(void) {
     // REDIRECTED(PlaceGenderedPlayerName);
     // REDIRECTED(PlaceWatashi);
     // REDIRECTED(PlacePOKeText);
-    // REDIRECTED(FillBoxWithByte);
+    REDIRECTED(FillBoxWithByte);
     // REDIRECTED(GameFreakText);
     // REDIRECTED(TextCommand_DOTS);
     // REDIRECTED(NullChar);
@@ -2127,4 +2127,7 @@ void init_function_pointers(void) {
 
     // engine/battle/hidden_power.c
     // REDIRECTED(HiddenPowerDamage);
+
+    // engine/phone/phonering_copytilemapatonce.c
+    CONVERTED(PhoneRing_CopyTilemapAtOnce);
 }

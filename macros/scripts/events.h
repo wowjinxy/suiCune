@@ -1,6 +1,6 @@
 //  ScriptCommandTable indexes (see engine/overworld/scripting.asm)
 
-#define _DW(_w) LO(_w), HI(_w)
+#define _DW(_w) LOW(_w), HIGH(_w)
 #define _DBA(_a) BANK(_a), _DW(_a)
 
 /*
@@ -15,6 +15,8 @@ ENDM
 
 enum {
     CMD_SCALL,
+	CMD_FARSCALL,
+	CMD_MEMCALL,
     CMD_SJUMP = 0x03,
     CMD_FARSJUMP,
     CMD_MEMJUMP,
@@ -22,9 +24,19 @@ enum {
     CMD_IFNOTEQUAL,
     CMD_IFFALSE,
     CMD_IFTRUE,
+	CMD_IFGREATER,
+	CMD_IFLESS,
+	CMD_JUMPSTD = 0xc,
+	CMD_CALLSTD = 0xd,
+	CMD_CALLASM = 0xe,
+	CMD_REFRESHSCREEN = 0x48,
+	CMD_CLOSETEXT,
+	CMD_WAITBUTTON = 0x54,
+	CMD_END = 0x91,
+	CMD_WAIT = 0xa8,
 };
 
-#define EV_SCALL(ptr) CMD_SCALL, _DW(ptr)
+#define EV_SCALL(_ptr) CMD_SCALL, _DW(_ptr)
 
 /*
 	const farscall_command ; $01
@@ -33,12 +45,22 @@ farscall: MACRO
 	dba \1
 ENDM
 
+*/
+
+#define EV_FARSCALL(_ptr) CMD_FARSCALL, _DBA(_ptr)
+
+/*
 	const memcall_command ; $02
 memcall: MACRO
 	db memcall_command
 	dw \1 ; pointer
 ENDM
 
+*/
+
+#define EV_MEMCALL(_ptr) CMD_MEMCALL, _DW(_ptr)
+
+/*
 	const sjump_command ; $03
 sjump: MACRO
 	db sjump_command
@@ -93,7 +115,7 @@ iffalse: MACRO
 ENDM
 */
 
-#define EV_IFFALSE(ptr) CMD_IFFALSE, _DW(ptr)
+#define EV_IFFALSE(_ptr) CMD_IFFALSE, _DW(_ptr)
 
 /*
 	const iftrue_command ; $09
@@ -101,27 +123,43 @@ iftrue: MACRO
 	db iftrue_command
 	dw \1 ; pointer
 ENDM
-*//*
+*/
+
+#define EV_IFTRUE(_ptr) CMD_IFTRUE, _DW(_ptr)
+
+/*
 	const ifgreater_command ; $0a
 ifgreater: MACRO
 	db ifgreater_command
 	db \1 ; byte
 	dw \2 ; pointer
 ENDM
-*//*
+*/
+
+#define EV_IFGREATER(_ptr) CMD_IFGREATER, _DW(_ptr)
+
+/*
 	const ifless_command ; $0b
 ifless: MACRO
 	db ifless_command
 	db \1 ; byte
 	dw \2 ; pointer
 ENDM
-*//*
+*/
+
+#define EV_IFLESS(_ptr) CMD_IFLESS, _DW(_ptr)
+
+/*
 	const jumpstd_command ; $0c
 jumpstd: MACRO
 	db jumpstd_command
 	dw (\1StdScript - StdScripts) / 3
 ENDM
-*//*
+*/
+
+#define EV_JUMPSTD(_a) CMD_JUMPSTD, _DW((a##_a##StdScript - aStdScripts) / 3)
+
+/*
 	const callstd_command ; $0d
 callstd: MACRO
 	db callstd_command
@@ -133,7 +171,11 @@ callasm: MACRO
 	db callasm_command
 	dba \1
 ENDM
-*//*
+*/
+
+#define EV_CALLASM(_addr) CMD_CALLASM, _DBA(_addr)
+
+/*
 	const special_command ; $0f
 special: MACRO
 	db special_command
@@ -525,10 +567,22 @@ else
 endc
 ENDM
 
+*/
+
+#define EV_REFRESHSCREEN() CMD_REFRESHSCREEN, 0 
+
+/*
+
 	const closetext_command ; $49
 closetext: MACRO
 	db closetext_command
 ENDM
+
+*/
+
+#define EV_CLOSETEXT CMD_CLOSETEXT
+
+/*
 
 	const writeunusedbyte_command ; $4a
 writeunusedbyte: MACRO
@@ -593,7 +647,11 @@ ENDM
 waitbutton: MACRO
 	db waitbutton_command
 ENDM
+*/
 
+#define EV_WAITBUTTON CMD_WAITBUTTON
+
+/*
 	const promptbutton_command ; $55
 promptbutton: MACRO
 	db promptbutton_command
@@ -945,12 +1003,18 @@ ENDM
 endcallback: MACRO
 	db endcallback_command
 ENDM
+*/
 
+/*
 	const end_command ; $91
 end: MACRO
 	db end_command
 ENDM
+*/
 
+#define EV_END CMD_END
+
+/*
 	const reloadend_command ; $92
 reloadend: MACRO
 	db reloadend_command
@@ -1098,6 +1162,12 @@ wait: MACRO
 	db wait_command
 	db \1 ; duration
 ENDM
+
+*/
+
+#define EV_WAIT(_dur) CMD_WAIT, _dur
+
+/*
 
 	const checksave_command ; $a9
 checksave: MACRO

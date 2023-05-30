@@ -188,7 +188,7 @@
 //#include "engine/events/checksave.h"
 //#include "data/maps/scenes.h"
 //#include "engine/overworld/load_map_part.h"
-//#include "engine/phone/phonering_copytilemapatonce.h"
+#include "engine/phone/phonering_copytilemapatonce.h"
 
 // SECTION "bank13_2", ROMX
 

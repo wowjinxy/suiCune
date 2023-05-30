@@ -26,10 +26,12 @@ void ClearBox(void) {
 
 void FillBoxWithByte(void) {
 row:
+    SET_PC(aFillBoxWithByte_row);
     PUSH_BC;
     PUSH_HL;
 
 col:
+    SET_PC(aFillBoxWithByte_col);
     LD_hli_A;
     DEC_C;
     IF_NZ goto col;
