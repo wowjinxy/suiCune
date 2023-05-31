@@ -65,3 +65,7 @@ deps/
 .DS_STORE
 lib/SDL2.dll
 lib/SDL2_image.dll
+
+# Jinxy's Junk
+tools/polished-map-master
+tools/blk_to_tmx.py

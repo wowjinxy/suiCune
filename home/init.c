@@ -65,7 +65,7 @@ void Init(void) {
 wait:
         LDH_A_addr(rLY);
     CP_A(LY_VBLANK + 1);
-    IF_NZ goto wait;
+    //IF_NZ goto wait;
 
     XOR_A_A;
     LDH_addr_A(rLCDC);

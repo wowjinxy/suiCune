@@ -225,11 +225,11 @@ skip_iteration:
     IF_C goto quit;
 
     CALL(aDetermineMoveOrder);
-    IF_C goto false;
+    IF_C goto _false;
     CALL(aBattle_EnemyFirst);
     goto proceed;
 
-false:
+_false:
     CALL(aBattle_PlayerFirst);
 
 proceed:

@@ -5,6 +5,7 @@ void OpenSRAM(void){
 //  if invalid bank, sram is disabled
     CP_A(NUM_SRAM_BANKS);
     IF_C goto valid;
+/*
 #if _DEBUG
     PUSH_AF;
     PUSH_BC;
@@ -22,6 +23,7 @@ loop:
     POP_BC;
     POP_AF;
 #endif
+*/
     JR(mCloseSRAM);
 
 
