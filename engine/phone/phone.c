@@ -788,42 +788,46 @@ PhoneWrongNumberText:
 
 #include "../../macros/scripts/events.h"
 const uint8_t Script_ReceivePhoneCall[] = {
-    EV_REFRESHSCREEN(),
-    EV_CALLASM(aRingTwice_StartCall),
-    EV_MEMCALL(wCallerContact + PHONE_CONTACT_SCRIPT2_BANK),
-    EV_WAITBUTTON,
-    EV_CALLASM(aHangUp),
-    EV_CLOSETEXT,
-    EV_CALLASM(aInitCallReceiveDelay),
-    EV_END
+    ev_refreshscreen,
+    ev_callasm(RingTwice_StartCall),
+    ev_memcall(wCallerContact + PHONE_CONTACT_SCRIPT2_BANK),
+    ev_waitbutton,
+    ev_callasm(HangUp),
+    ev_closetext,
+    ev_callasm(InitCallReceiveDelay),
+    ev_end
 };
 
-void Script_SpecialBillCall(void){
-    //callasm ['.LoadBillScript']
-    //sjump ['Script_ReceivePhoneCall']
-
-
-LoadBillScript:
-    LD_E(PHONE_BILL);
-    JP(mLoadCallerScript);
-
-}
+const uint8_t SpecialBillCall[] = {
+    ev_callasm(Script_SpecialBillCall_LoadBillScript),
+    ev_sjump(aScript_ReceivePhoneCall)
+};
 
 void Script_SpecialBillCall_LoadBillScript(void) {
     return LoadCallerScript_Conv(PHONE_BILL);
 }
 
-void Script_SpecialElmCall(void){
+// void Script_SpecialElmCall(void){
 //  //  unreferenced
     //callasm ['.LoadElmScript']
     //pause ['30']
     //sjump ['Script_ReceivePhoneCall']
 
 
-LoadElmScript:
-    LD_E(PHONE_ELM);
-    JP(mLoadCallerScript);
+// LoadElmScript:
+//     LD_E(PHONE_ELM);
+//     JP(mLoadCallerScript);
 
+// }
+
+const uint8_t Script_SpecialElmCall[] = {
+    ev_callasm(Script_SpecialElmCall_LoadElmScript),
+    ev_pause(30),
+    ev_sjump(aScript_ReceivePhoneCall),
+};
+
+void Script_SpecialElmCall_LoadElmScript(void) {
+    return LoadCallerScript_Conv(PHONE_ELM);
 }
 
 void RingTwice_StartCall(void){

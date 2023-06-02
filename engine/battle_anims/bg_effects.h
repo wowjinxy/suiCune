@@ -3,7 +3,7 @@ void QueueBGEffect(void);
 void EndBattleBGEffect(void);
 void DoBattleBGEffectFunction(void);
 // void BattleBGEffects(void);
-void(*const BattleBGEffects[54])(void);
+extern void(*const BattleBGEffects[54])(void);
 void BattleBGEffect_End(void);
 void BatttleBGEffects_GetNamedJumptablePointer(void);
 void BattleBGEffects_AnonJumptable(void);

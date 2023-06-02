@@ -2103,7 +2103,7 @@ void init_function_pointers(void) {
     // REDIRECTED(FindFirstAliveMonAndStartBattle);
 
     // engine/battle/sliding_intro.c
-    REDIRECTED(BattleIntroSlidingPics);
+    CONVERTED(BattleIntroSlidingPics);
 
     // engine/rtc/rtc.c
     // REDIRECTED(SaveRTC);
