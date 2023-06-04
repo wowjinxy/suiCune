@@ -2130,4 +2130,391 @@ void init_function_pointers(void) {
 
     // engine/phone/phonering_copytilemapatonce.c
     CONVERTED(PhoneRing_CopyTilemapAtOnce);
+
+
+    // engine/phone/scripts/elm.c
+    //REDIRECTED(ElmPhoneCalleeScript);
+    //REDIRECTED(ElmPhoneCallerScript);
+
+    // engine/phone/scripts/alan.c
+    //REDIRECTED(AlanHasFireStone);
+    //REDIRECTED(AlanPhoneCallerScript);
+    //REDIRECTED(AlanWantsBattle);
+    //REDIRECTED(AlanWednesdayDay);
+    //REDIRECTED(AlanPhoneCalleeScript);
+
+    // engine/phone/scripts/anthony.c
+    //REDIRECTED(AnthonyWantsBattle);
+    //REDIRECTED(AnthonyPhoneCalleeScript);
+    //REDIRECTED(AnthonyTriesDunsparceSwarm);
+    //REDIRECTED(AnthonyPhoneCallerScript);
+    //REDIRECTED(AnthonyFridayNight);
+
+    // engine/phone/scripts/arnie.c
+    //REDIRECTED(ArnieWantsBattle);
+    //REDIRECTED(ArnieYanmaSwarm);
+    //REDIRECTED(ArniePhoneCalleeScript);
+    //REDIRECTED(ArniePhoneCallerScript);
+    //REDIRECTED(ArnieFoundRare);
+    //REDIRECTED(ArnieTuesdayMorning);
+    //REDIRECTED(ArnieYanmaAlreadySwarming);
+
+    // engine/phone/scripts/beth.c
+    //REDIRECTED(BethPhoneCallerScript);
+    //REDIRECTED(BethWantsBattle);
+    //REDIRECTED(BethPhoneCalleeScript);
+    //REDIRECTED(BethFridayAfternoon);
+
+    // engine/phone/scripts/beverly.c
+    //REDIRECTED(BeverlyPhoneCallerScript);
+    //REDIRECTED(BeverlyPhoneCalleeScript);
+
+    // engine/phone/scripts/bike_shop.c
+    //REDIRECTED(BikeShopPhoneCallerScript);
+
+    // engine/phone/scripts/bill.c
+    //REDIRECTED(BillPhoneCallerScript);
+    //REDIRECTED(BillPhoneCalleeScript);
+
+    // engine/phone/scripts/brent.c
+    //REDIRECTED(BrentMondayMorning);
+    //REDIRECTED(BrentPhoneCalleeScript);
+    //REDIRECTED(BrentBillTrivia);
+    //REDIRECTED(BrentPhoneCallerScript);
+    //REDIRECTED(BrentWantsBattle);
+
+    // engine/phone/scripts/brent_gossip.c
+    //REDIRECTED(BrentBillTriviaScript);
+
+    // engine/phone/scripts/buena.c
+    //REDIRECTED(BuenaPhoneScript_Rocket);
+    //REDIRECTED(BuenaPhoneScript_AfterMidnightCallee);
+    //REDIRECTED(BuenaPhoneCallerScript);
+    //REDIRECTED(BuenaPhoneCalleeScript);
+    //REDIRECTED(BuenaPhoneScript_RandomCallee);
+    //REDIRECTED(BuenaPhoneScript_CheckTimeOfDayCaller);
+    //REDIRECTED(BuenaPhoneScript_RandomCaller);
+    //REDIRECTED(BuenaPhoneScript_CheckTimeOfDayCallee);
+    //REDIRECTED(BuenaPhoneScript_AfterMidnightCaller);
+
+    // engine/phone/scripts/chad.c
+    //REDIRECTED(ChadFoundRare);
+    //REDIRECTED(ChadFridayMorning);
+    //REDIRECTED(ChadPhoneCalleeScript);
+    //REDIRECTED(ChadPhoneCallerScript);
+    //REDIRECTED(ChadOakGossip);
+    //REDIRECTED(ChadWantsBattle);
+
+    // engine/phone/scripts/chad_gossip.c
+    //REDIRECTED(ChadOakGossipScript);
+
+    // engine/phone/scripts/dana.c
+    //REDIRECTED(DanaPhoneCallerScript);
+    //REDIRECTED(DanaFoundRare);
+    //REDIRECTED(DanaThursdayNight);
+    //REDIRECTED(DanaWantsBattle);
+    //REDIRECTED(DanaPhoneCalleeScript);
+    //REDIRECTED(DanaHasThunderstone);
+
+    // engine/phone/scripts/derek.c
+    //REDIRECTED(DerekPhoneCalleeScript);
+    //REDIRECTED(DerekPhoneCallerScript);
+
+    // engine/phone/scripts/erin.c
+    //REDIRECTED(ErinPhoneCallerScript);
+    //REDIRECTED(ErinWantsBattle);
+    //REDIRECTED(ErinPhoneCalleeScript);
+    //REDIRECTED(ErinSaturdayNight);
+
+    // engine/phone/scripts/gaven.c
+    //REDIRECTED(GavenPhoneCalleeScript);
+    //REDIRECTED(GavenWantsRematch);
+    //REDIRECTED(GavenThursdayMorningScript);
+    //REDIRECTED(GavenPhoneCallerScript);
+    //REDIRECTED(GavenFoundRare);
+
+    // engine/phone/scripts/generic_callee.c
+    //REDIRECTED(PhoneScript_AnswerPhone_Male_Day);
+    //REDIRECTED(PhoneScript_Generic_Female);
+    //REDIRECTED(PhoneScript_AnswerPhone_Male);
+    //REDIRECTED(DadString);
+    //REDIRECTED(PhoneScript_GreetPhone_Female_Day);
+    //REDIRECTED(PhoneScript_MonFlavorText);
+    //REDIRECTED(SisterString);
+    //REDIRECTED(PhoneScript_AnswerPhone_Female_Nite);
+    //REDIRECTED(PhoneScript_AnswerPhone_Female_Day);
+    //REDIRECTED(PhoneScript_GreetPhone_Female);
+    //REDIRECTED(PhoneScript_GreetPhone_Female_Nite);
+    //REDIRECTED(PhoneScript_Generic_Male);
+    //REDIRECTED(PhoneScript_GreetPhone_Male);
+    //REDIRECTED(PhoneScript_Random2);
+    //REDIRECTED(PhoneScript_GreetPhone_Male_Nite);
+    //REDIRECTED(PhoneScript_Random5);
+    //REDIRECTED(PhoneScript_AnswerPhone_Female);
+    //REDIRECTED(PhoneScript_GreetPhone_Male_Day);
+    //REDIRECTED(GrandmaString);
+    //REDIRECTED(MomString);
+    //REDIRECTED(GrandpaString);
+    //REDIRECTED(PhoneScript_AnswerPhone_Male_Nite);
+    //REDIRECTED(BrotherString);
+    //REDIRECTED(PhoneScript_Random4);
+    //REDIRECTED(PhoneScript_Random11);
+    //REDIRECTED(PhoneScript_Random3);
+
+    // engine/phone/scripts/generic_caller.c
+    //REDIRECTED(PhoneScript_BugCatchingContest);
+    //REDIRECTED(IrwinRocketRumorScript);
+    //REDIRECTED(PhoneScript_RematchText_Female);
+    //REDIRECTED(Phone_FoundAMon_Female);
+    //REDIRECTED(Phone_GotAwayCall_Female);
+    //REDIRECTED(ArnieSwarmScript);
+    //REDIRECTED(Phone_CheckIfUnseenRare_Male);
+    //REDIRECTED(PhoneScript_HangUpText_Female);
+    //REDIRECTED(PhoneScript_HangUpText_Male);
+    //REDIRECTED(Phone_BraggingCall_Male);
+    //REDIRECTED(Phone_WhoDefeatedMon_Male);
+    //REDIRECTED(RalphItemScript);
+    //REDIRECTED(PhoneScript_WantsToBattle_Female);
+    //REDIRECTED(KenjiCallingPhoneScript);
+    //REDIRECTED(Phone_GenericCall_Female);
+    //REDIRECTED(PhoneScript_FoundItem_Female);
+    //REDIRECTED(TiffanyItsAwful);
+    //REDIRECTED(PhoneScript_WantsToBattle_Male);
+    //REDIRECTED(Phone_FoundAMon_Male);
+    //REDIRECTED(PhoneScript_FoundItem_Male);
+    //REDIRECTED(Phone_GotAwayCall_Male);
+    //REDIRECTED(Phone_WhoDefeatedMon_Female);
+    //REDIRECTED(LizWrongNumberScript);
+    //REDIRECTED(GinaRocketRumorScript);
+    //REDIRECTED(Phone_BraggingCall_Female);
+    //REDIRECTED(Phone_CheckIfUnseenRare_Female);
+    //REDIRECTED(PhoneScript_RematchText_Male);
+    //REDIRECTED(Phone_GenericCall_Male);
+    //REDIRECTED(Phone_WhosBragging_Male);
+    //REDIRECTED(PhoneScriptRareWildMon);
+    //REDIRECTED(ToddItemScript);
+    //REDIRECTED(AnthonySwarmScript);
+    //REDIRECTED(Phone_WhosBragging_Female);
+    //REDIRECTED(Phone_WhoLostAMon_Female);
+    //REDIRECTED(Phone_WhoLostAMon_Male);
+
+    // engine/phone/scripts/gina.c
+    //REDIRECTED(GinaPhoneCallerScript);
+    //REDIRECTED(GinaRockets);
+    //REDIRECTED(GinaSundayDay);
+    //REDIRECTED(GinaPhoneCalleeScript);
+    //REDIRECTED(GinaWantsBattle);
+    //REDIRECTED(GinaHasLeafStone);
+
+    // engine/phone/scripts/hangups.c
+    //REDIRECTED(IrwinSoMuchToChatAboutScript);
+    //REDIRECTED(BrentHangUpScript);
+    //REDIRECTED(GinaHangUpScript);
+    //REDIRECTED(AlanHangUpScript);
+    //REDIRECTED(JoeyHangUpScript);
+    //REDIRECTED(TullyNoItemScript);
+    //REDIRECTED(AnthonyHangUpScript);
+    //REDIRECTED(ParryBattleWithMeScript);
+    //REDIRECTED(HueyHangUpScript);
+    //REDIRECTED(ToddNoItemScript);
+    //REDIRECTED(RalphNoItemScript);
+    //REDIRECTED(ReenaForwardScript);
+    //REDIRECTED(JackPhoneTipsScript);
+    //REDIRECTED(DanaHangUpScript);
+    //REDIRECTED(JoseHangUpScript);
+    //REDIRECTED(DerekHangUpScript);
+    //REDIRECTED(ArnieHangUpScript);
+    //REDIRECTED(WiltonHaventFoundAnythingScript);
+    //REDIRECTED(GavenHangUpNotThursdayScript);
+    //REDIRECTED(WadeNoBerriesScript);
+    //REDIRECTED(TiffanyNoItemScript);
+    //REDIRECTED(ErinWorkingHardScript);
+    //REDIRECTED(IrwinRandomTextScript);
+    //REDIRECTED(VanceLookingForwardScript);
+    //REDIRECTED(LizHangUpScript);
+    //REDIRECTED(BethHangUpScript);
+    //REDIRECTED(IrwinGoodMatchScript);
+    //REDIRECTED(KenjiAnswerPhoneScript);
+    //REDIRECTED(ChadHangUpScript);
+    //REDIRECTED(IrwinEscapadeScript);
+    //REDIRECTED(BeverlyHangUpScript);
+
+    // engine/phone/scripts/hangups_2.c
+    //REDIRECTED(WadeComeQuickScript);
+    //REDIRECTED(DerekComePickUpScript);
+    //REDIRECTED(WiltonWantThisScript);
+    //REDIRECTED(JoseComePickUpScript);
+    //REDIRECTED(AlanComePickUpScript);
+    //REDIRECTED(TullyHurryScript);
+    //REDIRECTED(BeverlyComePickUpScript);
+    //REDIRECTED(DanaComePickUpScript);
+    //REDIRECTED(TiffanyHurryScript);
+    //REDIRECTED(GinaComePickUpScript);
+
+    // engine/phone/scripts/huey.c
+    //REDIRECTED(HueyPhoneCallerScript);
+    //REDIRECTED(HueyPhoneCalleeScript);
+    //REDIRECTED(HueyWednesdayNight);
+    //REDIRECTED(HueyWantsBattle);
+
+    // engine/phone/scripts/irwin.c
+    //REDIRECTED(IrwinPhoneCallerScript);
+    //REDIRECTED(IrwinPhoneCalleeScript);
+
+    // engine/phone/scripts/irwin_gossip.c
+    //REDIRECTED(IrwinRumorScript);
+
+    // engine/phone/scripts/jack.c
+    //REDIRECTED(JackWantsToBattle);
+    //REDIRECTED(JackPhoneCalleeScript);
+    //REDIRECTED(JackFindsRare);
+    //REDIRECTED(JackBattleTrivia);
+    //REDIRECTED(JackPhoneCallerScript);
+    //REDIRECTED(JackMondayMorning);
+
+    // engine/phone/scripts/jack_gossip.c
+    //REDIRECTED(JackTriviaScript);
+
+    // engine/phone/scripts/joey.c
+    //REDIRECTED(JoeyPhoneCalleeScript);
+    //REDIRECTED(JoeyPhoneCallerScript);
+    //REDIRECTED(JoeyMondayAfternoon);
+    //REDIRECTED(JoeyWantsBattle);
+
+    // engine/phone/scripts/jose.c
+    //REDIRECTED(JosePhoneCallerScript);
+    //REDIRECTED(JoseWantsBattle);
+    //REDIRECTED(JosePhoneCalleeScript);
+    //REDIRECTED(JoseSaturdayNight);
+    //REDIRECTED(JoseHasStarPiece);
+    //REDIRECTED(JoseFoundRare);
+
+    // engine/phone/scripts/kenji.c
+    //REDIRECTED(KenjiPhoneCalleeScript);
+    //REDIRECTED(KenjiPhoneCallerScript);
+
+    // engine/phone/scripts/liz.c
+    //REDIRECTED(LizPhoneCallerScript);
+    //REDIRECTED(LizPhoneCalleeScript);
+    //REDIRECTED(LizGossip);
+    //REDIRECTED(LizWantsBattle);
+    //REDIRECTED(LizGossipScript);
+    //REDIRECTED(LizThursdayAfternoon);
+    //REDIRECTED(LizWrongNumber);
+
+    // engine/phone/scripts/liz_gossip.c
+    //REDIRECTED(LizGossipRandomScript);
+
+    // engine/phone/scripts/mom.c
+    //REDIRECTED(MomPhoneNoPokedexScript);
+    //REDIRECTED(MomPhoneHangUpScript);
+    //REDIRECTED(MomPhoneInTown);
+    //REDIRECTED(MomPhoneCalleeScript);
+    //REDIRECTED(MomPhoneSaveMoneyScript);
+    //REDIRECTED(MomPhoneWontSaveMoneyScript);
+    //REDIRECTED(MomPhoneLandmark);
+    //REDIRECTED(MomPhoneOnRoute);
+    //REDIRECTED(MomPhoneOther);
+    //REDIRECTED(MomPhoneNoGymQuestScript);
+    //REDIRECTED(MomPhoneNoPokemonScript);
+    //REDIRECTED(MomSavingMoney);
+    //REDIRECTED(MomPhoneLectureScript);
+
+    // engine/phone/scripts/parry.c
+    //REDIRECTED(ParryPhoneCalleeScript);
+    //REDIRECTED(ParryPhoneCallerScript);
+    //REDIRECTED(ParryWantsBattle);
+    //REDIRECTED(ParryFridayDay);
+
+    // engine/phone/scripts/ralph.c
+    //REDIRECTED(Ralph_WednesdayMorning);
+    //REDIRECTED(Ralph_FightMe);
+    //REDIRECTED(RalphPhoneCalleeScript);
+    //REDIRECTED(RalphPhoneCallerScript);
+    //REDIRECTED(Ralph_SetUpSwarm);
+
+    // engine/phone/scripts/reena.c
+    //REDIRECTED(ReenaPhoneCallerScript);
+    //REDIRECTED(ReenaPhoneCalleeScript);
+    //REDIRECTED(ReenaSundayMorning);
+    //REDIRECTED(ReenaWantsBattle);
+
+    // engine/phone/scripts/reminders.c
+    //REDIRECTED(GavenReminderScript);
+    //REDIRECTED(JoeyReminderScript);
+    //REDIRECTED(VanceHurryHurryScript);
+    //REDIRECTED(WadeQuickBattleScript);
+    //REDIRECTED(HueyWantsBattleScript);
+    //REDIRECTED(LizReminderScript);
+    //REDIRECTED(ArnieReminderScript);
+    //REDIRECTED(AlanReminderScript);
+    //REDIRECTED(GinaReminderScript);
+    //REDIRECTED(RalphReminderScript);
+    //REDIRECTED(WiltonNotBitingScript);
+    //REDIRECTED(JoseReminderScript);
+    //REDIRECTED(ErinComeBattleScript);
+    //REDIRECTED(BrentReminderScript);
+    //REDIRECTED(ChadReminderScript);
+    //REDIRECTED(TiffanyAsleepScript);
+    //REDIRECTED(JackWantsBattleScript);
+    //REDIRECTED(BethBattleReminderScript);
+    //REDIRECTED(ReenaHurryScript);
+    //REDIRECTED(AnthonyReminderScript);
+    //REDIRECTED(ParryHaventYouGottenToScript);
+    //REDIRECTED(ToddForwardScript);
+    //REDIRECTED(DanaReminderScript);
+    //REDIRECTED(TullyForwardScript);
+
+    // engine/phone/scripts/reminders_2.c
+    //REDIRECTED(AnthonyHurryScript);
+    //REDIRECTED(ArnieHurryScript);
+    //REDIRECTED(ToddHurryScript);
+    //REDIRECTED(RalphHurryScript);
+
+    // engine/phone/scripts/tiffany.c
+    //REDIRECTED(TiffanyPhoneCalleeScript);
+    //REDIRECTED(TiffanyWantsBattle);
+    //REDIRECTED(TiffanyTuesdayAfternoon);
+    //REDIRECTED(TiffanyPhoneCallerScript);
+    //REDIRECTED(TiffanysFamilyMembers);
+    //REDIRECTED(TiffanyHasPinkBow);
+
+    // engine/phone/scripts/todd.c
+    //REDIRECTED(ToddPhoneCallerScript);
+    //REDIRECTED(ToddDeptStoreSale);
+    //REDIRECTED(ToddWantsBattle);
+    //REDIRECTED(ToddFoundRare);
+    //REDIRECTED(ToddSaturdayMorning);
+    //REDIRECTED(ToddPhoneCalleeScript);
+
+    // engine/phone/scripts/tully.c
+    //REDIRECTED(TullyPhoneCalleeScript);
+    //REDIRECTED(TullySundayNight);
+    //REDIRECTED(TullyPhoneCallerScript);
+    //REDIRECTED(TullyWantsBattle);
+    //REDIRECTED(TullyFoundWaterStone);
+
+    // engine/phone/scripts/unused.c
+    //REDIRECTED(UnusedPhoneScript);
+
+    // engine/phone/scripts/vance.c
+    //REDIRECTED(VancePhoneCalleeScript);
+    //REDIRECTED(VanceWednesdayNight);
+    //REDIRECTED(VanceWantsRematch);
+    //REDIRECTED(VancePhoneCallerScript);
+
+    // engine/phone/scripts/wade.c
+    //REDIRECTED(WadeHasItem2);
+    //REDIRECTED(WadePhoneCallerScript);
+    //REDIRECTED(WadePhoneCalleeScript);
+    //REDIRECTED(WadeTuesdayNight);
+    //REDIRECTED(WadeWantsBattle2);
+    //REDIRECTED(WadeFoundRare);
+
+    // engine/phone/scripts/wilton.c
+    //REDIRECTED(WiltonThursdayMorning);
+    //REDIRECTED(WiltonHasItem);
+    //REDIRECTED(WiltonWantsBattle);
+    //REDIRECTED(WiltonPhoneCalleeScript);
+    //REDIRECTED(WiltonPhoneCallerScript);
 }

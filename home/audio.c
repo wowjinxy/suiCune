@@ -1,4 +1,5 @@
 #include "../constants.h"
+#include "../constants/map_constants.h"
 #include "audio.h"
 #include "../audio/engine.h"
 
@@ -434,12 +435,14 @@ surf:
 
 contest:
     LD_A_addr(wMapGroup);                     // ld a, [wMapGroup]
-    CP_A(GROUP_ROUTE_35_NATIONAL_PARK_GATE);  // cp GROUP_ROUTE_35_NATIONAL_PARK_GATE
+    CP_A(MAPGROUP_VIOLET);  // cp GROUP_ROUTE_35_NATIONAL_PARK_GATE/MAPGROUP_VIOLET
     IF_NZ goto no;                            // jr nz, .no
     LD_A_addr(wMapNumber);                    // ld a, [wMapNumber]
-    CP_A(MAP_ROUTE_35_NATIONAL_PARK_GATE);    // cp MAP_ROUTE_35_NATIONAL_PARK_GATE
+    //CP_A(MAP_ROUTE_35_NATIONAL_PARK_GATE);    // cp MAP_ROUTE_35_NATIONAL_PARK_GATE
+    CP_A(14);    // cp MAP_ROUTE_35_NATIONAL_PARK_GATE
     IF_Z goto ranking;                        // jr z, .ranking
-    CP_A(MAP_ROUTE_36_NATIONAL_PARK_GATE);    // cp MAP_ROUTE_36_NATIONAL_PARK_GATE
+    //CP_A(MAP_ROUTE_36_NATIONAL_PARK_GATE);    // cp MAP_ROUTE_36_NATIONAL_PARK_GATE
+    CP_A(14);    // cp MAP_ROUTE_36_NATIONAL_PARK_GATE
     IF_NZ goto no;                            // jr nz, .no
 
 ranking:

@@ -6944,10 +6944,11 @@ CheckMagikarpArea:
 //  Moreover, due to the check not being translated to feet+inches, all Magikarp
 //  smaller than 4'0" may be caught by the filter, a lot more than intended.
     LD_A_addr(wMapGroup);
-    CP_A(GROUP_LAKE_OF_RAGE);
+    CP_A(MAPGROUP_LAKE_OF_RAGE);
     IF_Z goto Happiness;
     LD_A_addr(wMapNumber);
-    CP_A(MAP_LAKE_OF_RAGE);
+    //CP_A(MAP_LAKE_OF_RAGE);
+    CP_A(6);
     IF_Z goto Happiness;
 //  40% chance of not flooring
     CALL(aRandom);

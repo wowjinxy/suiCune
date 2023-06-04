@@ -1,3 +1,5 @@
+#pragma once
+
 // PhoneContacts indexes (see data/phone/phone_contacts.asm)
 enum {
     PHONE_00,

@@ -583,15 +583,17 @@ void InitRoamMons(void){
     LD_addr_A(wRoamMon2Level);
 
 //  raikou starting map
-    LD_A(GROUP_ROUTE_42);
+    LD_A(MAPGROUP_MAHOGANY);
     LD_addr_A(wRoamMon1MapGroup);
-    LD_A(MAP_ROUTE_42);
+    //LD_A(MAP_ROUTE_42);
+    LD_A(4);
     LD_addr_A(wRoamMon1MapNumber);
 
 //  entei starting map
-    LD_A(GROUP_ROUTE_37);
+    LD_A(MAPGROUP_VIOLET);
     LD_addr_A(wRoamMon2MapGroup);
-    LD_A(MAP_ROUTE_37);
+    //LD_A(MAP_ROUTE_37);
+    LD_A(3);
     LD_addr_A(wRoamMon2MapNumber);
 
 //  hp

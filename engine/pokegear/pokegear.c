@@ -576,7 +576,7 @@ Jumptable:
     switch(REG_A)
     {
         case POKEGEARCARD_CLOCK: goto Clock;
-        case POKEGEARCARD_MAP:   goto Map;
+        case POKEGEARCARD_MAP:   goto _Map;
         case POKEGEARCARD_PHONE: goto Phone;
         case POKEGEARCARD_RADIO: goto Radio;
     }
@@ -603,7 +603,7 @@ Clock:
     //_switch:
     //db ['" SWITCH▶@"'];
 
-Map:
+_Map:
     LD_A_addr(wPokegearMapPlayerIconLandmark);
     CP_A(LANDMARK_FAST_SHIP);
     IF_Z goto johto;

@@ -1,3 +1,4 @@
+#pragma once
 
 // trainer class ids
 // `trainerclass` indexes are for:
@@ -16,6 +17,7 @@
 
 #define TRAINER_NONE 0x00
 enum {
+    PHONECONTACT_00,
     PHONECONTACT_MOM,
     PHONECONTACT_BIKESHOP,
     PHONECONTACT_BILL,

@@ -758,20 +758,20 @@ void LoadCallerScript_Conv(uint8_t caller){
     }
 }
 
-void WrongNumber(void){
+//void WrongNumber(void){
     //db ['TRAINER_NONE', 'PHONE_00'];
     //dba ['.script']
 
-script:
+//script:
     //writetext ['.PhoneWrongNumberText']
     //end ['?']
 
-PhoneWrongNumberText:
+//PhoneWrongNumberText:
     //text_far ['_PhoneWrongNumberText']
     //text_end ['?']
 
     // return Script_ReceivePhoneCall();
-}
+//}
 
 // void Script_ReceivePhoneCall(void){
 //     //refreshscreen ['?']

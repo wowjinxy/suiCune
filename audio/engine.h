@@ -1,3 +1,4 @@
+#pragma once
 #pragma pack(1)
 struct Channel {
     uint16_t musicId;

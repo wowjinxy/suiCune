@@ -1,3 +1,4 @@
+#pragma once
 // EngineFlags indexes (see data/events/engine_flags.asm)
 enum {
     // wPokegearFlags
